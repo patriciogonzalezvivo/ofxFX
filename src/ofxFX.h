@@ -6,4 +6,6 @@
  *
  */
 
+#include ofxBlur.h
+#include ofxGlow.h
 #include ofxWater.h
