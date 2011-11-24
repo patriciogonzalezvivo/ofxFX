@@ -1,4 +1,7 @@
-#pragma once
+#ifndef OFXBLUR
+#define OFXBLUR
+
+#include "ofMain.h"
 
 class ofxBlur {
 private:
@@ -9,8 +12,8 @@ private:
 	
 public:
 	void setup(int width, int height) {
-		ping.setup(width, height);
-		pong.setup(width, height);
+		ping.allocate(width, height);
+		pong.allocate(width, height);
 
 		string fragmentHorizontalBlurShader = "#version 120\n \
     	#extension GL_ARB_texture_rectangle : enable\n \
@@ -106,10 +109,11 @@ public:
 	}
 	
 	ofTexture& getTexture() {
-		return pong.getTexture(0);
+		return pong.getTextureReference();
 	}
 	
 	void draw(){
 		pong.draw(0, 0);
 	}
 };
+#endif

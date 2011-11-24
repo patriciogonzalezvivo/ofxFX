@@ -79,6 +79,7 @@ ofxWater& ofxWater::allocate(int tWidth, int tHeight){
     gl_FragColor.rgb = sum;\
     gl_FragColor.a = 1.0;\
     }";
+    
     updateShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentUpdateShader);
     updateShader.linkProgram();
     updateFbo.allocate(width,height,GL_RGB);

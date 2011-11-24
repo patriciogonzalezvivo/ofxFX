@@ -6,6 +6,14 @@
  *
  */
 
-#include ofxBlur.h
-#include ofxGlow.h
-#include ofxWater.h
+#ifndef OFXFX
+#define OFXFX
+
+#include "ofxBlur.h"
+#include "ofxGlow.h"
+
+#include "ofxWater.h"
+#include "ofxFluid.h"
+#include "ofxGrayScott.h"
+
+#endif

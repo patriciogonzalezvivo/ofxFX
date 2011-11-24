@@ -1,16 +1,16 @@
-#pragma once
+#ifndef OFXGLOW
+#define OFXGLOW
 
-class ofxGlow {
-private:
-	ofFbo ping, pong, original;
-	ofShader horizontalBlur, verticalBlur;
-	float radius;
-	
+#include "ofMain.h"
+
+class ofxGlow {	
 public:
 	void setup(int width, int height) {
-		original.setup(width, height);
-		ping.setup(width, height);
-		pong.setup(width, height);
+        
+		original.allocate(width, height);
+		ping.allocate(width, height);
+		pong.allocate(width, height);
+        
 		string fragmentHorizontalBlurShader = "#version 120\n \
     	#extension GL_ARB_texture_rectangle : enable\n \
     	\
@@ -101,7 +101,7 @@ public:
 	}
 	
 	ofTexture& getTexture() {
-		return pong.getTexture(0);
+		return pong.getTextureReference();
 	}
 	
 	void render(){
@@ -114,4 +114,11 @@ public:
 	void draw(){
 		render();
 	}
+    
+private:
+	ofFbo    ping, pong, original;
+	ofShader horizontalBlur, verticalBlur;
+	float radius;
 };
+
+#endif
