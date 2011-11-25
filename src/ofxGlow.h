@@ -1,124 +1,73 @@
+//
+//  ofxGlow.h
+//
+//  Created by Patricio González Vivo on 10/1/11.
+//  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
+//
+//  This is a simple implementation of Glow based on bluring and adding the orriginal layer. 
+//  There is a better way of doing this by a shader... comming soon...
+//
+
 #ifndef OFXGLOW
 #define OFXGLOW
 
 #include "ofMain.h"
+#include "ofxBlur.h"
 
-class ofxGlow {	
+class ofxGlow : public ofxBlur {	
 public:
-	void setup(int width, int height) {
-        
+    void allocate(int width, int height) {
 		original.allocate(width, height);
-		ping.allocate(width, height);
-		pong.allocate(width, height);
+        pingPong.allocate(width, height);
         
-		string fragmentHorizontalBlurShader = "#version 120\n \
-    	#extension GL_ARB_texture_rectangle : enable\n \
-    	\
-		uniform sampler2DRect tex;\
-		uniform float radius;\
-		\
-		const float total = (1. + 8. + 28. + 56.) * 2. + 70.;\
-		\
-		void main(void) {\
-			vec2 st = gl_TexCoord[0].st;\
-			\
-			gl_FragColor += (1. / total) * texture2DRect(tex, st - radius * vec2(4. / 4., 0.));\
-			gl_FragColor += (8. / total)  * texture2DRect(tex, st - radius * vec2(3. / 4., 0.));\
-			gl_FragColor += (28. / total)  * texture2DRect(tex, st - radius * vec2(2. / 4., 0.));\
-			gl_FragColor += (56. / total)  * texture2DRect(tex, st - radius * vec2(1. / 4., 0.));\
-			\
-			gl_FragColor +=  (70. / total) * texture2DRect(tex, st);\
-			\
-			gl_FragColor += (1. / total) * texture2DRect(tex, st + radius * vec2(4. / 4., 0.));\
-			gl_FragColor += (8. / total)  * texture2DRect(tex, st + radius * vec2(3. / 4., 0.));\
-			gl_FragColor += (28. / total)  * texture2DRect(tex, st + radius * vec2(2. / 4., 0.));\
-			gl_FragColor += (56. / total)  * texture2DRect(tex, st + radius * vec2(1. / 4., 0.));\
-		}";
-    	horizontalBlur.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentHorizontalBlurShader);
-    	horizontalBlur.linkProgram();
-
-		string fragmentVerticalBlurShader = "#version 120\n \
-    	#extension GL_ARB_texture_rectangle : enable\n \
-    	\
-		uniform sampler2DRect tex;\
-		uniform float radius;\
-		\
-		const float total = (1. + 8. + 28. + 56.) * 2. + 70.;\
-		\
-		void main(void) {\
-			vec2 st = gl_TexCoord[0].st;\
-			\
-			gl_FragColor += (1. / total) * texture2DRect(tex, st - radius * vec2(0., 4. / 4.));\
-			gl_FragColor += (8. / total)  * texture2DRect(tex, st - radius * vec2(0., 3. / 4.));\
-			gl_FragColor += (28. / total)  * texture2DRect(tex, st - radius * vec2(0., 2. / 4.));\
-			gl_FragColor += (56. / total)  * texture2DRect(tex, st - radius * vec2(0., 1. / 4.));\
-			\
-			gl_FragColor +=  (70. / total) * texture2DRect(tex, st);\
-			\
-			gl_FragColor += (1. / total) * texture2DRect(tex, st + radius * vec2(0., 4. / 4.));\
-			gl_FragColor += (8. / total)  * texture2DRect(tex, st + radius * vec2(0., 3. / 4.));\
-			gl_FragColor += (28. / total)  * texture2DRect(tex, st + radius * vec2(0., 2. / 4.));\
-			gl_FragColor += (56. / total)  * texture2DRect(tex, st + radius * vec2(0., 1. / 4.));\
-		}";
-    	verticalBlur.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentVerticalBlurShader);
-    	verticalBlur.linkProgram();
-	}
+        passes = 1;
+        radius = 3;
+        
+        loadShaders();
+    }
 	
-	void setRadius(float radius) {
-		this->radius = radius;
-	}
-
 	void begin() {
 		ofPushStyle();
 		ofPushMatrix();
 		original.begin();
 	}
 	
-	void end(bool draw = true) {
+	void end(bool bDraw = true) {
 		original.end();
-		
-		glColor4f(1, 1, 1, 1);
-		
-		ping.begin();
-		horizontalBlur.begin();
-		horizontalBlur.setUniform1f("radius", radius);
-		original.draw(0,0);
-		horizontalBlur.end();
-		ping.end();
-			
-		pong.begin();
-		verticalBlur.begin();
-		verticalBlur.setUniform1f("radius", radius);
-		ping.draw(0, 0);
-		verticalBlur.end();
-		pong.end();
-		
-		if(draw)
-			render();
-
 		ofPopStyle();
 		ofPopMatrix();
+        
+		ofSetColor(255,255);
+		
+        pingPong[1].begin();
+        original.draw(0,0);
+        pingPong[1].end();
+        
+        for(int i = 0; i < passes; i++) {
+            for(int j = 0; j < 2; j++) {    
+                pingPong[j].begin();
+                blurShader[j].begin();
+                blurShader[j].setUniform1f("radius", radius);
+                pingPong[(j+1)%2].draw(0,0);
+                blurShader[j].end();
+                pingPong[j].end();
+            }
+        }
+    
+		if(bDraw)
+			draw(0, 0);
 	}
-	
-	ofTexture& getTexture() {
-		return pong.getTextureReference();
-	}
-	
-	void render(){
-		pong.draw(0, 0);
+    
+	void draw( int x = 0, int y = 0){
+        pingPong[passes%2].draw(x,y);
 		ofEnableAlphaBlending();
 		ofEnableBlendMode(OF_BLENDMODE_ADD);
-		original.draw(0,0);
+		original.draw(x,y);
 		ofDisableAlphaBlending();
-	}
-	void draw(){
-		render();
 	}
     
 private:
-	ofFbo    ping, pong, original;
-	ofShader horizontalBlur, verticalBlur;
-	float radius;
+	ofFbo    original;
 };
 
 #endif

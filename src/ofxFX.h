@@ -10,6 +10,7 @@
 #define OFXFX
 
 #include "ofxBlur.h"
+#include "ofxBlurFast.h"
 #include "ofxGlow.h"
 
 #include "ofxWater.h"

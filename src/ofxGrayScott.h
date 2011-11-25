@@ -13,20 +13,23 @@
 #define OFXGRAYSCOTT
 
 #include "ofMain.h"
+#include "ofxFXObject.h"
 
-class ofxGrayScott{
+class ofxGrayScott : public ofxFXObject {
 public:
     
     ofxGrayScott();
     
-    ofxGrayScott& allocate(int _width, int _height);
+    void allocate(int _width, int _height);
+    
     ofxGrayScott& setIterations(int _i){ iterations = _i; return * this;};
     ofxGrayScott& setDiffU(float _diffU){ diffU = _diffU; return * this;};
     ofxGrayScott& setDiffV(float _diffV){ diffV = _diffV; return * this;};
     ofxGrayScott& setK(float _k){ k = _k; return * this;};
     ofxGrayScott& setF(float _f){ f = _f; return * this;};
     
-    ofTexture& getTextureReference(){ return fbo[(frame+1)%2].getTextureReference(); };
+    ofTexture& getTextureReference(){ return pingPong.dst->getTextureReference(); };
+    
     float getDiffU(){return diffU;};
     float getDiffV(){return diffV;};
     float getK(){return k;};
@@ -36,19 +39,16 @@ public:
     void end(bool drawIt = false);
     
     void update();
-    void draw();
+    void draw(int x = 0, int y = 0){ pingPong.dst->draw(x, y);};
     
 private:
-    void        renderFrame();
+    void        loadShader();
     
 	ofShader	shader;
-	ofFbo		fbo[2];
+	swapBuffer	pingPong;
 	ofFbo       texture;
     
     float		diffU, diffV, k, f;
-    
     int         iterations;
-    int         width, height;
-    int         frame;
 };
 #endif

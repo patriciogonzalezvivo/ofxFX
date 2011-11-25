@@ -10,8 +10,9 @@
 #define OFXWATER
 
 #include "ofMain.h"
+#include "ofxFXObject.h"
 
-class ofxWater{
+class ofxWater : public ofxFXObject {
 public:
     
     ofxWater();
@@ -25,30 +26,29 @@ public:
     ofxWater& setDensity(float _density){ density = _density; return * this; };
     ofxWater& setFade(float _fade){ blurFade = _fade; return * this; };
     
+    ofTexture& getTextureReference(){ return renderFbo.getTextureReference(); };
+    
     void begin();
     void end(bool drawIt = false);
     
     void update();
-    void draw();
-    ofTexture& getTextureReference(){ return renderFbo.getTextureReference(); };
+    void draw(int x = 0, int y = 0);
+    
     
 private:
-    void        renderFrame();
-    
     ofShader    updateShader;
     ofShader    renderShader;
     ofShader    blurShader;
     
-    ofFbo       mapFbo[2];
+    swapBuffer  pingPong;
     ofFbo       updateFbo;
     ofFbo       renderFbo;
     
     ofImage     backgroundImage;
     ofTexture  *texture;
     
-    float   blurFade, density, threshold;
-    int     width, height;
-    int     frame;
+    float       blurFade, density, threshold;
+    int         frame;
 };
 
 #endif

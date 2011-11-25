@@ -17,14 +17,7 @@
 #define OFXFLUID
 
 #include "ofMain.h"
-
-typedef struct  {
-    ofFbo   *src;       // Source       ->  Ping
-    ofFbo   *dst;       // Destination  ->  Pong
-    ofFbo   FBOs[2];    // Real addresses of ping/pong FBO´s 
-    int     flag;       // Integer for making a quick swap
-    float   diss;       // Dissipation
-} Buffer;
+#include "ofxFXObject.h"
 
 typedef struct  {
     ofVec3f color;
@@ -35,11 +28,11 @@ typedef struct  {
     float   den;
 } punctualForce;
 
-class ofxFluid {
+class ofxFluid : public ofxFXObject {
 public:
     ofxFluid();
     
-    ofxFluid&   allocate(int _width, int _height, float _scale);
+    void allocate(int _width, int _height, float _scale);
     
     ofxFluid&   setDensity(ofTexture & _tex){setTextureToBuffer(_tex, densityBuffer); return * this; };
     ofxFluid&   setVelocity(ofTexture & _tex){setTextureToBuffer(_tex, velocityBuffer); return * this; };
@@ -49,30 +42,25 @@ public:
     ofxFluid&   setVelocityDissipation(float _diss){velocityBuffer.diss = _diss; return * this;};
     ofxFluid&   setTemperatureDissipation(float _diss){temperatureBuffer.diss = _diss; return * this;};
     
-    void    addTemporalForce(ofVec2f _pos, ofVec2f _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.0f );
-    void    addConstantForce(ofVec2f _pos, ofVec2f _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.0f );
+    void    addTemporalForce(ofVec2f _pos, ofVec2f _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
+    void    addConstantForce(ofVec2f _pos, ofVec2f _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
     
-    void    obstaclesBegin(); // FBO for obstables
-    void    obstaclesEnd();
+    // FBO for obstables
+    void    begin();
+    void    end();
     
     void    update();
-    void    draw();
+    void    draw(int x = 0, int y = 0);
     
 private:
-    void    initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat);
+    void    setTextureToBuffer(ofTexture & _tex, swapBuffer & _buffer);
     
-    void    initBuffer(Buffer & _buffer, float _dissipation ,int _width, int _height, int _internalformat);
-    void    setTextureToBuffer(ofTexture & _tex, Buffer & _buffer);
-    void    swapBuffer(Buffer & _buffer);
-    
-    void    renderFrame(float _width, float _height);
-    
-    void    advect(Buffer& buffer);
+    void    advect(swapBuffer& buffer);
     void    jacobi();
     void    subtractGradient();
     void    computeDivergence();
     
-    void    applyImpulse(Buffer& _buffer, ofVec2f _force, ofVec3f _value, float _radio = 3.0f);
+    void    applyImpulse(swapBuffer& _buffer, ofVec2f _force, ofVec3f _value, float _radio = 3.f);
     void    applyBuoyancy();
 
     ofShader advectShader;
@@ -82,10 +70,10 @@ private:
     ofShader applyImpulseShader;
     ofShader applyBuoyancyShader;
     
-    Buffer  velocityBuffer;
-    Buffer  densityBuffer;
-    Buffer  temperatureBuffer;
-    Buffer  pressureBuffer;
+    swapBuffer  velocityBuffer;
+    swapBuffer  densityBuffer;
+    swapBuffer  temperatureBuffer;
+    swapBuffer  pressureBuffer;
     
     ofFbo   divergenceFbo;
     ofFbo   obstaclesFbo;
