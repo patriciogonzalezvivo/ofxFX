@@ -9,12 +9,17 @@
 #ifndef OFXFX
 #define OFXFX
 
+#include "ofxBloom.h"
+
 #include "ofxBlur.h"
 #include "ofxBlurFast.h"
+
 #include "ofxGlow.h"
 
 #include "ofxWater.h"
 #include "ofxFluid.h"
 #include "ofxGrayScott.h"
+
+#include "ofxFlocking.h"
 
 #endif
