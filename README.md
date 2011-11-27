@@ -11,12 +11,12 @@ Each ofxFX class have a fragment, vertex o geometry Shader embebed on it´s code
 The implementation of each ofxFX class it´s consistent with each other. All of them are extensions of ofxFXObject
 
 * All of them need to be allocated first in order to 
-``fx.allocate(width,height);``
+	fx.allocate(width,height);
 
 * All of them have a ofxFbo style. So you can draw or render directly inside of them. Allowing you to easyly interact with them
-``fx.begin();
-ofEllipse(50,50,10,10);
-fx.end();``
+	fx.begin();
+	ofEllipse(50,50,10,10);
+	fx.end();
 
 Watch some of this classes in action [HERE](http://www.patriciogonzalezvivo.com/blog/?p=488)
 
