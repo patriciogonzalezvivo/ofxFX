@@ -3,7 +3,7 @@
 //  GPU fluid
 //
 //  Created by Patricio González Vivo on 9/29/11.
-//  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
+//  Copyright 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
 //  Created ussing:
 //

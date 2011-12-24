@@ -2,7 +2,7 @@
 //  ofxGlow.h
 //
 //  Created by Patricio González Vivo on 10/1/11.
-//  Copyright 2011 PatricioGonzalezVivo.com. All rights reserved.
+//  Copyright 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
 //  This is a simple implementation of Glow based on bluring and adding the orriginal layer. 
 //  There is a better way of doing this by a shader... comming soon...

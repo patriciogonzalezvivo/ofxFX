@@ -3,7 +3,7 @@
 //  emptyExample
 //
 //  Created by Patricio González Vivo on 25/11/11.
-//  Copyright (c) 2011 PatricioGonzalezVivo.com. All rights reserved.
+//  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
 //  It´s faster because it´s simple matrix convultion in one pass... 
 //  it don´t have different horizontal and vertical shaders

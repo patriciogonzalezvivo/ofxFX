@@ -1,10 +1,12 @@
-//
-//  ofxFXObject.h
-//
-//  Created by Patricio González Vivo on 25/11/11.
-//  Copyright (c) 2011 PatricioGonzalezVivo.com. All rights reserved.
-//
-//  Common structure of ofxFX different effects
+/*
+ *  ofxFXObject.h
+ *
+ *  Created by Patricio González Vivo on 03/07/11.
+ *  Copyright 2011 http://PatricioGonzalezVivo.com All rights reserved.
+ *
+ *
+ *  Common structure of ofxFX different effects
+ */   
 
 #ifndef OFXFXOBJECT
 #define OFXFXOBJECT
