@@ -1,6 +1,5 @@
 //
 //  ofxBlurFast.h
-//  emptyExample
 //
 //  Created by Patricio González Vivo on 25/11/11.
 //  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
@@ -15,7 +14,7 @@
 #include "ofMain.h"
 #include "ofxFXObject.h"
 
-class ofxBlurFast : ofxFXObject {	
+class ofxBlurFast : public ofxFXObject {	
 public:
 	void allocate(int width, int height) {
         pingPong.allocate(width,height);
