@@ -22,8 +22,9 @@
 
 #include "ofxFlocking.h"
 
-#include "ofxConway.h" // Thanks to Kalwalt ( http://www.kalwaltart.it/ ) 
-//http://forum.openframeworks.cc/index.php/topic,8389.msg39174.html#msg39174
+#include "ofxMask.h"    // Based on http://github.com/Flightphase/ofxAlphaMask thanks Flightphase
 
+#include "ofxConway.h"  // Thanks to Kalwalt ( http://www.kalwaltart.it/ ) 
+                        //http://forum.openframeworks.cc/index.php/topic,8389.msg39174.html#msg39174
 
 #endif

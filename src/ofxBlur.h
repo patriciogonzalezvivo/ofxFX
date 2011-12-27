@@ -14,7 +14,9 @@
 class ofxBlur : public ofxFXObject {	
 public:
     
-	void allocate(int width, int height) {
+	void allocate(int _width, int _height) {
+        width = _width;
+        height = _height;
         pingPong.allocate(width,height);
         
         passes = 1;
@@ -112,8 +114,8 @@ protected:
     	blurShader[1].linkProgram();
     }
     
-    swapBuffer pingPong;
-    ofShader blurShader[2];
+    swapBuffer  pingPong;
+    ofShader    blurShader[2];
     
 	float   radius;
     int     passes;
