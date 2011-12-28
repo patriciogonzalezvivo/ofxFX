@@ -24,9 +24,9 @@ public:
         rows = 5.0;
 	}
     
-    ofxOldTv& setBrightness(int _brightness) { brightness = _brightness; return * this;};
-	ofxOldTv& setRows(float _rows) { rows = _rows; return * this;};
-    ofTexture& getTextureReference() { return pingPong.dst->getTextureReference(); };
+    ofxOldTv&   setBrightness(float _brightness) { brightness = _brightness; return * this;};
+	ofxOldTv&   setRows(float _rows) { rows = _rows; return * this;};
+    ofTexture&  getTextureReference() { return pingPong.dst->getTextureReference(); };
     
 	void begin() {
         pingPong.swap();

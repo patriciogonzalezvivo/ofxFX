@@ -23,24 +23,25 @@ public:
         
         maskFBO.allocate(width,height, GL_RGBA);
         
-        maskBegin();
-        ofClear(0,255);
-        maskEnd();
+        beginMask();
+        ofClear(0,0,0,255);
+        endMask();
         
         loadShaders();
 	}
     
     ofTexture& getTextureReference() { return pingPong.dst->getTextureReference(); };
     
-    void maskBegin(){
+    void beginMask(){
         maskFBO.begin();
     }
     
-    void maskEnd(){
+    void endMask(){
         maskFBO.end();
     }
     
 	void begin() {
+        pingPong.swap();
 		ofPushStyle();
 		ofPushMatrix();
         pingPong.src->begin();
@@ -52,6 +53,7 @@ public:
         ofPopStyle();
 		ofPopMatrix();
         
+        ofEnableAlphaBlending();
         pingPong.dst->begin();
         ofClear(0, 0);
         maskShader.begin();
@@ -63,12 +65,9 @@ public:
         
         if (bDraw)
             draw();
-        
-        pingPong.swap();
-        
 	}
 	
-	void draw(int x = 0, int y = 0){ pingPong.dst->draw(x, y);}
+	void draw(int x = 0, int y = 0){ ofEnableAlphaBlending(); pingPong.dst->draw(x, y);}
     
 private:
     void loadShaders(){

@@ -60,10 +60,11 @@ public:
     
 	void draw( int x = 0, int y = 0){
         pingPong[passes%2].draw(x,y);
-		ofEnableAlphaBlending();
+		//ofEnableAlphaBlending();
 		ofEnableBlendMode(OF_BLENDMODE_ADD);
 		original.draw(x,y);
-		ofDisableAlphaBlending();
+        ofDisableBlendMode();
+		//ofDisableAlphaBlending();
 	}
     
 private:
