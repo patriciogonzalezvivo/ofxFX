@@ -1,5 +1,7 @@
 #pragma once
 
+//#define THERE_IS_CAM
+
 #include "ofMain.h"
 #include "ofxFX.h"
 
@@ -19,12 +21,17 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
+#ifdef THERE_IS_CAM
     ofVideoGrabber  video;
+#else
+    ofImage     image;
+#endif
     
-    ofxGlow     blurEffect;
+    ofxBlur     blurEffect;
     ofImage     maskImage;
     ofxMask     maskEffect;
     ofxOldTv    oldTvEffect;
     
-    int     width, height;
+    float       beat;
+    int         width, height;
 };

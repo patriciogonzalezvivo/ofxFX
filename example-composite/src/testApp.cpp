@@ -9,7 +9,11 @@ void testApp::setup(){
     
     ofSetWindowShape(width, height);
 	
+#ifdef THERE_IS_CAM
     video.initGrabber(width , height);
+#else
+    image.loadImage("logo.jpg");
+#endif
 
     blurEffect.allocate(width, height);
     blurEffect.setPasses(10);
@@ -21,11 +25,16 @@ void testApp::setup(){
 
     oldTvEffect.allocate(width, height);
     oldTvEffect.setBrightness(0.9);
+    
+    beat = 13.0;
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
     
+    blurEffect.setRadius(sin(beat*0.3)*10);
+    
+#ifdef THERE_IS_CAM
     // Get Video input image
     video.update();
     if (video.isFrameNew() ){
@@ -35,18 +44,29 @@ void testApp::update(){
         blurEffect.begin();
         video.draw(0,0); 
         blurEffect.end(false);
-        
+#else
+        blurEffect.begin();
+        ofClear(0);
+        image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
+        blurEffect.end(false);
+#endif
         // Make the mask
         maskEffect.beginMask();
         ofClear(0);
-        ofSetColor(255);
+        ofSetColor(255*sin(beat));
         //ofCircle(mouseX, mouseY, 100);
-        maskImage.draw(mouseX-maskImage.getWidth()*0.5, mouseY-maskImage.getHeight()*0.5);
+        maskImage.draw(0,0);
+        //maskImage.draw(mouseX-maskImage.getWidth()*0.5, mouseY-maskImage.getHeight()*0.5);
         maskEffect.endMask();
         
         // Mask the original -> neat & focused
         maskEffect.begin();
+        ofSetColor(255);
+#ifdef THERE_IS_CAM
         video.draw(0,0);
+#else
+        image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
+#endif
         maskEffect.end(false);
         
         // Composite and apply the old-tv effect
@@ -54,9 +74,14 @@ void testApp::update(){
         blurEffect.draw();
         maskEffect.draw();
         oldTvEffect.end(false);
+        
+#ifdef THERE_IS_CAM
     }
+#endif
     
-    ofSetWindowTitle(ofToString(ofGetFrameRate()));
+    beat += 0.01;
+    //ofSetWindowTitle(ofToString(ofGetFrameRate()));
+    ofSetWindowTitle(ofToString(beat));
 }
 
 //--------------------------------------------------------------
