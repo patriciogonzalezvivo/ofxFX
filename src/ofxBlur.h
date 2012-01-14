@@ -13,14 +13,17 @@
 
 class ofxBlur : public ofxFXObject {	
 public:
+    ofxBlur(){
+        passes = 1;
+        radius = 10;
+    }
     
 	void allocate(int _width, int _height) {
         width = _width;
         height = _height;
-        pingPong.allocate(width,height);
         
-        passes = 1;
-        radius = 3;
+        pingPong.allocate(width,height);
+        initFbo(texture, width,height);
         
         loadBlurShader();
 	}
@@ -29,16 +32,29 @@ public:
 	ofxBlur& setRadius(float _radius) { this->radius = _radius; return * this;};
     
     void update(){
+        ofPushStyle();
+        
+        pingPong.src->begin();
+        texture.draw(0,0);
+        pingPong.src->end();
+        
         for(int i = 0; i < passes; i++) {
             for(int j = 0; j < 2; j++) {    
                 pingPong[(j+1)%2].begin();
                 blurShader[j].begin();
+                blurShader[j].setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
                 blurShader[j].setUniform1f("radius", radius);
-                pingPong[j].draw(0,0);
+                renderFrame();
                 blurShader[j].end();
                 pingPong[(j+1)%2].end();
             }
+            
+            pingPong.swap();
         }
+        
+        pingPong.swap();
+    
+        ofPopStyle();
 	}
 
 protected:
@@ -66,6 +82,7 @@ protected:
             gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(2. / 4., 0.));\
             gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(1. / 4., 0.));\
 		}";
+        blurShader[0].unload();
         blurShader[0].setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentHorizontalBlurShader);
     	blurShader[0].linkProgram();
         
@@ -92,6 +109,7 @@ protected:
             gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 2. / 4.));\
             gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 1. / 4.));\
 		}";
+        blurShader[1].unload();
         blurShader[1].setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentVerticalBlurShader);
     	blurShader[1].linkProgram();
     }

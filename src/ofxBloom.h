@@ -21,7 +21,7 @@ public:
         fragmentShader = "#version 120\n \
         #extension GL_ARB_texture_rectangle : enable\n \
         \
-        uniform sampler2DRect backbuffer;\
+        uniform sampler2DRect tex;\
         \
         void main(){\
             vec4 sum = vec4(0);\

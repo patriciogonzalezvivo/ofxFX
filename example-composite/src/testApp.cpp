@@ -24,7 +24,6 @@ void testApp::setup(){
     
 
     oldTvEffect.allocate(width, height);
-    oldTvEffect.setBrightness(0.9);
     
     beat = 13.0;
 }
@@ -54,23 +53,23 @@ void testApp::update(){
         blurEffect.update();
         
         // Make the mask
-        maskEffect.beginMask();
+        maskEffect.begin();
         ofClear(0);
         ofSetColor(255*sin(beat));
         //ofCircle(mouseX, mouseY, 100);
-        maskImage.draw(0,0);
-        //maskImage.draw(mouseX-maskImage.getWidth()*0.5, mouseY-maskImage.getHeight()*0.5);
-        maskEffect.endMask();
+        //maskImage.draw(0,0);
+        maskImage.draw(mouseX-maskImage.getWidth()*0.5, mouseY-maskImage.getHeight()*0.5);
+        maskEffect.end();
         
         // Mask the original -> neat & focused
-        maskEffect.begin();
+        maskEffect.beginSrc();
         ofSetColor(255);
 #ifdef THERE_IS_CAM
         video.draw(0,0);
 #else
         image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
 #endif
-        maskEffect.end();
+        maskEffect.endSrc();
         
         maskEffect.update();
         

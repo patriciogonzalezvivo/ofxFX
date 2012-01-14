@@ -37,9 +37,6 @@ public:
 
     ofTexture& getTextureReference(){ return renderFbo.getTextureReference();  };
     
-    void    begin();
-    void    end();
-    
     void    update();
     void    draw(int x = 0, int y = 0, float _width = -1, float _height = -1);
     
@@ -47,24 +44,18 @@ private:
     ofImage  sparkImage;
     
     ofShader posUpdateShader;
-    ofShader velUpdateShader;
     ofShader renderShader;
     
     ofPoint *particles;
     ofFloatPixels pixels;
     
-    //ofFbo   posFbo[2];
-    //ofFbo   velFbo[2];
     ofxSwapBuffer posBuffer;
-    ofxSwapBuffer velBuffer;
     
     ofFbo   renderFbo;
-    ofFbo   obstacleFbo;
     
     float   timeStep, particleSize, imageWidth, imageHeight;
     float   maxDist, minDist, maxSpeed, maxForce, separation, alineation, cohesion;
     int     nBoids, resolution;
-    int     frame;
 };
 
 #endif

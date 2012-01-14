@@ -138,22 +138,22 @@
 		3DCBA63B14AAFE3000E02702 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				3DCBA63C14AAFE3000E02702 /* ofxBloom.h */,
-				3DCBA63D14AAFE3000E02702 /* ofxBlur.h */,
-				3DCBA63E14AAFE3000E02702 /* ofxBlurFast.h */,
-				3DCBA64014AAFE3000E02702 /* ofxConway.h */,
-				3DCBA64114AAFE3000E02702 /* ofxFlocking.cpp */,
-				3DCBA64214AAFE3000E02702 /* ofxFlocking.h */,
-				3DCBA64414AAFE3000E02702 /* ofxFluid.h */,
-				3DCBA64314AAFE3000E02702 /* ofxFluid.cpp */,
 				3DCBA64514AAFE3000E02702 /* ofxFX.h */,
 				3DCBA64614AAFE3000E02702 /* ofxFXObject.h */,
+				3DCBA63C14AAFE3000E02702 /* ofxBloom.h */,
+				3DCBA63D14AAFE3000E02702 /* ofxBlur.h */,
 				3DCBA64714AAFE3000E02702 /* ofxGlow.h */,
+				3DCBA63E14AAFE3000E02702 /* ofxBlurFast.h */,
+				3DCBA64014AAFE3000E02702 /* ofxConway.h */,
+				3DCBA64214AAFE3000E02702 /* ofxFlocking.h */,
+				3DCBA64114AAFE3000E02702 /* ofxFlocking.cpp */,
+				3DCBA64414AAFE3000E02702 /* ofxFluid.h */,
+				3DCBA64314AAFE3000E02702 /* ofxFluid.cpp */,
 				3DCBA64914AAFE3000E02702 /* ofxGrayScott.h */,
 				3DCBA64A14AAFE3000E02702 /* ofxMask.h */,
 				3DCBA64B14AAFE3000E02702 /* ofxOldTv.h */,
-				3DCBA64C14AAFE3000E02702 /* ofxWater.cpp */,
 				3DCBA64D14AAFE3000E02702 /* ofxWater.h */,
+				3DCBA64C14AAFE3000E02702 /* ofxWater.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";

@@ -7,7 +7,7 @@ void testApp::setup(){
 	image.loadImage("logo.jpg");
     
     blur.allocate(640, 480);
-    blur.setPasses(6);
+    blur.setPasses(3);
     
     beat = 0;
 }

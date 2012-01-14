@@ -8,27 +8,26 @@
 #include "ofxFlocking.h"
 
 ofxFlocking::ofxFlocking(){
-    frame = 0;
     timeStep = 0.005f;
     
     particleSize = 30.0f;
     
-    maxDist = 0.030;
-    minDist = 0.025;
-    maxSpeed = 3.0f;
+    maxDist = 0.019;
+    minDist = 0.02;
+    maxSpeed = 1.0f;
     maxForce = 0.5f;
     
     separation = 1.5f;
     alineation = 1.0f;
     cohesion = 1.0f;
     
-    string fragmentVelUpdateShader = "#version 120\n \
+    fragmentShader = "#version 120\n \
     #extension GL_ARB_texture_rectangle : enable \n \
     #define KERNEL_SIZE 9\n \
     \
+    uniform sampler2DRect backbuffer;\
+    uniform sampler2DRect tex;\
     uniform sampler2DRect posData;\
-    uniform sampler2DRect prevVelData;\
-    uniform sampler2DRect obstacle;\
     \
     uniform vec2  screen;\
     uniform int   resolution;\
@@ -65,13 +64,13 @@ ofxFlocking::ofxFlocking(){
     void main(void){\
         vec2 st = gl_TexCoord[0].st;\
         vec2 pos = texture2DRect( posData, st).xy;\
-        vec2 vel = texture2DRect( prevVelData, st ).xy;\
+        vec2 vel = texture2DRect( backbuffer, st ).xy;\
         vec2 acc = vec2(0.0,0.0);\
         \
         vec2  oSt;\
         oSt.x = pos.x * screen.x;\
         oSt.y = pos.y * screen.y;\
-        float obst = texture2DRect( obstacle, oSt).r;\
+        float obst = texture2DRect( tex, oSt).r;\
         \
         if (obst > 0.0){\
             vec2 offset[KERNEL_SIZE];\
@@ -91,7 +90,7 @@ ofxFlocking::ofxFlocking(){
             int lessDenseOffset = 4;\
             for (int i = 0; i < KERNEL_SIZE; i++){\
                 if (i != 4){\
-                    float nearby = texture2DRect(obstacle, oSt + offset[i] ).r;\
+                    float nearby = texture2DRect(tex, oSt + offset[i] ).r;\
                     if ( nearby < lessDense){\
                         lessDense = nearby;\
                         lessDenseOffset = i;\
@@ -112,7 +111,7 @@ ofxFlocking::ofxFlocking(){
                     \
                     if(st != vec2(x,y)){\
                         vec2 tPos = texture2DRect( posData, vec2(x,y) ).xy;\
-                        vec2 tVel = texture2DRect( prevVelData, vec2(x,y) ).xy;\
+                        vec2 tVel = texture2DRect( backbuffer, vec2(x,y) ).xy;\
                         \
                         vec2 diff = pos - tPos;\
                         float d = length(diff);\
@@ -179,8 +178,6 @@ ofxFlocking::ofxFlocking(){
         \
         gl_FragColor = vec4(vel.x,vel.y,0.0,1.0);\
     }";
-    velUpdateShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentVelUpdateShader);
-    velUpdateShader.linkProgram();
     
     string fragmentPosUpdateShader = "#version 120\n \
     #extension GL_ARB_texture_rectangle : enable \n \
@@ -203,6 +200,7 @@ ofxFlocking::ofxFlocking(){
     posUpdateShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentPosUpdateShader);
     posUpdateShader.linkProgram();
     
+    renderShader.unload();
     renderShader.setGeometryInputType(GL_POINTS);
 	renderShader.setGeometryOutputType(GL_TRIANGLE_STRIP);
 	renderShader.setGeometryOutputCount(6);
@@ -278,6 +276,8 @@ ofxFlocking::ofxFlocking(){
         EndPrimitive();\
     }\
     }";
+    
+    renderShader.unload();
     renderShader.setupShaderFromSource(GL_GEOMETRY_SHADER, geometryRenderShader);
     renderShader.linkProgram();
 }
@@ -286,6 +286,10 @@ ofxFlocking::ofxFlocking(){
 void ofxFlocking::allocate(int _width, int _height, int _nBoids){
     width = _width;
     height = _height;
+    
+    shader.unload();
+    shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
+    shader.linkProgram();
     
     resolution = (int) sqrt(_nBoids);
     nBoids = resolution * resolution;
@@ -304,11 +308,10 @@ void ofxFlocking::allocate(int _width, int _height, int _nBoids){
             pos[i*3 + 0] = ofRandom(1.0); //x*offset;
             pos[i*3 + 1] = ofRandom(1.0); //y*offset;
             pos[i*3 + 2] = 0.0;
-            //pos[i*4 + 3] = 1.0;
         }
     }
     
-    posBuffer.allocate(resolution, resolution,GL_RGB16F);
+    posBuffer.allocate(resolution, resolution,GL_RGB32F);
     posBuffer.src->getTextureReference().loadData(pos, resolution, resolution, GL_RGB);
     posBuffer.dst->getTextureReference().loadData(pos, resolution, resolution, GL_RGB);
     
@@ -319,12 +322,11 @@ void ofxFlocking::allocate(int _width, int _height, int _nBoids){
         vel[i*3 + 0] = ofRandom(-1.0,1.0);
         vel[i*3 + 1] = ofRandom(-1.0,1.0);
         vel[i*3 + 2] = 1.0;
-        //vel[i*4 + 3] = 1.0;
     }
     
-    velBuffer.allocate(resolution, resolution,GL_RGB16F);
-    velBuffer.src->getTextureReference().loadData(vel, resolution, resolution, GL_RGB);
-    velBuffer.dst->getTextureReference().loadData(vel, resolution, resolution, GL_RGB);
+    pingPong.allocate(resolution, resolution,GL_RGB32F);
+    pingPong.src->getTextureReference().loadData(vel, resolution, resolution, GL_RGB);
+    pingPong.dst->getTextureReference().loadData(vel, resolution, resolution, GL_RGB);
     
     delete(vel);
     
@@ -335,53 +337,44 @@ void ofxFlocking::allocate(int _width, int _height, int _nBoids){
     }
     
     initFbo(renderFbo, width, height);
-    initFbo(obstacleFbo, width, height);
-}
-
-void ofxFlocking::begin(){
-    ofSetColor(255, 255, 255);
-    obstacleFbo.begin();
-    ofClear(0);
-}
-
-void ofxFlocking::end(){
-    obstacleFbo.end();
+    initFbo(texture, width, height);
 }
 
 void ofxFlocking::update(){
     // 2. Update Velocities
-    velBuffer.dst->begin();
+    pingPong.dst->begin();
     ofClear(0);
-    velUpdateShader.begin();
-    velUpdateShader.setUniformTexture("posData", posBuffer.src->getTextureReference(), 0);
-    velUpdateShader.setUniformTexture("prevVelData", velBuffer.src->getTextureReference(), 1);
-    velUpdateShader.setUniformTexture("obstacle", obstacleFbo.getTextureReference(), 2);
-    velUpdateShader.setUniform1i("resolution", (int)resolution); 
-    velUpdateShader.setUniform2f("screen", (float)width, (float)height);
-    velUpdateShader.setUniform1f("timestep", (float)timeStep);
-    velUpdateShader.setUniform1f("minDist",(float) minDist);//(minDist / ( (width+height)*0.5 ) ) );
-    velUpdateShader.setUniform1f("maxDist",(float) maxDist);//(maxDist / ( (width+height)*0.5 ) ) );
-    velUpdateShader.setUniform1f("maxSpeed",(float) maxSpeed );
-    velUpdateShader.setUniform1f("maxForce",(float) maxForce);
-    velUpdateShader.setUniform1f("separation",(float) separation );
-    velUpdateShader.setUniform1f("alineation",(float) alineation );
-    velUpdateShader.setUniform1f("cohesion",(float) cohesion );
+    shader.begin();
+    shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0);
+    shader.setUniformTexture("tex", texture.getTextureReference(), 1);
+    shader.setUniformTexture("posData", posBuffer.src->getTextureReference(), 2);
+    shader.setUniform1i("resolution", (int)resolution); 
+    shader.setUniform2f("screen", (float)width, (float)height);
+    shader.setUniform1f("timestep", (float)timeStep);
+    shader.setUniform1f("minDist",(float) minDist );
+    shader.setUniform1f("maxDist",(float) maxDist );
+    shader.setUniform1f("maxSpeed",(float) maxSpeed );
+    shader.setUniform1f("maxForce",(float) maxForce);
+    shader.setUniform1f("separation",(float) separation );
+    shader.setUniform1f("alineation",(float) alineation );
+    shader.setUniform1f("cohesion",(float) cohesion );
     renderFrame(resolution,resolution);
-    velUpdateShader.end();
-    velBuffer.dst->end();
+    shader.end();
+    pingPong.dst->end();
+    
+    pingPong.swap();
     
     // 3. Update Positions
     posBuffer.dst->begin();
     ofClear(0);
     posUpdateShader.begin();
     posUpdateShader.setUniformTexture("prevPosData", posBuffer.src->getTextureReference(), 0);
-    posUpdateShader.setUniformTexture("velData", velBuffer.src->getTextureReference(), 1);
+    posUpdateShader.setUniformTexture("velData", pingPong.src->getTextureReference(), 1);
     posUpdateShader.setUniform1f("timestep",(float) timeStep );
     renderFrame(resolution,resolution);
     posUpdateShader.end();
     posBuffer.dst->end();
     
-    velBuffer.swap();
     posBuffer.swap();
     
     posBuffer.src->readToPixels(pixels);
@@ -429,7 +422,7 @@ void ofxFlocking::draw(int x, int y, float _width, float _height){
     
     ofPushStyle();
     ofSetColor(255, 255, 255);
-    obstacleFbo.draw(x,y,_width,_height);
+    texture.draw(x,y,_width,_height);
     ofSetColor(055, 255, 0);
     renderFbo.draw(x,y,_width,_height);
     ofPopStyle();

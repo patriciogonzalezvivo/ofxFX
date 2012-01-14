@@ -1,7 +1,5 @@
 #pragma once
 
-#define THERE_IS_CAM
-
 #include "ofMain.h"
 #include "ofxFX.h"
 
@@ -20,18 +18,16 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-    
-#ifdef THERE_IS_CAM
-    ofVideoGrabber  video;
-#else
+		
     ofImage     image;
-#endif
     
-    ofxBlur     blurEffect;
-    ofImage     maskImage;
-    ofxMask     maskEffect;
-    ofxOldTv    oldTvEffect;
+    ofxFXObject shader;
     
-    float       beat;
-    int         width, height;
+    string electro;
+    string coloredWaves;
+    string colorSpiral;
+    string noise1;
+    string noise2;
+    string waves;
+    string destello;
 };

@@ -37,16 +37,16 @@ public:
             int sum = 0; \
             vec4 y = texture2DRect(backbuffer, st); \
             \
-            if (texture2DRect(backbuffer, st + vec2(-1.0, -1.0)) == alive) sum++; \
-            if (texture2DRect(backbuffer, st + vec2(0.0, -1.0)) == alive) sum++; \
-            if (texture2DRect(backbuffer, st + vec2(1.0, -1.0)) == alive) sum++; \
+            if (texture2DRect(backbuffer, st + vec2(-1.0, -1.0)) == alive) ++sum; \
+            if (texture2DRect(backbuffer, st + vec2(0.0, -1.0)) == alive) ++sum; \
+            if (texture2DRect(backbuffer, st + vec2(1.0, -1.0)) == alive) ++sum; \
             \
-            if (texture2DRect(backbuffer, st + vec2(-1.0, 0.0)) == alive) sum++; \
-            if (texture2DRect(backbuffer, st + vec2(1.0, 0.0)) == alive) sum++; \
+            if (texture2DRect(backbuffer, st + vec2(-1.0, 0.0)) == alive) ++sum; \
+            if (texture2DRect(backbuffer, st + vec2(1.0, 0.0)) == alive) ++sum; \
             \
-            if (texture2DRect(backbuffer, st + vec2(-1.0, 1.0)) == alive) sum++; \
-            if (texture2DRect(backbuffer, st + vec2(0.0, 1.0)) == alive) sum++; \
-            if (texture2DRect(backbuffer, st + vec2(1.0, 1.0)) == alive) sum++; \
+            if (texture2DRect(backbuffer, st + vec2(-1.0, 1.0)) == alive) ++sum; \
+            if (texture2DRect(backbuffer, st + vec2(0.0, 1.0)) == alive) ++sum; \
+            if (texture2DRect(backbuffer, st + vec2(1.0, 1.0)) == alive) ++sum; \
             \
             if (sum < 2) gl_FragColor = dead; \
             else if (sum > 3) gl_FragColor = dead; \
@@ -54,5 +54,15 @@ public:
             else gl_FragColor = y; \
         }";
     };
+    
+    void end() {
+        texture.end();
+        ofPopStyle();
+		ofPopMatrix();
+        
+        pingPong.src->begin();
+        texture.draw(0,0);
+        pingPong.src->end();
+    }
 };
 #endif

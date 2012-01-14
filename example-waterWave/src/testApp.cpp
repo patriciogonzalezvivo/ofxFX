@@ -19,18 +19,14 @@ void testApp::update(){
     ofSetColor(ofNoise( ofGetFrameNum() ) * 255 * 5, 255);
     ofEllipse(mouseX,mouseY, 10,10);
     
-    ofPushMatrix();
-    //ofSetColor(255);
-    
-    ofEnableAlphaBlending();
+    //ofPushMatrix();
     if((int)(ofRandom(100)) == 50){
         ofSetColor(ofNoise( ofGetFrameNum() ) * 255 * 5, 255);
         logo.draw(640*0.5-logo.getWidth()*.5, 480*0.5-logo.getHeight()*0.5);
     }
-    ofPopMatrix();
+    //ofPopMatrix();
     
     water.end();
-    
     water.update();
 }
 
@@ -40,14 +36,11 @@ void testApp::draw(){
     
     water.draw();
     
-    ofDisableBlendMode();
-    ofEnableAlphaBlending();
+    ofSetColor(255,255);
     ofEnableBlendMode(OF_BLENDMODE_ADD );
     ofSetColor(255,255);
     logo.draw(640*0.5-logo.getWidth()*.5, 480*0.5-logo.getHeight()*0.5);
-    ofDisableBlendMode();
-    ofDisableAlphaBlending();
-    
+    ofEnableAlphaBlending();
 }
 
 //--------------------------------------------------------------

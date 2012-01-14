@@ -71,6 +71,10 @@ public:
 	ofxBlurFast& setFade(float _fade) { fade = _fade; return * this;};
     
 	void update(){
+        pingPong.src->begin();
+        texture.draw(0,0);
+        pingPong.src->end();
+        
         for(int i = 0; i < passes; i++) {
             pingPong.dst->begin();
             shader.begin();

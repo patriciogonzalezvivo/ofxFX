@@ -34,50 +34,25 @@ public:
         }";
     }
     
-    void allocate(int _width, int _height) {
-        width = _width;
-        height = _height;
-        pingPong.allocate(width,height);
-        
-        shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
-    	shader.linkProgram();
-        
-        initFbo(maskFBO, width, height,GL_RGBA);
-	}
-    
     void setMaskTexture(ofTexture& tex){ 
-        maskFBO.begin(); 
-        ofClear(0,255); 
+        texture.begin(); 
+        ofClear(0,255);
+        ofSetColor(255);
         tex.draw(0,0); 
-        maskFBO.end();
+        texture.end();
     };
     
-    void beginMask(){ maskFBO.begin(); };
-    void endMask(){ maskFBO.end(); };
-    
-    void update(){
-        ofPushStyle();
-        ofEnableAlphaBlending();
-        
-        for(int i = 0; i < passes; i++) {
-            pingPong.dst->begin();
-            ofClear(0, 0);
-            shader.begin();
-            shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
-            shader.setUniformTexture("tex",maskFBO.getTextureReference(),1);
-            renderFrame();
-            shader.end();
-            pingPong.dst->end();
-            pingPong.swap();
-        }
-        
-        ofPopStyle();
-        
-        pingPong.swap();
+    void beginSrc() {
+		ofPushStyle();
+		ofPushMatrix();
+        pingPong.src->begin();
 	}
 	
-private:
-    ofFbo      maskFBO;
+	void endSrc() {
+        pingPong.src->end();
+        ofPopStyle();
+		ofPopMatrix();
+    }
 };
 
 #endif

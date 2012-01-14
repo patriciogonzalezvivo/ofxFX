@@ -14,11 +14,13 @@ ofxWater::ofxWater(){
     blurFade = 0.0005;
     density = 1.0;
     
-    string fragmentUpdateShader = "#version 120\n \
+    passes = 1.0;
+    
+    fragmentShader = "#version 120\n \
     #extension GL_ARB_texture_rectangle : enable\n \
     \
-    uniform sampler2DRect buffer1Sample;\
-    uniform sampler2DRect buffer2Sample;\
+    uniform sampler2DRect backbuffer;\
+    uniform sampler2DRect tex;\
     \
     uniform float damping;\
     \
@@ -35,19 +37,16 @@ ofxWater::ofxWater(){
         vec3 sum = vec3(0.0, 0.0, 0.0);\
         \
         for (int i = 0; i < 4 ; i++){\
-            sum += texture2DRect(buffer2Sample, st + offset[i]).rgb;\
+            sum += texture2DRect(tex, st + offset[i]).rgb;\
         }\
         \
-        sum = (sum / 2.0) - texture2DRect(buffer1Sample, st).rgb;\
+        sum = (sum / 2.0) - texture2DRect(backbuffer, st).rgb;\
         sum *= damping;\
         \
         gl_FragColor = vec4(sum, 1.0);\
     }";
     
-    updateShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentUpdateShader);
-    updateShader.linkProgram();
-    
-    string fragmentRenderShader = "#version 120\n \
+    fragmentRenderShader = "#version 120\n \
     #extension GL_ARB_texture_rectangle : enable\n \
     \
     uniform sampler2DRect tex;\
@@ -70,10 +69,8 @@ ofxWater::ofxWater(){
         gl_FragColor.rgb =  pixel;\
         gl_FragColor.a = 1.0;\
     }";
-    renderShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentRenderShader);
-    renderShader.linkProgram();
     
-    string fragmentBlurShader = "#version 120\n \
+    fragmentBlurShader = "#version 120\n \
     #extension GL_ARB_texture_rectangle : enable\n \
     \
     float kernel[9];\
@@ -115,57 +112,81 @@ ofxWater::ofxWater(){
         }\
         \
         vec4 color0 = texture2DRect(tex, st + offset[4]);\
-        sum += color0 * kernel[4];\
+            sum += color0 * kernel[4];\
         \
         gl_FragColor = (1.0 - fade_const) * color0 +  fade_const * vec4(sum.rgb, color0.a);\
     }";
-    blurShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentBlurShader);
-    blurShader.linkProgram();
     
-    texture = new ofTexture();
-    texture->allocate(ofGetScreenWidth(), ofGetScreenHeight(), GL_RGB);
-    texture->clear();
-    
+    /*
+    backgroundTexture = new ofTexture();
+    backgroundTexture->allocate(ofGetScreenWidth(), ofGetScreenHeight(), GL_RGB);
+    backgroundTexture->clear();*/
 }
 
 ofxWater& ofxWater::allocate(int tWidth, int tHeight){ 
     width = tWidth; 
     height = tHeight; 
     
-    pingPong.allocate(width,height);
+    initFbo(texture, width, height, GL_RGBA);
     
     initFbo(updateFbo, width, height, GL_RGB);
+    shader.unload();
+    shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
+    shader.linkProgram();
+    
+    pingPong.allocate(width,height);
+    blurShader.unload();
+    blurShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentBlurShader);
+    blurShader.linkProgram();
+    
     initFbo(renderFbo, width, height, GL_RGB);
+    renderShader.unload();
+    renderShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentRenderShader);
+    renderShader.linkProgram();
 }
 
-ofxWater& ofxWater::loadBackground(string file){ 
+ofxWater& ofxWater::loadBackground(string file){
+    ofImage backgroundImage;
     backgroundImage.loadImage(file); 
-
-    delete(texture);
-    texture = &(backgroundImage.getTextureReference());
-    
     allocate(backgroundImage.getWidth(), backgroundImage.getHeight());
+    
+    texture.begin();
+    backgroundImage.draw(0,0);
+    texture.end();
     
     return * this;
 }
 
 ofxWater& ofxWater::linkBackground(ofTexture * _backText){
-    delete(texture);
-    texture = _backText;
+    texture.begin();
+    _backText->draw(0,0);
+    texture.end();
     
     return * this;
 }
 
+void ofxWater::begin() {
+    ofPushStyle();
+    ofPushMatrix();
+    pingPong.src->begin();	
+}
+
+void ofxWater::end() {
+    pingPong.src->end();
+    ofPopMatrix();
+    ofPopStyle();
+}
+
 void ofxWater::update(){
-    // Calculate the difference between buffers and spread the waving
+    // Calculate the difference between buffers and spread the waving    
     updateFbo.begin();
     ofClear(0);
-    updateShader.begin();
-    updateShader.setUniformTexture("buffer1Sample", pingPong.dst->getTextureReference(), 0);
-    updateShader.setUniformTexture("buffer2Sample", pingPong.src->getTextureReference(), 1);
-    updateShader.setUniform1f("damping", (float)density );
+    shader.begin();
+    shader.setUniformTexture("backbuffer", pingPong.dst->getTextureReference(), 0);
+    shader.setUniformTexture("tex", pingPong.src->getTextureReference(), 1);
+    shader.setUniform1f("damping", (float)density );
     renderFrame();
-    updateShader.end();
+    shader.end();
     updateFbo.end();
     
     // Blur the waving in order to make it smooth
@@ -181,7 +202,7 @@ void ofxWater::update(){
     renderFbo.begin();
     ofClear(0);
     renderShader.begin();
-    renderShader.setUniformTexture("tex", *texture , 0);
+    renderShader.setUniformTexture("tex", texture, 0);
     renderShader.setUniformTexture("heightMap", updateFbo.getTextureReference(), 1);
     renderFrame();
     renderShader.end();
@@ -196,13 +217,5 @@ void ofxWater::draw(int x, int y, float _width, float _height){
     if (_height == -1) _height = height;
     
     renderFbo.draw(x,y, _width, _height);
-    
-    // Add more lighten effect
-    ofPushStyle();
-    ofEnableBlendMode(OF_BLENDMODE_ADD);
-    ofSetColor(100,255);
-    updateFbo.draw(x,y, _width, _height);
-    ofDisableBlendMode();
-    ofPopStyle();
 }
 

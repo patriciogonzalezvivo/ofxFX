@@ -117,10 +117,7 @@ public:
     float getK(){return k;};
     float getF(){return f;};
     
-    void begin(){ texture.begin(); };
-    void end(){ texture.end(); };
-    
-    void update(){    
+    void update(){            
         for( int i = 0; i < passes ; i++ ){
             pingPong.dst->begin();
             ofClear(0,0,0,255);
@@ -143,7 +140,6 @@ public:
     };
     
 private:
-	ofFbo       texture;
     float		diffU, diffV, k, f;
 };
 #endif

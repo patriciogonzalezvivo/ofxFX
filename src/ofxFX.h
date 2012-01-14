@@ -28,6 +28,5 @@
                         //http://forum.openframeworks.cc/index.php/topic,8389.msg39174.html#msg39174
 
 #include "ofxOldTv.h"
-#include "ofxClone.h"
 
 #endif

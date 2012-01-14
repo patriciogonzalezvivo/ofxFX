@@ -9,7 +9,8 @@ void testApp::setup(){
     // Initial Allocation
     fluid.allocate(640, 480, 0.5);
     // Seting the gravity set up & injecting the background image
-    fluid.setGravity(ofVec2f(0.0,0.0098)).setDensity(image.getTextureReference());
+    fluid.setGravity(ofVec2f(0.0,0.0098));
+    fluid.setTexture(image.getTextureReference());
     
     // Adding constant forces
     //fluid.addConstantForce(ofVec2f(640*0.5,480*0.85), ofVec2f(0,-3), ofFloatColor(0.5,0.0,0.0), 6.f);
