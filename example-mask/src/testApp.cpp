@@ -16,19 +16,20 @@ void testApp::setup(){
 void testApp::update(){
     ofSetColor(255,255);
     
-    mask.beginSrc();
-    topLayer.draw(0,0);
-    mask.endSrc();
-    
+    // MASK
     mask.begin();
-    ofClear(255);
+    ofClear(255,255);
     //ofSetColor(0,255);
     //ofCircle(mouseX, mouseY, 30);
     ofSetColor(255);
     maskLayer.draw(0 , mouseY - 15);
     mask.end();
     
-    ofSetColor(255);
+    // IMAGE to be masked
+    mask.begin(1);
+    topLayer.draw(0,0);
+    mask.end(1);
+    
     mask.update();
         
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
@@ -38,7 +39,7 @@ void testApp::update(){
 void testApp::draw(){
     ofBackground(0);
     
-    ofSetColor(255);
+    ofSetColor(255,255);
     bottomLayer.draw(0,0);
     
     mask.draw(0,0);

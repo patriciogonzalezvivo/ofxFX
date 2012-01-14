@@ -18,6 +18,9 @@ class ofxGlow : public ofxBlur {
 public:
     ofxGlow(){
         passes = 1;
+        nTextures = 1;
+        internalFormat = GL_RGBA;
+        
         radius = 3;
     }
     
@@ -28,7 +31,7 @@ public:
         ofPushStyle();
         pingPong.dst->draw(x, y, _width, _height);
 		ofEnableBlendMode(OF_BLENDMODE_ADD);
-		texture.draw(x,y, _width, _height);
+		textures[0].draw(x,y, _width, _height);
         ofDisableBlendMode();
         ofPopStyle();
 	}

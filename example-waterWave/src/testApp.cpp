@@ -33,7 +33,7 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     ofBackground(0);
-    
+    ofSetColor(255,255);
     water.draw();
     
     ofSetColor(255,255);

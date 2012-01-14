@@ -9,6 +9,10 @@
 #include "ofxFluid.h"
 
 ofxFluid::ofxFluid(){
+    passes = 1;
+    nTextures = 1;
+    internalFormat = GL_RGB;
+    
     fragmentShader = "#version 120\n \
     #extension GL_ARB_texture_rectangle : enable \n \
     \
@@ -34,10 +38,6 @@ ofxFluid::ofxFluid(){
         \
         gl_FragColor = Dissipation * texture2DRect(backbuffer, coord);\
     }";
-    
-    shader.unload();
-    shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
-    shader.linkProgram();
     
     string fragmentJacobiShader = "#version 120\n \
     #extension GL_ARB_texture_rectangle : enable \n \
@@ -231,7 +231,8 @@ void ofxFluid::allocate(int _width, int _height, float _scale){
     
     initFbo(divergenceFbo, gridWidth, gridHeight, GL_RGB16F);
     initFbo(obstaclesFbo, gridWidth, gridHeight, GL_RGB);
-    initFbo(texture, width, height, GL_RGB);
+    
+    injectShader();
     
     temperatureBuffer.src->begin();
     ofClear( ambientTemperature );
@@ -269,7 +270,7 @@ void ofxFluid::update(){
     ofPushStyle();
     obstaclesFbo.begin();
     ofSetColor(255, 255);
-    texture.draw(0,0,gridWidth,gridHeight);
+    textures[0].draw(0,0,gridWidth,gridHeight);
     obstaclesFbo.end();
     ofPopStyle();
     
@@ -330,7 +331,7 @@ void ofxFluid::draw(int x, int y, float _width, float _height){
     glEnable(GL_BLEND);
     ofSetColor(255);
     pingPong.src->draw(x,y,_width,_height);
-    texture.draw(x,y,_width,_height);
+    textures[0].draw(x,y,_width,_height);
     glDisable(GL_BLEND);
     ofPopStyle();
 }

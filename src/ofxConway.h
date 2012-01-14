@@ -16,6 +16,8 @@ public:
 
     ofxConway(){
         passes = 10;
+        nTextures = 1;
+        internalFormat = GL_RGBA;
         
         ///\brief Implements in GLSL the rules of the Automata
         ///
@@ -56,12 +58,12 @@ public:
     };
     
     void end() {
-        texture.end();
+        textures[0].end();
         ofPopStyle();
 		ofPopMatrix();
         
         pingPong.src->begin();
-        texture.draw(0,0);
+        textures[0].draw(0,0);
         pingPong.src->end();
     }
 };

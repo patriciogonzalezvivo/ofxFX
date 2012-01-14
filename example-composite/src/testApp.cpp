@@ -56,20 +56,18 @@ void testApp::update(){
         maskEffect.begin();
         ofClear(0);
         ofSetColor(255*sin(beat));
-        //ofCircle(mouseX, mouseY, 100);
-        //maskImage.draw(0,0);
-        maskImage.draw(mouseX-maskImage.getWidth()*0.5, mouseY-maskImage.getHeight()*0.5);
+        maskImage.draw(0,0);
         maskEffect.end();
         
         // Mask the original -> neat & focused
-        maskEffect.beginSrc();
+        maskEffect.begin(1);
         ofSetColor(255);
 #ifdef THERE_IS_CAM
         video.draw(0,0);
 #else
         image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
 #endif
-        maskEffect.endSrc();
+        maskEffect.end(1);
         
         maskEffect.update();
         

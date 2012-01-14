@@ -18,6 +18,8 @@ class ofxFXObject{
 public:
     ofxFXObject(){
         passes = 1;
+        nTextures = 1;
+        internalFormat = GL_RGBA;
         
         fragmentShader = "#version 120\n \
     	#extension GL_ARB_texture_rectangle : enable\n \
@@ -73,20 +75,35 @@ public:
         }";
     }
     
-    void allocate(int _width, int _height, int _internalformat = GL_RGBA){
+    virtual void allocate(int _width, int _height,int _internalFormat){
+        internalFormat = _internalFormat;
+        
+        allocate(_width, _height);
+    };
+    
+    virtual void allocate(int _width, int _height){
         width = _width;
         height = _height;
         
-        pingPong.allocate(width, height, _internalformat);
-        initFbo(texture, width, height, _internalformat);
+        pingPong.allocate(width, height, internalFormat);
         
-        shader.unload();
-        shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
-        shader.linkProgram();
+        injectShader();
     };
     
-    void injectShader(string fragShader){
+    virtual void injectShader(string fragShader){
         fragmentShader = fragShader;
+        injectShader();
+    }
+    
+    virtual void injectShader(){
+        /*
+        if (textures != NULL)
+            delete(textures);*/
+        
+        textures = new ofFbo[nTextures];
+        for( int i = 0; i < nTextures; i++){
+            initFbo(textures[i], width, height, internalFormat);
+        }
         
         shader.unload();
         shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
@@ -96,25 +113,35 @@ public:
     void setPasses(int _passes) { passes = _passes; };
     ofTexture& getTextureReference() { return pingPong.dst->getTextureReference(); };
     
-    void begin() {
-		ofPushStyle();
-		ofPushMatrix();
-        texture.begin();
-        ofClear(0,255);
+    void begin(int _texNum = 0) {
+        if ((_texNum < nTextures) && ( _texNum >= 0)){
+            ofPushStyle();
+            ofPushMatrix();
+            textures[_texNum].begin();
+            ofClear(0,255);
+        }
 	}
 	
-	void end() {
-        texture.end();
-        ofPopMatrix();
-        ofPopStyle();
+	void end(int _texNum = 0) {
+        if ((_texNum < nTextures) && ( _texNum >= 0)){
+            textures[_texNum].end();
+            ofPopMatrix();
+            ofPopStyle();
+        }
     }
     
     void update(){
         for(int i = 0; i < passes; i++) {
             pingPong.dst->begin();
+            ofClear(0);
             shader.begin();
             shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
-            shader.setUniformTexture("tex", texture.getTextureReference(), 1 );
+            
+            for( int i = 0; i < nTextures; i++){
+                string texName = "tex" + ofToString(i); 
+                shader.setUniformTexture(texName.c_str(), textures[i].getTextureReference(), i+1 );
+            }
+            
             shader.setUniform1f("time", (float)time );
             shader.setUniform2f("resolution", (float)width, (float)height);
             shader.setUniform2f("mouse", (float)ofGetMouseX(), (float)ofGetMouseY());
@@ -163,10 +190,12 @@ protected:
     }
     
     ofxSwapBuffer   pingPong;
-    ofFbo           texture;
+    int             nTextures;
+    ofFbo           *textures;
     ofShader        shader;
     string          fragmentShader;
     float           width, height, time;
+    int             internalFormat;
     int             passes;
 };
 

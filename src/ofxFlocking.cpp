@@ -8,6 +8,10 @@
 #include "ofxFlocking.h"
 
 ofxFlocking::ofxFlocking(){
+    passes = 1;
+    nTextures = 1;
+    internalFormat = GL_RGBA;
+    
     timeStep = 0.005f;
     
     particleSize = 30.0f;
@@ -26,7 +30,7 @@ ofxFlocking::ofxFlocking(){
     #define KERNEL_SIZE 9\n \
     \
     uniform sampler2DRect backbuffer;\
-    uniform sampler2DRect tex;\
+    uniform sampler2DRect tex0;\
     uniform sampler2DRect posData;\
     \
     uniform vec2  screen;\
@@ -70,7 +74,7 @@ ofxFlocking::ofxFlocking(){
         vec2  oSt;\
         oSt.x = pos.x * screen.x;\
         oSt.y = pos.y * screen.y;\
-        float obst = texture2DRect( tex, oSt).r;\
+        float obst = texture2DRect( tex0, oSt).r;\
         \
         if (obst > 0.0){\
             vec2 offset[KERNEL_SIZE];\
@@ -90,7 +94,7 @@ ofxFlocking::ofxFlocking(){
             int lessDenseOffset = 4;\
             for (int i = 0; i < KERNEL_SIZE; i++){\
                 if (i != 4){\
-                    float nearby = texture2DRect(tex, oSt + offset[i] ).r;\
+                    float nearby = texture2DRect(tex0, oSt + offset[i] ).r;\
                     if ( nearby < lessDense){\
                         lessDense = nearby;\
                         lessDenseOffset = i;\
@@ -287,9 +291,7 @@ void ofxFlocking::allocate(int _width, int _height, int _nBoids){
     width = _width;
     height = _height;
     
-    shader.unload();
-    shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
-    shader.linkProgram();
+    injectShader();
     
     resolution = (int) sqrt(_nBoids);
     nBoids = resolution * resolution;
@@ -337,7 +339,7 @@ void ofxFlocking::allocate(int _width, int _height, int _nBoids){
     }
     
     initFbo(renderFbo, width, height);
-    initFbo(texture, width, height);
+    //initFbo(textures[0], width, height);
 }
 
 void ofxFlocking::update(){
@@ -346,7 +348,7 @@ void ofxFlocking::update(){
     ofClear(0);
     shader.begin();
     shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0);
-    shader.setUniformTexture("tex", texture.getTextureReference(), 1);
+    shader.setUniformTexture("tex0", textures[0].getTextureReference(), 1);
     shader.setUniformTexture("posData", posBuffer.src->getTextureReference(), 2);
     shader.setUniform1i("resolution", (int)resolution); 
     shader.setUniform2f("screen", (float)width, (float)height);
@@ -422,7 +424,7 @@ void ofxFlocking::draw(int x, int y, float _width, float _height){
     
     ofPushStyle();
     ofSetColor(255, 255, 255);
-    texture.draw(x,y,_width,_height);
+    textures[0].draw(x,y,_width,_height);
     ofSetColor(055, 255, 0);
     renderFbo.draw(x,y,_width,_height);
     ofPopStyle();

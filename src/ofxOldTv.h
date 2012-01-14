@@ -18,12 +18,14 @@ class ofxOldTv : public ofxFXObject {
 public:
     ofxOldTv(){
         passes = 1;
+        nTextures = 1;
+        internalFormat = GL_RGBA;
         
         fragmentShader = "#version 120\n \
         #extension GL_ARB_texture_rectangle : enable\n \
         \
         uniform float time;\
-        uniform sampler2DRect tex;\
+        uniform sampler2DRect tex0;\
         \
         float brightness = 0.2;\
         float rows = 5.0;\
@@ -34,9 +36,9 @@ public:
             \
             vec3 col;\
             \
-            col.r = texture2DRect(tex, vec2(st.x+0.003,st.y)).r;\
-            col.g = texture2DRect(tex, vec2(st.x+0.000,st.y)).g;\
-            col.b = texture2DRect(tex, vec2(st.x-0.003,st.y)).b;\
+            col.r = texture2DRect(tex0, vec2(st.x+0.003,st.y)).r;\
+            col.g = texture2DRect(tex0, vec2(st.x+0.000,st.y)).g;\
+            col.b = texture2DRect(tex0, vec2(st.x-0.003,st.y)).b;\
             \
             col = clamp(col * 0.5 + 0.5 * col * col * 1.2,0.0,1.0);\
             \

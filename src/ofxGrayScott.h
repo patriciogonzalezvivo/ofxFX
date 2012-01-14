@@ -20,6 +20,8 @@ public:
     
     ofxGrayScott(){
         passes = 10;
+        nTextures = 1;
+        internalFormat = GL_RGB;
         
         diffU = 0.25f;
         diffV = 0.04f;//0.04f;
@@ -34,7 +36,7 @@ public:
         vec2 offset[KERNEL_SIZE];\
         \
         uniform sampler2DRect backbuffer;\
-        uniform sampler2DRect tex;\
+        uniform sampler2DRect tex0;\
         \
         uniform float diffU;\
         uniform float diffV;\
@@ -67,7 +69,7 @@ public:
             offset[8] = vec2(  1.0, 1.0);\
             \
             vec2 texColor		= texture2DRect( backbuffer, st ).rb;\
-            float srcTexColor   = texture2DRect( tex, st ).r;\
+            float srcTexColor   = texture2DRect( tex0, st ).r;\
             \
             vec2 lap            = vec2( 0.0, 0.0 );\
             \
@@ -94,18 +96,6 @@ public:
         }";
     };
     
-    void allocate(int _width, int _height){
-        width = _width; 
-        height = _height; 
-        
-        pingPong.allocate(width, height,GL_RGB);
-        
-        shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
-        shader.linkProgram();
-        
-        initFbo(texture, width, height,GL_RGB);
-    };
-    
     ofxGrayScott& setPasses(int _i){ passes = _i; return * this;};
     ofxGrayScott& setDiffU(float _diffU){ diffU = _diffU; return * this;};
     ofxGrayScott& setDiffV(float _diffV){ diffV = _diffV; return * this;};
@@ -124,7 +114,7 @@ public:
             
             shader.begin();
             shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
-            shader.setUniformTexture("tex", texture.getTextureReference(), 1 );
+            shader.setUniformTexture("tex0", textures[0].getTextureReference(), 1 );
             shader.setUniform1f( "diffU", (float)diffU);
             shader.setUniform1f( "diffV", (float)diffV);
             shader.setUniform1f( "f", (float)f );

@@ -15,18 +15,11 @@ class ofxBlur : public ofxFXObject {
 public:
     ofxBlur(){
         passes = 1;
+        nTextures = 1;
+        internalFormat = GL_RGBA;
+        
         radius = 10;
     }
-    
-	void allocate(int _width, int _height) {
-        width = _width;
-        height = _height;
-        
-        pingPong.allocate(width,height);
-        initFbo(texture, width,height);
-        
-        loadBlurShader();
-	}
     
 	ofxBlur& setPasses(int _passes) { this->passes = _passes; return * this;};
 	ofxBlur& setRadius(float _radius) { this->radius = _radius; return * this;};
@@ -35,7 +28,7 @@ public:
         ofPushStyle();
         
         pingPong.src->begin();
-        texture.draw(0,0);
+        textures[0].draw(0,0);
         pingPong.src->end();
         
         for(int i = 0; i < passes; i++) {
@@ -58,7 +51,12 @@ public:
 	}
 
 protected:
-    void    loadBlurShader(){
+    void injectShader(){
+        textures = new ofFbo[nTextures];
+        for( int i = 0; i < nTextures; i++){
+            initFbo(textures[i], width, height, internalFormat);
+        }
+         
         string fragmentHorizontalBlurShader = "#version 120\n \
     	#extension GL_ARB_texture_rectangle : enable\n \
     	\

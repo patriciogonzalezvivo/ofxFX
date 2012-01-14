@@ -17,8 +17,11 @@
 class ofxBlurFast : public ofxFXObject {	
 public:
     ofxBlurFast(){
-        fade = 1.f;
         passes = 3;
+        nTextures = 1;
+        internalFormat = GL_RGBA;
+        
+        fade = 1.f;
         
         fragmentShader = "#version 120\n \
         #extension GL_ARB_texture_rectangle : enable\n \
@@ -72,7 +75,7 @@ public:
     
 	void update(){
         pingPong.src->begin();
-        texture.draw(0,0);
+        textures[0].draw(0,0);
         pingPong.src->end();
         
         for(int i = 0; i < passes; i++) {

@@ -17,11 +17,13 @@ class ofxBloom : ofxFXObject {
 public:
     ofxBloom(){
         passes = 1;
+        nTextures = 1;
+        internalFormat = GL_RGBA;
         
         fragmentShader = "#version 120\n \
         #extension GL_ARB_texture_rectangle : enable\n \
         \
-        uniform sampler2DRect tex;\
+        uniform sampler2DRect tex0;\
         \
         void main(){\
             vec4 sum = vec4(0);\
