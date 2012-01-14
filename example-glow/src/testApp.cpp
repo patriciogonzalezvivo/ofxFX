@@ -25,6 +25,8 @@ void testApp::update(){
     ofCircle(mouseX, mouseY, 5);
     glow.end();
         
+    glow.update();
+    
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
     
     beat += 0.01;

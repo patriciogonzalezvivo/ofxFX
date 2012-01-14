@@ -14,26 +14,45 @@
 class ofxConway : public ofxFXObject {
 public:
 
-    ofxConway();
-
-	void allocate(int _width, int _height);
-
-    ofTexture& getTextureReference() { return pingPong[1].getTextureReference(); };
-
-	void begin();
-    void end(bool drawIt = false);
-
-    void update();
-
-    void draw(int x = 0, int y = 0){ pingPong.dst->draw(x, y);};
-
-private:
-
-    void loadShaders();
-
-    ofShader	shader;
-    swapBuffer	pingPong;
-
-	int         iterations;
+    ofxConway(){
+        passes = 10;
+        
+        ///\brief Implements in GLSL the rules of the Automata
+        ///
+        ///1. Any live cell with fewer than two live neighbours dies, as if by loneliness.\n
+        ///2. Any live cell with more than three live neighbours dies, as if by overcrowding.\n
+        ///3. Any live cell with two or three live neighbours lives, unchanged, to the next generationn
+        ///4. Any dead cell with exactly three live neighbours comes to life.\n
+        
+        fragmentShader = "#version 120\n \
+        #extension GL_ARB_texture_rectangle : enable\n \
+        \
+        uniform sampler2DRect backbuffer; \
+        \
+        vec4 dead = vec4(1.0,1.0,1.0,1.0); \
+        vec4 alive = vec4(0.0,0.0,0.0,1.0); \
+        \
+        void main(void) { \
+            vec2  st = gl_TexCoord[0].st;\
+            int sum = 0; \
+            vec4 y = texture2DRect(backbuffer, st); \
+            \
+            if (texture2DRect(backbuffer, st + vec2(-1.0, -1.0)) == alive) sum++; \
+            if (texture2DRect(backbuffer, st + vec2(0.0, -1.0)) == alive) sum++; \
+            if (texture2DRect(backbuffer, st + vec2(1.0, -1.0)) == alive) sum++; \
+            \
+            if (texture2DRect(backbuffer, st + vec2(-1.0, 0.0)) == alive) sum++; \
+            if (texture2DRect(backbuffer, st + vec2(1.0, 0.0)) == alive) sum++; \
+            \
+            if (texture2DRect(backbuffer, st + vec2(-1.0, 1.0)) == alive) sum++; \
+            if (texture2DRect(backbuffer, st + vec2(0.0, 1.0)) == alive) sum++; \
+            if (texture2DRect(backbuffer, st + vec2(1.0, 1.0)) == alive) sum++; \
+            \
+            if (sum < 2) gl_FragColor = dead; \
+            else if (sum > 3) gl_FragColor = dead; \
+            else if (sum == 3) gl_FragColor = alive; \
+            else gl_FragColor = y; \
+        }";
+    };
 };
 #endif

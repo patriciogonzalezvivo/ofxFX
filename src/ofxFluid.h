@@ -50,17 +50,17 @@ public:
     void    end();
     
     void    update();
-    void    draw(int x = 0, int y = 0);
+    void    draw(int x = 0, int y = 0, float _width = -1, float _height = -1);
     
 private:
-    void    setTextureToBuffer(ofTexture & _tex, swapBuffer & _buffer);
+    void    setTextureToBuffer(ofTexture & _tex, ofxSwapBuffer & _buffer);
     
-    void    advect(swapBuffer& buffer);
+    void    advect(ofxSwapBuffer& _buffer);
     void    jacobi();
     void    subtractGradient();
     void    computeDivergence();
     
-    void    applyImpulse(swapBuffer& _buffer, ofVec2f _force, ofVec3f _value, float _radio = 3.f);
+    void    applyImpulse(ofxSwapBuffer& _buffer, ofVec2f _force, ofVec3f _value, float _radio = 3.f);
     void    applyBuoyancy();
 
     ofShader advectShader;
@@ -70,10 +70,10 @@ private:
     ofShader applyImpulseShader;
     ofShader applyBuoyancyShader;
     
-    swapBuffer  velocityBuffer;
-    swapBuffer  densityBuffer;
-    swapBuffer  temperatureBuffer;
-    swapBuffer  pressureBuffer;
+    ofxSwapBuffer  velocityBuffer;
+    ofxSwapBuffer  densityBuffer;
+    ofxSwapBuffer  temperatureBuffer;
+    ofxSwapBuffer  pressureBuffer;
     
     ofFbo   divergenceFbo;
     ofFbo   obstaclesFbo;
@@ -90,8 +90,8 @@ private:
     
     float   width,height;
     float   gridWidth,gridHeight;
-    float   cellSize;
     float   timeStep;
+    float   cellSize;
     float   scale;
     
     int     numJacobiIterations;

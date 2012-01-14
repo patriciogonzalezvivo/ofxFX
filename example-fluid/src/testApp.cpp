@@ -59,6 +59,8 @@ void testApp::update(){
     }
     fluid.end();
     
+    fluid.update();
+    
     // Storing the mouse position in order to get the velocity of it and pass it to the fluid
     oldM = m;
     

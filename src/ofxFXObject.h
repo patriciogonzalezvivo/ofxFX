@@ -12,60 +12,75 @@
 #define OFXFXOBJECT
 
 #include "ofMain.h"
-
-class swapBuffer {
-public:
-    void allocate( int _width, int _height, int _internalformat = GL_RGBA, float _dissipation = 1.0f){
-        for(int i = 0; i < 2; i++){
-            FBOs[i].allocate(_width,_height, _internalformat );
-            FBOs[i].begin();
-            ofClear(0,255);
-            FBOs[i].end();
-        }
-        
-        flag = 0;
-        swap();
-        flag = 0;
-        
-        diss = _dissipation;
-    }
-        
-    void swap(){
-        src = &(FBOs[(flag)%2]);
-        dst = &(FBOs[++(flag)%2]);
-    }
-    
-    ofFbo& operator[]( int n ){ return FBOs[n];}
-    
-    ofFbo   *src;       // Source       ->  Ping
-    ofFbo   *dst;       // Destination  ->  Pong
-    
-    float   diss;       // Dissipation
-
-private:
-    ofFbo   FBOs[2];    // Real addresses of ping/pong FBO´s  
-    int     flag;       // Integer for making a quick swap
-};
-
+#include "ofxSwapBuffer.h"
 
 class ofxFXObject{
-    /*
 public:
     ofxFXObject(){
-        // Here it loads the geo, vert and frag shaders.
+        passes = 1;
+        
+        fragmentShader = "#version 120\n \
+    	#extension GL_ARB_texture_rectangle : enable\n \
+        void main(){\
+            gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\
+        }";
     }
+    
     void allocate(int _width, int _height){
         width = _width;
         height = _height;
         
-        // Here also will be the FBO allocation and cleaning
+        pingPong.allocate(width, height,GL_RGBA);
+        
+        shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
+        shader.linkProgram();
     };
     
-    void draw(int x = 0, int y = 0);
-     */
+    void setPasses(int _passes) { passes = _passes; };
+    ofTexture& getTextureReference() { return pingPong.dst->getTextureReference(); };
+    
+    void begin() {
+		ofPushStyle();
+		ofPushMatrix();
+        pingPong.src->begin();
+	}
+	
+	void end() {
+        pingPong.src->end();
+        ofPopStyle();
+		ofPopMatrix();
+    }
+    
+    void update(){
+        for(int i = 0; i < passes; i++) {
+            pingPong.dst->begin();
+            shader.begin();
+            shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
+            shader.setUniform2f("resolution", (float)width, (float)height);
+            shader.setUniform1f("time", time );
+            renderFrame();
+            shader.end();
+            pingPong.dst->end();
+            
+            pingPong.swap();
+        }
+        
+        pingPong.swap();
+        time += 1.0/ofGetFrameRate();
+    };
+    
+    void draw(int x = 0, int y = 0, float _width = -1, float _height = -1){
+        if (_width == -1) _width = width;
+        if (_height == -1) _height = height;
+        
+        ofPushStyle();
+        ofEnableAlphaBlending();
+        pingPong.dst->draw(x, y, _width, _height);
+        ofPopStyle();
+    }
+
     
 protected:
-    
     void initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat = GL_RGBA ) {
         _fbo.allocate(_width, _height, _internalformat);
         _fbo.begin();
@@ -73,8 +88,7 @@ protected:
         _fbo.end();
     }
     
-    void renderFrame(float _width = -1, float _height = -1)
-    {
+    void renderFrame(float _width = -1, float _height = -1){
         if (_width == -1) _width = width;
         if (_height == -1) _height = height;
         
@@ -88,8 +102,11 @@ protected:
         glEnd();
     }
     
-protected:
-    float width,height;
+    ofxSwapBuffer   pingPong;
+    ofShader        shader;
+    string          fragmentShader;
+    float           width, height, time;
+    int             passes;
 };
 
 #endif

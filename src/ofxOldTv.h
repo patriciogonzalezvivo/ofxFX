@@ -16,51 +16,14 @@
 
 class ofxOldTv : public ofxFXObject {	
 public:
-	void allocate(int width, int height) {
-        pingPong.allocate(width,height);
-        loadShaders();
+    ofxOldTv(){
         time = 0.0;
         brightness = 0.2;
         rows = 5.0;
-	}
-    
-    ofxOldTv&   setBrightness(float _brightness) { brightness = _brightness; return * this;};
-	ofxOldTv&   setRows(float _rows) { rows = _rows; return * this;};
-    ofTexture&  getTextureReference() { return pingPong.dst->getTextureReference(); };
-    
-	void begin() {
-        pingPong.swap();
-		ofPushStyle();
-		ofPushMatrix();
-        pingPong.src->begin();
-	}
-	
-	void end(bool bDraw = true) {
-        pingPong.src->end();
         
-        ofPopStyle();
-		ofPopMatrix();
+        passes = 1;
         
-        time += 1/ofGetFrameRate() ;
-        
-        pingPong.dst->begin();
-        shader.begin();
-        shader.setUniform1f("time", time );
-        shader.setUniform1f("brightness", brightness ); 
-        shader.setUniform1f("rows", rows );
-        pingPong.src->draw(0,0);
-        shader.end();
-        pingPong.dst->end();
-            
-        if (bDraw)
-            draw();
-	}
-	
-	void draw(int x = 0, int y = 0){ pingPong.dst->draw(x, y);}
-    
-protected:
-    void loadShaders(){
-        string fragmentShader = "#version 120\n \
+        fragmentShader = "#version 120\n \
         #extension GL_ARB_texture_rectangle : enable\n \
         \
         uniform float time;\
@@ -90,12 +53,29 @@ protected:
             \
             gl_FragColor = vec4(col,1.0);\
         }";
-        shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
-        shader.linkProgram();
     }
     
-    swapBuffer  pingPong;
-    ofShader    shader;
-    float       time,brightness,rows;
+    ofxOldTv&   setBrightness(float _brightness) { brightness = _brightness; return * this;};
+	ofxOldTv&   setRows(float _rows) { rows = _rows; return * this;};
+    
+	void update() {
+        for(int i = 0; i < passes; i++) {
+            pingPong.dst->begin();
+            shader.begin();
+            shader.setUniform1f("time", time );
+            shader.setUniform1f("brightness", brightness ); 
+            shader.setUniform1f("rows", rows );
+            pingPong.src->draw(0,0);
+            shader.end();
+            pingPong.dst->end();
+        
+            pingPong.swap();
+        }
+        
+        pingPong.swap();
+	}
+    
+protected:
+    float       brightness,rows;
 };
 #endif

@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-	ofEnableAlphaBlending();
+	//ofEnableAlphaBlending();
     width = 640;
     height = 480;
     
@@ -17,9 +17,10 @@ void testApp::setup(){
 void testApp::update(){
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
     
+    /*
     flocking.begin();
     logo.draw(width*0.5 - logo.getWidth()*0.5, height*0.5 - logo.getHeight()*0.5);
-    flocking.end();
+    flocking.end();*/
     
 	flocking.update();
 }

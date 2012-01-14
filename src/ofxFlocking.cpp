@@ -16,7 +16,7 @@ ofxFlocking::ofxFlocking(){
     maxDist = 0.030;
     minDist = 0.025;
     maxSpeed = 3.0f;
-    maxForce = 0.05f;
+    maxForce = 0.5f;
     
     separation = 1.5f;
     alineation = 1.0f;
@@ -177,7 +177,7 @@ ofxFlocking::ofxFlocking(){
         if ( nextPos.y > 1.0)\
             vel.y = -0.5 * abs(vel.y);\
         \
-        gl_FragColor.rgba = vec4(vel.x,vel.y,0.0,1.0);\
+        gl_FragColor = vec4(vel.x,vel.y,0.0,1.0);\
     }";
     velUpdateShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentVelUpdateShader);
     velUpdateShader.linkProgram();
@@ -191,14 +191,14 @@ ofxFlocking::ofxFlocking(){
     uniform float timestep;\
     \
     void main(void){\
-    vec2 st = gl_TexCoord[0].st;\
-    \
-    vec2 pos = texture2DRect( prevPosData, st ).xy;\
-    vec2 vel = texture2DRect( velData, st ).xy;\
-    \
-    pos += vel * timestep;\
-    \
-    gl_FragColor.rgba = vec4(pos.x,pos.y,0.0,1.0);\
+        vec2 st = gl_TexCoord[0].st;\
+        \
+        vec2 pos = texture2DRect( prevPosData, st ).xy;\
+        vec2 vel = texture2DRect( velData, st ).xy;\
+        \
+        pos += vel * timestep;\
+        \
+        gl_FragColor.rgba = vec4(pos.x,pos.y,1.0,1.0);\
     }";
     posUpdateShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentPosUpdateShader);
     posUpdateShader.linkProgram();
@@ -308,20 +308,24 @@ void ofxFlocking::allocate(int _width, int _height, int _nBoids){
         }
     }
     
-    posBuffer.allocate(resolution, resolution,GL_RGB32F);
+    posBuffer.allocate(resolution, resolution,GL_RGB16F);
     posBuffer.src->getTextureReference().loadData(pos, resolution, resolution, GL_RGB);
+    posBuffer.dst->getTextureReference().loadData(pos, resolution, resolution, GL_RGB);
+    
     delete(pos);
     
     float * vel = new float[nBoids*3];
     for (int i = 0; i < nBoids; i++){
-        vel[i*3 + 0] = ofRandom(-1,1);
-        vel[i*3 + 1] = ofRandom(-1,1);
+        vel[i*3 + 0] = ofRandom(-1.0,1.0);
+        vel[i*3 + 1] = ofRandom(-1.0,1.0);
         vel[i*3 + 2] = 1.0;
         //vel[i*4 + 3] = 1.0;
     }
     
-    velBuffer.allocate(resolution, resolution,GL_RGB32F);
+    velBuffer.allocate(resolution, resolution,GL_RGB16F);
     velBuffer.src->getTextureReference().loadData(vel, resolution, resolution, GL_RGB);
+    velBuffer.dst->getTextureReference().loadData(vel, resolution, resolution, GL_RGB);
+    
     delete(vel);
     
     pixels.allocate(resolution,resolution, 4);
@@ -385,7 +389,7 @@ void ofxFlocking::update(){
         for(int y = 0; y < resolution; y++){
             ofFloatColor p = pixels.getColor(x, y);
             int i = y * resolution + x;
-            particles[i].set(p.r,p.g,0.0);
+            particles[i].set(p.r,p.g,p.b);
         }
     }
     
@@ -397,7 +401,7 @@ void ofxFlocking::update(){
     renderFbo.begin();
     ofClear(0);
     renderShader.begin();
-    renderShader.setUniformTexture("posTex", posBuffer.src->getTextureReference(), 0);
+    renderShader.setUniformTexture("posTex", posBuffer.dst->getTextureReference(), 0);
     renderShader.setUniformTexture("sparkTex", sparkImage.getTextureReference() , 1);
     renderShader.setUniform1i("resolution", (int)resolution); 
     renderShader.setUniform2f("screen", (float)width, (float)height);
@@ -405,6 +409,7 @@ void ofxFlocking::update(){
     renderShader.setUniform1f("imgWidth", (float)sparkImage.getWidth());
     renderShader.setUniform1f("imgHeight", (float)sparkImage.getHeight());
     
+    ofPushStyle();
     ofEnableBlendMode( OF_BLENDMODE_ADD );
     ofSetColor(255);
     glBegin( GL_POINTS );
@@ -412,15 +417,20 @@ void ofxFlocking::update(){
         glVertex3d(particles[i].x, particles[i].y,0.0);
     }
     ofDisableBlendMode();
-    
     glEnd();
     renderShader.end();
     renderFbo.end();
+    ofPopStyle();
 }
 
-void ofxFlocking::draw(int _x, int _y){
+void ofxFlocking::draw(int x, int y, float _width, float _height){
+    if (_width == -1) _width = width;
+    if (_height == -1) _height = height;
+    
+    ofPushStyle();
     ofSetColor(255, 255, 255);
-    obstacleFbo.draw(_x,_y);
+    obstacleFbo.draw(x,y,_width,_height);
     ofSetColor(055, 255, 0);
-    renderFbo.draw(_x,_y);
+    renderFbo.draw(x,y,_width,_height);
+    ofPopStyle();
 }

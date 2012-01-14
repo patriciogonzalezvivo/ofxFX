@@ -30,6 +30,8 @@ void testApp::update(){
     ofPopMatrix();
     
     water.end();
+    
+    water.update();
 }
 
 //--------------------------------------------------------------

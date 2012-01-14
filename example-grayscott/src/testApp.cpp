@@ -19,6 +19,7 @@ void testApp::update(){
     ofCircle(mouseX, mouseY, 5);
     grayScott.end();
         
+    grayScott.update();
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 

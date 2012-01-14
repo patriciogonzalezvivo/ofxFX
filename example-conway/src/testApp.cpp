@@ -2,9 +2,6 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-
-    ofSetLogLevel(OF_LOG_VERBOSE);
-
     ofEnableAlphaBlending();
 	ofSetWindowShape(640, 480);
 
@@ -26,6 +23,8 @@ void testApp::update(){
     ofSetColor(0);
     ofCircle(mouseX, mouseY, 5);
     conway.end();
+    
+    conway.update();
 
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
 

@@ -8,8 +8,7 @@
 
 #include "ofxFluid.h"
 
-ofxFluid::ofxFluid()
-{
+ofxFluid::ofxFluid(){
     string fragmentAdvectShader = "#version 120\n \
     #extension GL_ARB_texture_rectangle : enable \n \
     \
@@ -224,8 +223,6 @@ void ofxFluid::allocate(int _width, int _height, float _scale){
     gridWidth = width * scale;
     gridHeight = height * scale;
     
-    cout << "- fluid system at " << scale << " scale "<< endl;
-    
     velocityBuffer.allocate(gridWidth,gridHeight,GL_RGB32F,0.9f);
     densityBuffer.allocate(gridWidth,gridHeight,GL_RGB32F,0.999f);
     temperatureBuffer.allocate(gridWidth,gridHeight,GL_RGB32F,0.99f);
@@ -240,18 +237,16 @@ void ofxFluid::allocate(int _width, int _height, float _scale){
     temperatureBuffer.src->end();
 }
 
-void ofxFluid::begin()
-{
+void ofxFluid::begin(){
     hiresObstaclesFbo.begin();
 }
 
-void ofxFluid::end()
-{
+void ofxFluid::end(){
     hiresObstaclesFbo.end();
+    
     obstaclesFbo.begin();
     hiresObstaclesFbo.draw(0,0,gridWidth,gridHeight);
     obstaclesFbo.end();
-    update();
 }
 
 void ofxFluid::addTemporalForce(ofVec2f _pos, ofVec2f _vel, ofFloatColor _col, float _rad, float _temp, float _den)
@@ -333,16 +328,20 @@ void ofxFluid::update()
     ofDisableBlendMode();
 }
 
-void ofxFluid::draw(int x, int y)
-{
+void ofxFluid::draw(int x, int y, float _width, float _height){
+    if (_width == -1) _width = width;
+    if (_height == -1) _height = height;
+    
+    ofPushStyle();
     glEnable(GL_BLEND);
     ofSetColor(255);
-    densityBuffer.src->draw(x,y,width,height);
-    hiresObstaclesFbo.draw(x,y,width,height);
+    densityBuffer.src->draw(x,y,_width,_height);
+    hiresObstaclesFbo.draw(x,y,_width,_height);
     glDisable(GL_BLEND);
+    ofPopStyle();
 }
 
-void ofxFluid::setTextureToBuffer(ofTexture & _tex, swapBuffer & _buffer){
+void ofxFluid::setTextureToBuffer(ofTexture & _tex, ofxSwapBuffer & _buffer){
     ofPushMatrix();
     ofScale(scale, scale);
     for(int i = 0; i < 2; i++){
@@ -360,8 +359,7 @@ void ofxFluid::setTextureToBuffer(ofTexture & _tex, swapBuffer & _buffer){
     update();
 }
 
-void ofxFluid::advect(swapBuffer& _buffer)
-{
+void ofxFluid::advect(ofxSwapBuffer& _buffer){
     _buffer.dst->begin();
     advectShader.begin();
     advectShader.setUniform1f("TimeStep", timeStep);
@@ -376,8 +374,7 @@ void ofxFluid::advect(swapBuffer& _buffer)
     _buffer.dst->end();
 }
 
-void ofxFluid::jacobi()
-{
+void ofxFluid::jacobi(){
     pressureBuffer.dst->begin();
     jacobiShader.begin();
     jacobiShader.setUniform1f("Alpha", -cellSize * cellSize);
@@ -392,8 +389,7 @@ void ofxFluid::jacobi()
     pressureBuffer.dst->end();
 }
 
-void ofxFluid::subtractGradient()
-{
+void ofxFluid::subtractGradient(){
     velocityBuffer.dst->begin();
     subtractGradientShader.begin();
     subtractGradientShader.setUniform1f("GradientScale", gradientScale);
@@ -410,8 +406,7 @@ void ofxFluid::subtractGradient()
     ofDisableBlendMode();
 }
 
-void ofxFluid::computeDivergence()
-{
+void ofxFluid::computeDivergence(){
     divergenceFbo.begin();
     computeDivergenceShader.begin();
     computeDivergenceShader.setUniform1f("HalfInverseCellSize", 0.5f / cellSize);
@@ -424,8 +419,7 @@ void ofxFluid::computeDivergence()
     divergenceFbo.end();
 }
 
-void ofxFluid::applyImpulse(swapBuffer& _buffer, ofVec2f _force, ofVec3f _value, float _radio)
-{
+void ofxFluid::applyImpulse(ofxSwapBuffer& _buffer, ofVec2f _force, ofVec3f _value, float _radio){
     glEnable(GL_BLEND);
     _buffer.src->begin();
     applyImpulseShader.begin();
@@ -441,8 +435,7 @@ void ofxFluid::applyImpulse(swapBuffer& _buffer, ofVec2f _force, ofVec3f _value,
     glDisable(GL_BLEND);
 }
 
-void ofxFluid::applyBuoyancy()
-{
+void ofxFluid::applyBuoyancy(){
     velocityBuffer.dst->begin();
     applyBuoyancyShader.begin();
     applyBuoyancyShader.setUniform1f("AmbientTemperature", ambientTemperature );

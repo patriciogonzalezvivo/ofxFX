@@ -24,6 +24,8 @@ void testApp::update(){
         
     ofCircle(mouseX, mouseY, 5);
     blur.end();
+    
+    blur.update();
         
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
     

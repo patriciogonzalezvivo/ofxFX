@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3DCBA69514AAFE3200E02702 /* ofxConway.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCBA63F14AAFE3000E02702 /* ofxConway.cpp */; };
 		3DCBA69614AAFE3200E02702 /* ofxFlocking.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCBA64114AAFE3000E02702 /* ofxFlocking.cpp */; };
 		3DCBA69714AAFE3200E02702 /* ofxFluid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCBA64314AAFE3000E02702 /* ofxFluid.cpp */; };
-		3DCBA69814AAFE3200E02702 /* ofxGrayScott.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCBA64814AAFE3000E02702 /* ofxGrayScott.cpp */; };
 		3DCBA69914AAFE3200E02702 /* ofxWater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DCBA64C14AAFE3000E02702 /* ofxWater.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
@@ -66,7 +64,6 @@
 		3DCBA63C14AAFE3000E02702 /* ofxBloom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBloom.h; sourceTree = "<group>"; };
 		3DCBA63D14AAFE3000E02702 /* ofxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBlur.h; sourceTree = "<group>"; };
 		3DCBA63E14AAFE3000E02702 /* ofxBlurFast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBlurFast.h; sourceTree = "<group>"; };
-		3DCBA63F14AAFE3000E02702 /* ofxConway.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxConway.cpp; sourceTree = "<group>"; };
 		3DCBA64014AAFE3000E02702 /* ofxConway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxConway.h; sourceTree = "<group>"; };
 		3DCBA64114AAFE3000E02702 /* ofxFlocking.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFlocking.cpp; sourceTree = "<group>"; };
 		3DCBA64214AAFE3000E02702 /* ofxFlocking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFlocking.h; sourceTree = "<group>"; };
@@ -75,7 +72,6 @@
 		3DCBA64514AAFE3000E02702 /* ofxFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFX.h; sourceTree = "<group>"; };
 		3DCBA64614AAFE3000E02702 /* ofxFXObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFXObject.h; sourceTree = "<group>"; };
 		3DCBA64714AAFE3000E02702 /* ofxGlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGlow.h; sourceTree = "<group>"; };
-		3DCBA64814AAFE3000E02702 /* ofxGrayScott.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGrayScott.cpp; sourceTree = "<group>"; };
 		3DCBA64914AAFE3000E02702 /* ofxGrayScott.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGrayScott.h; sourceTree = "<group>"; };
 		3DCBA64A14AAFE3000E02702 /* ofxMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMask.h; sourceTree = "<group>"; };
 		3DCBA64B14AAFE3000E02702 /* ofxOldTv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOldTv.h; sourceTree = "<group>"; };
@@ -145,7 +141,6 @@
 				3DCBA63C14AAFE3000E02702 /* ofxBloom.h */,
 				3DCBA63D14AAFE3000E02702 /* ofxBlur.h */,
 				3DCBA63E14AAFE3000E02702 /* ofxBlurFast.h */,
-				3DCBA63F14AAFE3000E02702 /* ofxConway.cpp */,
 				3DCBA64014AAFE3000E02702 /* ofxConway.h */,
 				3DCBA64114AAFE3000E02702 /* ofxFlocking.cpp */,
 				3DCBA64214AAFE3000E02702 /* ofxFlocking.h */,
@@ -154,7 +149,6 @@
 				3DCBA64514AAFE3000E02702 /* ofxFX.h */,
 				3DCBA64614AAFE3000E02702 /* ofxFXObject.h */,
 				3DCBA64714AAFE3000E02702 /* ofxGlow.h */,
-				3DCBA64814AAFE3000E02702 /* ofxGrayScott.cpp */,
 				3DCBA64914AAFE3000E02702 /* ofxGrayScott.h */,
 				3DCBA64A14AAFE3000E02702 /* ofxMask.h */,
 				3DCBA64B14AAFE3000E02702 /* ofxOldTv.h */,
@@ -334,10 +328,8 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
-				3DCBA69514AAFE3200E02702 /* ofxConway.cpp in Sources */,
 				3DCBA69614AAFE3200E02702 /* ofxFlocking.cpp in Sources */,
 				3DCBA69714AAFE3200E02702 /* ofxFluid.cpp in Sources */,
-				3DCBA69814AAFE3200E02702 /* ofxGrayScott.cpp in Sources */,
 				3DCBA69914AAFE3200E02702 /* ofxWater.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -41,7 +41,7 @@ public:
     void    end();
     
     void    update();
-    void    draw(int _x = 0, int _y = 0);
+    void    draw(int x = 0, int y = 0, float _width = -1, float _height = -1);
     
 private:
     ofImage  sparkImage;
@@ -55,14 +55,14 @@ private:
     
     //ofFbo   posFbo[2];
     //ofFbo   velFbo[2];
-    swapBuffer posBuffer;
-    swapBuffer velBuffer;
+    ofxSwapBuffer posBuffer;
+    ofxSwapBuffer velBuffer;
     
     ofFbo   renderFbo;
     ofFbo   obstacleFbo;
     
-    float   particleSize, imageWidth, imageHeight;
-    float   timeStep, maxDist, minDist, maxSpeed, maxForce, separation, alineation, cohesion;
+    float   timeStep, particleSize, imageWidth, imageHeight;
+    float   maxDist, minDist, maxSpeed, maxForce, separation, alineation, cohesion;
     int     nBoids, resolution;
     int     frame;
 };

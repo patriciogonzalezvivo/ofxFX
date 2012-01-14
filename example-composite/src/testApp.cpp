@@ -43,13 +43,16 @@ void testApp::update(){
         // Blur video -> out of focus
         blurEffect.begin();
         video.draw(0,0); 
-        blurEffect.end(false);
+        blurEffect.end();
 #else
         blurEffect.begin();
         ofClear(0);
         image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
-        blurEffect.end(false);
+        blurEffect.end();
 #endif
+        
+        blurEffect.update();
+        
         // Make the mask
         maskEffect.beginMask();
         ofClear(0);
@@ -67,14 +70,17 @@ void testApp::update(){
 #else
         image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
 #endif
-        maskEffect.end(false);
+        maskEffect.end();
+        
+        maskEffect.update();
         
         // Composite and apply the old-tv effect
         oldTvEffect.begin();
         blurEffect.draw();
         maskEffect.draw();
-        oldTvEffect.end(false);
+        oldTvEffect.end();
         
+        oldTvEffect.update();
 #ifdef THERE_IS_CAM
     }
 #endif

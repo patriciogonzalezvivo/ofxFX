@@ -16,14 +16,18 @@
 
 class ofxGlow : public ofxBlur {	
 public:
-    void allocate(int width, int height) {
-		original.allocate(width, height);
-        pingPong.allocate(width, height);
-        
+    ofxGlow(){
         passes = 1;
         radius = 3;
+    }
+    
+    void allocate(int _width, int _height) {
+        width = _width;
+        height = _height;
+        pingPong.allocate(width,height);
         
-        loadShaders();
+        initFbo(original,width,height);
+        loadBlurShader();
     }
 	
 	void begin() {
@@ -32,39 +36,29 @@ public:
 		original.begin();
 	}
 	
-	void end(bool bDraw = true) {
+	void end() {
 		original.end();
 		ofPopStyle();
 		ofPopMatrix();
         
 		ofSetColor(255,255);
 		
-        pingPong[1].begin();
+        pingPong[0].begin();
         original.draw(0,0);
-        pingPong[1].end();
+        pingPong[0].end();
         
-        for(int i = 0; i < passes; i++) {
-            for(int j = 0; j < 2; j++) {    
-                pingPong[j].begin();
-                blurShader[j].begin();
-                blurShader[j].setUniform1f("radius", radius);
-                pingPong[(j+1)%2].draw(0,0);
-                blurShader[j].end();
-                pingPong[j].end();
-            }
-        }
+    }
     
-		if(bDraw)
-			draw(0, 0);
-	}
-    
-	void draw( int x = 0, int y = 0){
-        pingPong[passes%2].draw(x,y);
-		//ofEnableAlphaBlending();
+	void draw(int x = 0, int y = 0, float _width = -1, float _height = -1){
+        if (_width == -1) _width = width;
+        if (_height == -1) _height = height;
+        
+        ofPushStyle();
+        pingPong.dst->draw(x, y, _width, _height);
 		ofEnableBlendMode(OF_BLENDMODE_ADD);
-		original.draw(x,y);
+		original.draw(x,y, _width, _height);
         ofDisableBlendMode();
-		//ofDisableAlphaBlending();
+        ofPopStyle();
 	}
     
 private:
