@@ -9,11 +9,7 @@ void testApp::setup(){
     
     ofSetWindowShape(width, height);
     
-#ifdef THERE_IS_CAM
-    video.initGrabber(width , height);
-#else
     image.loadImage("logo.jpg");
-#endif
     
     frags[0] = "#version 120\n\
     #extension GL_ARB_texture_rectangle : enable\n \
@@ -767,68 +763,126 @@ void testApp::setup(){
         gl_FragColor = vec4(d.x,d.y,d.z,1.0);\
     }";
     
+    
     frags[13] = "uniform vec2 resolution;\
     uniform float time;\
-    uniform sampler2D tex0;\
-    \
-    vec3 deform( in vec2 p ){\
-        vec2 uv;\
-        \
-        vec2 q = vec2( sin(1.1*time+p.x),sin(1.2*time+p.y) );\
-        \
-        float a = atan(q.y,q.x);\
-        float r = sqrt(dot(q,q));\
-        \
-        uv.x = sin(0.0+1.0*time)+p.x*sqrt(r*r+1.0);\
-        uv.y = sin(0.6+1.1*time)+p.y*sqrt(r*r+1.0);\
-        \
-        return texture2D(tex0,uv*.5).xyz;\
-    }\
     \
     void main(void){\
         vec2 p = -1.0 + 2.0 * gl_FragCoord.xy / resolution.xy;\
-        vec2 s = p;\
-        \
-        vec3 total = vec3(0.0);\
-        vec2 d = (vec2(0.0,0.0)-p)/40.0;\
-        float w = 1.0;\
-        for( int i=0; i<40; i++ ){\
-            vec3 res = deform(s);\
-            res = smoothstep(0.1,1.0,res*res);\
-            total += w*res;\
-            w *= .99;\
-            s += d;\
-        }\
-        total /= 40.0;\
-        float r = 1.5/(1.0+dot(p,p));\
-        gl_FragColor = vec4( total*r,1.0);\
+        float a = time*40.0;\
+        float d,e,f,g=1.0/40.0,h,i,r,q;\
+        e=400.0*(p.x*0.5+0.5);\
+        f=400.0*(p.y*0.5+0.5);\
+        i=200.0+sin(e*g+a/150.0)*20.0;\
+        d=200.0+cos(f*g/2.0)*18.0+cos(e*g)*7.0;\
+        r=sqrt(pow(i-e,2.0)+pow(d-f,2.0));\
+        q=f/r;\
+        e=(r*cos(q))-a/2.0;f=(r*sin(q))-a/2.0;\
+        d=sin(e*g)*176.0+sin(e*g)*164.0+r;\
+        h=((f+d)+a/2.0)*g;\
+        i=cos(h+r*p.x/1.3)*(e+e+a)+cos(q*g*6.0)*(r+h/3.0);\
+        h=sin(f*g)*144.0-sin(e*g)*212.0*p.x;\
+        h=(h+(f-e)*q+sin(r-(a+h)/7.0)*10.0+i/4.0)*g;\
+        i+=cos(h*2.3*sin(a/350.0-q))*184.0*sin(q-(r*4.3+a/12.0)*g)+tan(r*g+h)*184.0*cos(r*g+h);\
+        i=mod(i/5.6,256.0)/64.0;\
+        if(i<0.0) i+=4.0;\
+        if(i>=2.0) i=4.0-i;\
+        d=r/350.0;\
+        d+=sin(d*d*8.0)*0.52;\
+        f=(sin(a*g)+1.0)/2.0;\
+        gl_FragColor=vec4(vec3(f*i/1.6,i/2.0+d/13.0,i)*d*p.x+vec3(i/1.3+d/8.0,i/2.0+d/18.0,i)*d*(1.0-p.x),1.0);\
     }";
     
-    fxObject.allocate(width,height);
+    frags[14] = "uniform vec2 resolution;\
+    uniform float time;\
+    \
+    void main(void){\
+        float x = gl_FragCoord.x;\
+        float y = gl_FragCoord.y;\
+        float mov0 = x+y+cos(sin(time)*2.)*100.+sin(x/100.)*1000.;\
+        float mov1 = y / resolution.y / 0.2 + time;\
+        float mov2 = x / resolution.x / 0.2;\
+        float c1 = abs(sin(mov1+time)/2.+mov2/2.-mov1-mov2+time);\
+        float c2 = abs(sin(c1+sin(mov0/1000.+time)+sin(y/40.+time)+sin((x+y)/100.)*3.));\
+        float c3 = abs(sin(c2+cos(mov1+mov2+c2)+cos(mov2)+sin(x/1000.)));\
+        gl_FragColor = vec4( c1,c2,c3,1.0);\
+    }";
+    
+    frags[15] = "uniform float time;\
+    uniform vec2 mouse;\
+    uniform vec2 resolution;\
+    \
+    vec3 mod289(vec3 x) {\
+        return x - floor(x * (1.0 / 289.0)) * 289.0;\
+    }\
+    \
+    vec2 mod289(vec2 x) {\
+        return x - floor(x * (1.0 / 289.0)) * 289.0;\
+    }\
+    \
+    vec3 permute(vec3 x) {\
+        return mod289(((x*34.0)+1.0)*x);\
+    }\
+    \
+    float snoise(vec2 v){\
+        const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);\
+        \
+        vec2 i  = floor(v + dot(v, C.yy) );\
+        vec2 x0 = v -   i + dot(i, C.xx);\
+        \
+        vec2 i1;\
+        \
+        i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);\
+        \
+        vec4 x12 = x0.xyxy + C.xxzz;\
+        x12.xy -= i1;\
+        \
+        i = mod289(i);\
+        vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));\
+        \
+        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);\
+        m = m*m ;\
+        m = m*m ;\
+        \
+        \
+        vec3 x = 2.0 * fract(p * C.www) - 1.0;\
+        vec3 h = abs(x) - 0.5;\
+        vec3 ox = floor(x + 0.5);\
+        vec3 a0 = x - ox;\
+        \
+        m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );\
+        \
+        vec3 g;\
+        g.x  = a0.x  * x0.x  + h.x  * x0.y;\
+        g.yz = a0.yz * x12.xz + h.yz * x12.yw;\
+        return 130.0 * dot(m, g);\
+    }\
+    \
+    void main( void ) {\
+        vec2 p = ( gl_FragCoord.xy / resolution.xy );\
+        p = (p * 2.0 - 1.0) * vec2(800, 600);\
+        p += mouse * 8196.0;\
+        float z = 84.0;\
+        \
+        float v = snoise(p * 0.002 + z + 0.05 * time);  p += 1017.0;\
+        v += 0.5 * snoise(p * 0.004 - 0.2 * time);\
+        v += 0.125 * snoise(p * 0.008 + 0.0001 * v * time);\
+        v = 0.15 * v + 0.7;\
+        \
+        gl_FragColor = vec4(v);\
+    }";
+    
+    fxObject.allocate(width,height,GL_RGBA);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-#ifdef THERE_IS_CAM
-    
-    video.update(); // Get Video input image
-    if (video.isFrameNew() ){
-        ofSetColor(255);
-        
-        fxObject.begin();
-        video.draw(0,0); 
-        fxObject.end();
-    }
-    
-#else
-    
-    fxObject.begin();
+    /*
+    fxObject.begin(0);
     ofClear(0);
     image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
-    fxObject.end();
-    
-#endif
-    
+    fxObject.end(0);*/
+
     fxObject.update();
         
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
@@ -839,6 +893,10 @@ void testApp::draw(){
     ofBackground(0);
     
     fxObject.draw();
+    
+    ofEnableBlendMode(OF_BLENDMODE_SCREEN);
+    image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 }
 
 //--------------------------------------------------------------
@@ -885,6 +943,12 @@ void testApp::keyPressed(int key){
             break;
         case 'r':
             fxObject.injectShader(frags[13]);
+            break;
+        case 't':
+            fxObject.injectShader(frags[14]);
+            break;
+        case 'y':
+            fxObject.injectShader(frags[15]);
             break;
     }
 }

@@ -1,8 +1,6 @@
 #pragma once
 
-#define THERE_IS_CAM
-
-#define NUM_FRAG_SHADERS 14
+#define NUM_FRAG_SHADERS 16
 
 #include "ofMain.h"
 #include "ofxFX.h"
@@ -24,12 +22,8 @@ public:
     void gotMessage(ofMessage msg);
 		
     ofxFXObject fxObject;
-    
-#ifdef THERE_IS_CAM
-    ofVideoGrabber  video;
-#else
+
     ofImage     image;
-#endif
     
     string frags[NUM_FRAG_SHADERS];
 };

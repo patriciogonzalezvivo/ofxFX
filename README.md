@@ -15,9 +15,9 @@ It have a simple structure:
     - nTextures: number of textures used;
     - internalFormat: if it use GL_RGB, GL_RGBA, GL_RGB16f, GL_RGBA16f, GL_RGB32f, GL_RGBA32f, etc...
     
-2. allocate(width,height): This usualy it´s no need to bee re-define. It´s basically allocate the FBO´s and loads the shader by using injectShader();
+2. ```allocate(width,height)```: This usualy it´s no need to bee re-define. It´s basically allocate the FBO´s and loads the shader by using injectShader();
 
-3. injectShader(): here is where the shaders are loaded. The good stuff comes when you load them on the fly through a string using something like this:
+3. ```injectShader(string fragContent)```: here is where the shaders are loaded. The good stuff comes when you load them on the fly through a string using something like this:
 
 ```c++
 ofxFXObject fxObject = ofxFXObject();
@@ -48,18 +48,18 @@ fxObject.injectShader("#version 120\n\
                     }"); 
 ```
 
-3. begin(int texN) & end (int texN): remember nTextures variable? you can passthrough information to it by using this end() and begin() and giving the argument the number of texture you want to open. This texture can be access from the shader by the ```uniform sample2DRect tex0``` or ```tex1``` or ```tex2``` and so on. Also you can access to the previous FBO of the ping pong by calling ```uniform sample2DRect backbuffer```. 
+3. ```begin(int texN)``` & ```end(int texN)```: remember nTextures variable? you can passthrough information to it by using this end() and begin() and giving the argument the number of texture you want to open. This texture can be access from the shader by the ```uniform sample2DRect tex0``` or ```tex1``` or ```tex2``` and so on. Also you can access to the previous FBO of the ping pong by calling ```uniform sample2DRect backbuffer```. 
 
-4. update(): this is the core of the class, where the magic happens. If you check  for the ```ofxFXObject::update()``` you will see how the tex´s, the backbuffer and other default uniforms variables (time, mouse, resolution) are loaded.
+4. ```update()```: this is the core of the class, where the magic happens. If you check  for the ```ofxFXObject::update()``` you will see how the tex´s, the backbuffer and other default uniforms variables (time, mouse, resolution) are loaded.
 
-5. draw(): after all you definitely want to look at it.
+5. ```draw()```: after all you definitely want to look at it.
 
 
 Also in this class you can found some handy funtion as:
 
-* renderFrame(width,height) makes a frame where the textures could be draw;
-* initFbo(ofxFbo, width, height, internalFormat ): it takes the work of allocating and cleaning an FBO.
-* ofxSwapBuffer: this is actually a class for making easy dealing with ping-pongs.
+* ```renderFrame(width,height)``` makes a frame where the textures could be draw;
+* ```initFbo(ofxFbo, width, height, internalFormat )```: it takes the work of allocating and cleaning an FBO.
+* ```ofxSwapBuffer.h```: this is actually a class for making easy dealing with ping-pongs.
 
 Most of the subClass that inherit from ofxFXObject that are part of this add-on are ones that in some point breaks this logic and structure and use just some elements and re-define new ones.
 
@@ -67,7 +67,7 @@ Most of the subClass that inherit from ofxFXObject that are part of this add-on 
 The fun part start here. Go to [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) or [ShaderToy by Inigo Quilez](http://www.iquilezles.org/apps/shadertoy/) found an effect that you like. Copy the code. Inject it and compile.
 Explore new changes and share them.
 
-Note: it´s important to makes all the changes for openGL version 1.2 using ARB Rect textures
+Note: May be you will need to make some changes in order to make it work with openGL version of openFrameworks
 
 ## ofxFXObject extensions ##
 
