@@ -9,6 +9,7 @@ The main goal of this addon it´s to make super easy to use and edit shaders on-
 It´s the parent class of all the other effect. If you want to make a new filter it´s better if you start looking at the ```ofxFXObject.h``` in order to see how it works. 
 
 It have a simple structure:
+
 1. Constructor: here it´s necessary to set three vital variables: 
     - passes: the number of passes or itineration of the main ping pong betweens FBO´s  
     - internalFormat: if it use GL_RGB, GL_RGBA, GL_RGB16f, GL_RGBA16f, GL_RGB32f, GL_RGBA32f, etc...
@@ -34,25 +35,20 @@ fxObject.allocate(800,600); // At this point it will load a default timer shader
 
 //Let´s play a little injecting a new one
 fxObject.injectShader("#version 120\n\
-                    #extension GL_ARB_texture_rectangle : enable\n \
+                    \
+                    uniform sampler2DRect backbuffer;\
+                    uniform sampler2DRect tex0;\
+                    uniform sampler2DRect tex1;\
+                    \
                     uniform float time; \
                     uniform vec2 mouse;\
                     uniform vec2 resolution;\
                     \
-                    float pi = 3.141592653589793238462643383279;\
-                    \
                     void main( void ) {\
-                        float tscale = 2.5;\
                         \
-                        vec2 position = gl_FragCoord.xy / resolution.xy;\
+                        ...
                         \
-                        float lum   = abs(tan(position.y * pi)) - pi/5.0;\
-                        \
-                        float red   = sin(position.x * 5.0 + time*tscale*1.00) * 2.0 - 1.0;\
-                        float green = sin(position.x * 8.0 + time*tscale*1.33) * 2.0 - 1.0;\
-                        float blue  = sin(position.x * 2.0 + time*tscale*1.93) * 2.0 - 1.0;\
-                        \
-                        gl_FragColor = vec4( vec3( lum + red, lum + green, lum + blue ), 1.0 );\
+                        gl_FragColor = ... ;\
                     }"); 
 ```
 
