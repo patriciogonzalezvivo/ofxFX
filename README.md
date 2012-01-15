@@ -11,10 +11,10 @@ It´s the parent class of all the other effect. If you want to make a new filter
 It have a simple structure:
 1. Constructor: here it´s necessary to set three vital variables: 
     - passes: the number of passes or itineration of the main ping pong betweens FBO´s  
-    - nTextures: number of textures used;
     - internalFormat: if it use GL_RGB, GL_RGBA, GL_RGB16f, GL_RGBA16f, GL_RGB32f, GL_RGBA32f, etc...
+    - fragShader: it´s the code of the shader. Note that some changes have to be made in order to fill everthing on a string
     
-2. ```allocate(width,height)```: This usualy it´s no need to bee re-define. It´s basically allocate the FBO´s and loads the shader by using injectShader();
+2. ```allocate(width,height,GL_RGBA)```: This usualy it´s no need to bee re-define. It´s basically allocate the FBO´s and loads the shader by using injectShader();
 
 3. ```injectShader(string fragContent)```: here is where the shaders are loaded. See the example bellow.
 
@@ -22,7 +22,7 @@ It have a simple structure:
 
 5. ```update()```: this is the core of the class, where the magic happens. If you check  for the ```ofxFXObject::update()``` you will see how the tex´s, the backbuffer and other default uniforms variables (time, mouse, resolution) are loaded.
 
-6. ```draw()```: after all you definitely want to look at it.
+6. ```draw(x,y,w,h)```: after all you definitely want to look at it.
 
 
 On setup:
@@ -112,6 +112,5 @@ This are the subclases of ofxFXObject that share part of the structure and need 
 Watch some of this classes in action [HERE](http://www.patriciogonzalezvivo.com/blog/?p=488)
 
 # TODO´S #
+- SEGMENTATION_FAULT on initial deletion of textures array
 - something it´s not working properly on ofxFXObject for using the webGL Sandbox and ShaderToy that uses samples2D textures
-- auto seting the amount of textures by looking at the defaul fragmentShader
-- adding a text editor for programming the shaders on-the-fly

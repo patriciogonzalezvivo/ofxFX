@@ -16,7 +16,8 @@ void testApp::setup(){
     uniform float time;\
     uniform vec2 mouse;\
     uniform vec2 resolution;\
-     \
+    uniform sampler2DRect tex0;\
+    \
     float viewAngle = 1.0;\
     float speed = 9.0;\
     float rate = 15.0;\
@@ -41,6 +42,8 @@ void testApp::setup(){
                     uniform float time; \
                     uniform vec2 mouse;\
                     uniform vec2 resolution;\
+                    uniform sampler2DRect tex0;\
+                    uniform sampler2DRect tex1;\
                     \
                     float pi = 3.141592653589793238462643383279;\
                     \
