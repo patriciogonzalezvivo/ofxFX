@@ -46,7 +46,7 @@ fxObject.injectShader("#version 120\n\
                     \
                     void main( void ) {\
                         \
-                        ...
+                        ... \
                         \
                         gl_FragColor = ... ;\
                     }"); 
@@ -94,18 +94,16 @@ Note: May be you will need to make some changes in order to make it work with op
 This are the subclases of ofxFXObject that share part of the structure and need more variables or shaders. This sometimes are complex or just it´s more handy to have them separated.
 
 * ofxBloom
-* ofxBlur
+* ofxBlur   
 * ofxBLurFast
 * ofxConway: life game made by [Kalwalt](http://www.kalwaltart.it/). It still needs some work
-* ofxFLuid: fluid simulation based on [Mark Harris article from GPU Gems 1](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html)
+* ofxFlocking: a GPU flocking sistem [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) 
+* ofxFLuid: fluid simulation based on [Mark Harris article from GPU Gems 1](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
 * ofxGlow
-* ofxGrayScott: based on Reaction Diffusion by Gray-Scott Model from [here](http://mrob.com/pub/comp/xmorphia/)
+* ofxGrayScott: based on Reaction Diffusion by Gray-Scott Model from [here](http://mrob.com/pub/comp/xmorphia/). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
 * ofxMask: Based on ofxAlphaMaskShader reated by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
-* ofxOldTv: on Postprocessing from [ShaderToy](http://www.iquilezles.org/apps/shadertoy/)
-* ofxWater: water ripplies effect based on [Hugo Elias Tutorial](http://freespace.virgin.net/hugo.elias/graphics/x_water.htm)
-
-# VIDEO of Examples #
-Watch some of this classes in action [HERE](http://www.patriciogonzalezvivo.com/blog/?p=488)
+* ofxOldTv: on Postprocessing from [ShaderToy](http://www.iquilezles.org/apps/shadertoy/). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
+* ofxWater: water ripplies effect based on [Hugo Elias Tutorial](http://freespace.virgin.net/hugo.elias/graphics/x_water.htm). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
 
 # TODO´S #
 - SEGMENTATION_FAULT on initial deletion of textures array
