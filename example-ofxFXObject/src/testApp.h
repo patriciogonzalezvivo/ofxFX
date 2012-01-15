@@ -1,5 +1,9 @@
 #pragma once
 
+#define THERE_IS_CAM
+
+#define NUM_FRAG_SHADERS 7
+
 #include "ofMain.h"
 #include "ofxFX.h"
 
@@ -19,15 +23,13 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 		
+    ofxFXObject fxObject;
+    
+#ifdef THERE_IS_CAM
+    ofVideoGrabber  video;
+#else
     ofImage     image;
+#endif
     
-    ofxFXObject shader;
-    
-    string electro;
-    string coloredWaves;
-    string colorSpiral;
-    string noise1;
-    string noise2;
-    string waves;
-    string destello;
+    string frags[NUM_FRAG_SHADERS];
 };

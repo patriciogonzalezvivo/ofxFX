@@ -3,11 +3,19 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     ofEnableAlphaBlending();
-	ofSetWindowShape(640, 480);
-	image.loadImage("logo.jpg");
+	
+    int width = 640;
+    int height = 480;
     
+    ofSetWindowShape(width, height);
     
-    electro = "#version 120\n\
+#ifdef THERE_IS_CAM
+    video.initGrabber(width , height);
+#else
+    image.loadImage("logo.jpg");
+#endif
+    
+    frags[0] = "#version 120\n\
     #extension GL_ARB_texture_rectangle : enable\n \
     uniform float time;\
     uniform vec2 mouse;\
@@ -31,7 +39,7 @@ void testApp::setup(){
         gl_FragColor = c;\
     }";
     
-    coloredWaves = "#version 120\n\
+    frags[1] = "#version 120\n\
                     #extension GL_ARB_texture_rectangle : enable\n \
                     uniform float time; \
                     uniform vec2 mouse;\
@@ -53,7 +61,7 @@ void testApp::setup(){
                         gl_FragColor = vec4( vec3( lum + red, lum + green, lum + blue ), 1.0 );\
                     }";
     
-    colorSpiral =  "#version 120\n\
+    frags[2] =  "#version 120\n\
                     #extension GL_ARB_texture_rectangle : enable\n \
                     uniform float time;\
                     uniform vec2 mouse;\
@@ -79,7 +87,7 @@ void testApp::setup(){
                         gl_FragColor = vec4( vec3( red/255.0, green/255.0, blue/255.0), 1.0 );\
                     }";
     
-    noise1 =   "#version 120\n\
+    frags[3] =   "#version 120\n\
                 #extension GL_ARB_texture_rectangle : enable\n \
                 \
                 uniform float time;\
@@ -152,7 +160,7 @@ void testApp::setup(){
     //               https://github.com/ashima/webgl-noise
     // 
     
-    noise2 =   "#version 120\n\
+    frags[4] =   "#version 120\n\
                 #extension GL_ARB_texture_rectangle : enable\n \
                 \
                 uniform float time;\
@@ -212,82 +220,38 @@ void testApp::setup(){
                     gl_FragColor = vec4( vec3( color ), 1.0 );\
                 }";
     
-    waves = "#version 120\n\
-    #extension GL_ARB_texture_rectangle : enable\n \
-    \
+    frags[5] = "uniform vec2 resolution;\
     uniform float time;\
-    uniform vec2 mouse;\
-    uniform vec2 resolution;\
-    uniform sampler2DRect backbuffer;\
+    uniform sampler2D tex0;\
     \
-    float getSpring(float r, vec2 stPos, float power){\
-        return ( texture2DRect(backbuffer, stPos).r - r) * power;\
-    }\
-    \
-    void main(){\
-        vec2 st = gl_TexCoord[0].st;\
-        float aspect = resolution.x / resolution.y;\
+    void main(void){\
+        vec2 q = gl_FragCoord.xy / resolution.xy;\
+        vec2 uv = 0.5 + (q-0.5)*(0.9 + 0.1*sin(0.2*time));\
         \
-        vec4 texel_prev = texture2DRect(backbuffer, st);\
+        vec3 oricol = texture2D(tex0,vec2(q.x,1.0-q.y)).xyz;\
+        vec3 col;\
         \
-        float r_prev = texel_prev.r;\
-        float power = .5;\
+        col.r = texture2D(tex0,vec2(uv.x+0.003,-uv.y)).x;\
+        col.g = texture2D(tex0,vec2(uv.x+0.000,-uv.y)).y;\
+        col.b = texture2D(tex0,vec2(uv.x-0.003,-uv.y)).z;\
         \
-        float vel = texel_prev.a - 0.5;\
-        vel += getSpring(r_prev, st + vec2(2, 3), 0.0022411859348636983 * power);\
-        vel += getSpring(r_prev, st + vec2(1, 3), 0.004759786021770571 * power);\
-        vel += getSpring(r_prev, st + vec2(0, 3), 0.005681818181818182 * power);\
-        vel += getSpring(r_prev, st + vec2(-1, 3), 0.004759786021770571 * power);\
-        vel += getSpring(r_prev, st + vec2(-2, 3), 0.0022411859348636983 * power);\
-        vel += getSpring(r_prev, st + vec2(3, 2), 0.0022411859348636983 * power);\
-        vel += getSpring(r_prev, st + vec2(2, 2), 0.0066566640639421 * power);\
-        vel += getSpring(r_prev, st + vec2(1, 2), 0.010022341036933013 * power);\
-        vel += getSpring(r_prev, st + vec2(0, 2), 0.011363636363636364 * power);\
-        vel += getSpring(r_prev, st + vec2(-1, 2), 0.010022341036933013 * power);\
-        vel += getSpring(r_prev, st + vec2(-2, 2), 0.0066566640639421 * power);\
-        vel += getSpring(r_prev, st + vec2(-3, 2), 0.0022411859348636983 * power);\
-        vel += getSpring(r_prev, st + vec2(3, 1), 0.004759786021770571 * power);\
-        vel += getSpring(r_prev, st + vec2(2, 1), 0.010022341036933013 * power);\
-        vel += getSpring(r_prev, st + vec2(1, 1), 0.014691968395607415 * power);\
-        vel += getSpring(r_prev, st + vec2(0, 1), 0.017045454545454544 * power);\
-        vel += getSpring(r_prev, st + vec2(-1, 1), 0.014691968395607415 * power);\
-        vel += getSpring(r_prev, st + vec2(-2, 1), 0.010022341036933013 * power);\
-        vel += getSpring(r_prev, st + vec2(-3, 1), 0.004759786021770571 * power);\
-        vel += getSpring(r_prev, st + vec2(3, 0), 0.005681818181818182 * power);\
-        vel += getSpring(r_prev, st + vec2(2, 0), 0.011363636363636364 * power);\
-        vel += getSpring(r_prev, st + vec2(1, 0), 0.017045454545454544 * power);\
-        vel += getSpring(r_prev, st + vec2(-1, 0), 0.017045454545454544 * power);\
-        vel += getSpring(r_prev, st + vec2(-2, 0), 0.011363636363636364 * power);\
-        vel += getSpring(r_prev, st + vec2(-3, 0), 0.005681818181818182 * power);\
-        vel += getSpring(r_prev, st + vec2(3, -1), 0.004759786021770571 * power);\
-        vel += getSpring(r_prev, st + vec2(2, -1), 0.010022341036933013 * power);\
-        vel += getSpring(r_prev, st + vec2(1, -1), 0.014691968395607415 * power);\
-        vel += getSpring(r_prev, st + vec2(0, -1), 0.017045454545454544 * power);\
-        vel += getSpring(r_prev, st + vec2(-1, -1), 0.014691968395607415 * power);\
-        vel += getSpring(r_prev, st + vec2(-2, -1), 0.010022341036933013 * power);\
-        vel += getSpring(r_prev, st + vec2(-3, -1), 0.004759786021770571 * power);\
-        vel += getSpring(r_prev, st + vec2(3, -2), 0.0022411859348636983 * power);\
-        vel += getSpring(r_prev, st + vec2(2, -2), 0.0066566640639421 * power);\
-        vel += getSpring(r_prev, st + vec2(1, -2), 0.010022341036933013 * power);\
-        vel += getSpring(r_prev, st + vec2(0, -2), 0.011363636363636364 * power);\
-        vel += getSpring(r_prev, st + vec2(-1, -2), 0.010022341036933013 * power);\
-        vel += getSpring(r_prev, st + vec2(-2, -2), 0.0066566640639421 * power);\
-        vel += getSpring(r_prev, st + vec2(-3, -2), 0.0022411859348636983 * power);\
-        vel += getSpring(r_prev, st + vec2(2, -3), 0.0022411859348636983 * power);\
-        vel += getSpring(r_prev, st + vec2(1, -3), 0.004759786021770571 * power);\
-        vel += getSpring(r_prev, st + vec2(0, -3), 0.005681818181818182 * power);\
-        vel += getSpring(r_prev, st + vec2(-1, -3), 0.004759786021770571 * power);\
-        vel += getSpring(r_prev, st + vec2(-2, -3), 0.0022411859348636983 * power);\
+        col = clamp(col*0.5+0.5*col*col*1.2,0.0,1.0);\
         \
-        vel += (.25 - r_prev) * .025 * power;\
+        col *= 0.5 + 0.5*16.0*uv.x*uv.y*(1.0-uv.x)*(1.0-uv.y);\
         \
-        vec2 m = mouse / resolution;\
-        vel += max(0., .1 * (1. - (length((st - m) * vec2(aspect, 1.)) * 15.)));\
+        col *= vec3(0.8,1.0,0.7);\
         \
-        gl_FragColor = vec4(texel_prev.rgb + vel, vel * .98 + .5);\
+        col *= 0.9+0.1*sin(10.0*time+uv.y*1000.0);\
+        \
+        col *= 0.97+0.03*sin(110.0*time);\
+        \
+        float comp = smoothstep( 0.2, 0.7, sin(time) );\
+        col = mix( col, oricol, clamp(-2.0+2.0*q.x+3.0*comp,0.0,1.0) );\
+        \
+        gl_FragColor = vec4(col,1.0);\
     }";
     
-    destello = "#version 120\n\
+    frags[6] = "#version 120\n\
     #extension GL_ARB_texture_rectangle : enable\n \
     \
     uniform float time;\
@@ -333,12 +297,32 @@ void testApp::setup(){
         gl_FragColor = vec4( a, b, c, 1.0 );\
     }";
     
-    shader.allocate(640, 480);
+    fxObject.allocate(width,height);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-    shader.update();
+#ifdef THERE_IS_CAM
+    
+    video.update(); // Get Video input image
+    if (video.isFrameNew() ){
+        ofSetColor(255);
+        
+        fxObject.begin();
+        video.draw(0,0); 
+        fxObject.end();
+    }
+    
+#else
+    
+    fxObject.begin();
+    ofClear(0);
+    image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
+    fxObject.end();
+    
+#endif
+    
+    fxObject.update();
         
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
@@ -347,32 +331,32 @@ void testApp::update(){
 void testApp::draw(){
     ofBackground(0);
     
-    shader.draw();
+    fxObject.draw();
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
     switch(key){
         case '1':
-            shader.injectShader(noise1);
+            fxObject.injectShader(frags[0]);
             break;
         case '2':
-            shader.injectShader(colorSpiral);
+            fxObject.injectShader(frags[1]);
             break;
         case '3':
-            shader.injectShader(coloredWaves);
+            fxObject.injectShader(frags[2]);
             break;
         case '4':
-            shader.injectShader(electro);
+            fxObject.injectShader(frags[3]);
             break;
         case '5':
-            shader.injectShader(noise2);
+            fxObject.injectShader(frags[4]);
             break;
         case '6':
-            shader.injectShader(waves);
+            fxObject.injectShader(frags[5]);
             break;
         case '7':
-            shader.injectShader(destello);
+            fxObject.injectShader(frags[6]);
             break;
     }
 }
