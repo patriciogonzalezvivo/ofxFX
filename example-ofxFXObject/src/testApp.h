@@ -2,7 +2,7 @@
 
 #define THERE_IS_CAM
 
-#define NUM_FRAG_SHADERS 7
+#define NUM_FRAG_SHADERS 14
 
 #include "ofMain.h"
 #include "ofxFX.h"

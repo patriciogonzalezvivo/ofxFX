@@ -66,11 +66,12 @@ public:
             p.y = 1.0 - p.y;\
             \
             float c= 0.0;\
-            c += ( time < 100.0 ) ? 0.0 : digit( p, vec4( 0.05, 0.4, 0.2, 0.35 ), time/100.0 );\
-            c += ( time < 10.0) ? 0.0 : digit( p, vec4( 0.27, 0.4, 0.2, 0.35 ), time/10.0 );\
-            c += digit( p, vec4( 0.5, 0.4, 0.2, 0.35 ), time );\
-            c += box( p, vec4( 0.71, 0.4, 0.03, 0.035 ) );\
-            c += digit( p, vec4( 0.75, 0.4, 0.2, 0.35 ), time*10.0 );\
+            c += ( time < 100.0 ) ? 0.0 : digit( p, vec4( 0.2, 0.5, 0.09, 0.1 ), time/100.0 );\
+            c += ( time < 10.0) ? 0.0 : digit( p, vec4( 0.3, 0.5, 0.09, 0.1 ), time/10.0 );\
+            c += digit( p, vec4( 0.4, 0.5, 0.09, 0.1 ), time );\
+            c += box( p, vec4( 0.5, 0.5, 0.01, 0.01 ) );\
+            c += digit( p, vec4( 0.52, 0.5, 0.09, 0.1 ), time*10.0 );\
+            \
             gl_FragColor = vec4( 0.0, c * 0.5, c, 1.0 )*(abs(sin(time*0.5))+0.5);\
         }";
     }
@@ -144,7 +145,7 @@ public:
             
             shader.setUniform1f("time", (float)time );
             shader.setUniform2f("resolution", (float)width, (float)height);
-            shader.setUniform2f("mouse", (float)ofGetMouseX(), (float)ofGetMouseY());
+            shader.setUniform2f("mouse", (float)(ofGetMouseX()/width), (float)(ofGetMouseY()/height));
             renderFrame();
             shader.end();
             pingPong.dst->end();
