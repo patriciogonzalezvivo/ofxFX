@@ -13,7 +13,7 @@ void testApp::setup(){
     
     image.loadImage("logo.jpg");
     
-    
+    nFrag = 0;
     frags[0] = "#version 120\n\
     #extension GL_ARB_texture_rectangle : enable\n \
     uniform float time;\
@@ -878,19 +878,86 @@ void testApp::setup(){
         gl_FragColor = vec4(v);\
     }";
     
+    frags[16] = "uniform float time;\
+    uniform vec2 mouse;\
+    uniform vec2 resolution;\
+    uniform sampler2D backbuffer;\
+    \
+    float getSpring(float r, vec2 pos, float power){\
+        return (texture2D(backbuffer, pos).r - r) * power;\
+    }\
+    \
+    void main(){\
+        vec2 pos = gl_FragCoord.xy / resolution;\
+        vec2 pixel = 1. / resolution;\
+        float aspect = resolution.x / resolution.y;\
+        \
+        vec4 texel_prev = texture2D(backbuffer, pos);\
+        \
+        float r_prev = texel_prev.r;\
+        float power = .5;\
+        \
+        float vel = texel_prev.a - 0.5;\
+        vel += getSpring(r_prev, pos + pixel * vec2(2, 3), 0.0022411859348636983 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(1, 3), 0.004759786021770571 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(0, 3), 0.005681818181818182 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-1, 3), 0.004759786021770571 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-2, 3), 0.0022411859348636983 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(3, 2), 0.0022411859348636983 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(2, 2), 0.0066566640639421 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(1, 2), 0.010022341036933013 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(0, 2), 0.011363636363636364 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-1, 2), 0.010022341036933013 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-2, 2), 0.0066566640639421 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-3, 2), 0.0022411859348636983 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(3, 1), 0.004759786021770571 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(2, 1), 0.010022341036933013 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(1, 1), 0.014691968395607415 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(0, 1), 0.017045454545454544 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-1, 1), 0.014691968395607415 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-2, 1), 0.010022341036933013 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-3, 1), 0.004759786021770571 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(3, 0), 0.005681818181818182 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(2, 0), 0.011363636363636364 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(1, 0), 0.017045454545454544 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-1, 0), 0.017045454545454544 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-2, 0), 0.011363636363636364 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-3, 0), 0.005681818181818182 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(3, -1), 0.004759786021770571 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(2, -1), 0.010022341036933013 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(1, -1), 0.014691968395607415 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(0, -1), 0.017045454545454544 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-1, -1), 0.014691968395607415 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-2, -1), 0.010022341036933013 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-3, -1), 0.004759786021770571 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(3, -2), 0.0022411859348636983 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(2, -2), 0.0066566640639421 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(1, -2), 0.010022341036933013 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(0, -2), 0.011363636363636364 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-1, -2), 0.010022341036933013 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-2, -2), 0.0066566640639421 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-3, -2), 0.0022411859348636983 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(2, -3), 0.0022411859348636983 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(1, -3), 0.004759786021770571 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(0, -3), 0.005681818181818182 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-1, -3), 0.004759786021770571 * power);\
+        vel += getSpring(r_prev, pos + pixel * vec2(-2, -3), 0.0022411859348636983 * power);\
+        \
+        vel += (.25 - r_prev) * .025 * power;\
+        \
+        vel += max(0., .1 * (1. - (length((pos - mouse) * vec2(aspect, 1.)) * 15.)));\
+        \
+        gl_FragColor = vec4(texel_prev.rgb + vel, vel * .98 + .5);\
+    }";
+    
     fxObject.allocate(width,height,GL_RGBA);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-    /*
-    fxObject.begin(0);
-    ofClear(0);
-    image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
-    fxObject.end(0);*/
 
     fxObject.update();
-        
+    
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
     beat += (1.0/ofGetFrameRate())*2;
 }
@@ -898,13 +965,15 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     ofBackground(0);
-    
-    ofSetColor(255);
-    fxObject.draw();
-    
     ofPushStyle();
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA );
+    
+    ofSetColor(255);//*sin(beat*0.5));
+    fxObject.draw();
+        
     ofEnableBlendMode(OF_BLENDMODE_SCREEN);
-    ofSetColor(255*cos(beat));
+    //ofSetColor(255*cos(beat));
+    ofSetColor(255 * (cos(beat*0.5))+0.5 );
     image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     ofPopStyle();
@@ -913,55 +982,20 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
     switch(key){
-        case '1':
-            fxObject.injectShader(frags[0]);
+        case OF_KEY_UP:
+            nFrag++;
             break;
-        case '2':
-            fxObject.injectShader(frags[1]);
-            break;
-        case '3':
-            fxObject.injectShader(frags[2]);
-            break;
-        case '4':
-            fxObject.injectShader(frags[3]);
-            break;
-        case '5':
-            fxObject.injectShader(frags[4]);
-            break;
-        case '6':
-            fxObject.injectShader(frags[5]);
-            break;
-        case '7':
-            fxObject.injectShader(frags[6]);
-            break;
-        case '8':
-            fxObject.injectShader(frags[7]);
-            break;
-        case '9':
-            fxObject.injectShader(frags[8]);
-            break;
-        case '0':
-            fxObject.injectShader(frags[9]);
-            break;
-        case 'q':
-            fxObject.injectShader(frags[10]);
-            break;
-        case 'w':
-            fxObject.injectShader(frags[11]);
-            break;
-        case 'e':
-            fxObject.injectShader(frags[12]);
-            break;
-        case 'r':
-            fxObject.injectShader(frags[13]);
-            break;
-        case 't':
-            fxObject.injectShader(frags[14]);
-            break;
-        case 'y':
-            fxObject.injectShader(frags[15]);
+        case OF_KEY_DOWN:
+            nFrag--;
             break;
     }
+    
+    if (nFrag >= NUM_FRAG_SHADERS)
+        nFrag = 0;
+    else if ( nFrag < 0)
+        nFrag = NUM_FRAG_SHADERS - 1;
+    
+    fxObject.injectShader(frags[nFrag]);
 }
 
 //--------------------------------------------------------------

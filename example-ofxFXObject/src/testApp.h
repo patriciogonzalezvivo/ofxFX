@@ -1,6 +1,6 @@
 #pragma once
 
-#define NUM_FRAG_SHADERS 16
+#define NUM_FRAG_SHADERS 17
 
 #include "ofMain.h"
 #include "ofxFX.h"
@@ -24,6 +24,7 @@ public:
     ofxFXObject fxObject;
     ofImage     image;
     
-    string frags[NUM_FRAG_SHADERS];
+    string      frags[NUM_FRAG_SHADERS];
     float       beat;
+    int         nFrag;
 };

@@ -9,7 +9,6 @@
 
 ofxWater::ofxWater(){
     passes = 1;
-    nTextures = 3;
     internalFormat = GL_RGB;
     
     threshold = 0.3;
@@ -21,6 +20,8 @@ ofxWater::ofxWater(){
     \
     uniform sampler2DRect backbuffer;\
     uniform sampler2DRect tex0;\
+    uniform sampler2DRect tex1;\
+    uniform sampler2DRect tex2;\
     \
     uniform float damping;\
     \

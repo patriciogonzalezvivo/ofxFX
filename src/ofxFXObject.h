@@ -12,7 +12,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of Patricio Gonzalez Vivo nor the names of its contributors
+ *     * Neither the name of the author nor the names of its contributors
  *       may be used to endorse or promote products derived from this software
  *       without specific prior written permission.
  *
@@ -228,6 +228,15 @@ public:
             ofPopStyle();
         }
     }
+    
+    // A simplified way of filling the insides texture
+    void setTexture(ofTexture& tex, int _texNum = 0){ 
+        textures[_texNum].begin(); 
+        ofClear(0,255);
+        ofSetColor(255);
+        tex.draw(0,0); 
+        textures[_texNum].end();
+    };
     
     
     

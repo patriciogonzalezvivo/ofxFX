@@ -21,11 +21,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-#ifdef THERE_IS_CAM
     ofVideoGrabber  video;
-#else
     ofImage     image;
-#endif
     
     ofxBlur     blurEffect;
     ofImage     maskImage;

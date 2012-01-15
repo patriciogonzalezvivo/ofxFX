@@ -1,3 +1,10 @@
+//  Conway Life GLSL Game
+//
+//  Created by kalwalt alias Walter Perdan on 24/12/11
+//  Copyright 2011 http://www.kalwaltart.it/ All rights reserved.
+//
+//  http://forum.openframeworks.cc/index.php/topic,8389.msg39174.html#msg39174
+
 #pragma once
 
 #include "ofMain.h"
@@ -23,6 +30,6 @@ class testApp : public ofBaseApp{
 
         ofImage      image;
 
-        ofxConway     conway;
+        ofxFXObject  conway;
 
 };

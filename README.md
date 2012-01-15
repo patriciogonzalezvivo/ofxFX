@@ -96,7 +96,6 @@ This are the subclases of ofxFXObject that share part of the structure and need 
 * ofxBloom
 * ofxBlur   
 * ofxBLurFast
-* ofxConway: life game made by [Kalwalt](http://www.kalwaltart.it/). It still needs some work
 * ofxFlocking: a GPU flocking sistem [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) 
 * ofxFLuid: fluid simulation based on [Mark Harris article from GPU Gems 1](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
 * ofxGlow
@@ -105,6 +104,6 @@ This are the subclases of ofxFXObject that share part of the structure and need 
 * ofxOldTv: on Postprocessing from [ShaderToy](http://www.iquilezles.org/apps/shadertoy/). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
 * ofxWater: water ripplies effect based on [Hugo Elias Tutorial](http://freespace.virgin.net/hugo.elias/graphics/x_water.htm). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
 
-# TODO´S #
-- SEGMENTATION_FAULT on initial deletion of textures array
-- something it´s not working properly on ofxFXObject for using the webGL Sandbox and ShaderToy that uses samples2D textures
+# Examples #
+
+*   Conway: life game made by [Kalwalt](http://www.kalwaltart.it/)

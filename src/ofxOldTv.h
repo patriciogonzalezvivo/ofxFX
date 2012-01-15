@@ -1,7 +1,6 @@
 //
 //  ofxOldTv.h
 //
-//
 //  Created by Patricio González Vivo on 25/11/11.
 //  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
@@ -18,7 +17,6 @@ class ofxOldTv : public ofxFXObject {
 public:
     ofxOldTv(){
         passes = 1;
-        nTextures = 1;
         internalFormat = GL_RGBA;
         
         fragmentShader = "#version 120\n \

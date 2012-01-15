@@ -64,7 +64,6 @@
 		3DCBA63C14AAFE3000E02702 /* ofxBloom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBloom.h; sourceTree = "<group>"; };
 		3DCBA63D14AAFE3000E02702 /* ofxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBlur.h; sourceTree = "<group>"; };
 		3DCBA63E14AAFE3000E02702 /* ofxBlurFast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBlurFast.h; sourceTree = "<group>"; };
-		3DCBA64014AAFE3000E02702 /* ofxConway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxConway.h; sourceTree = "<group>"; };
 		3DCBA64114AAFE3000E02702 /* ofxFlocking.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFlocking.cpp; sourceTree = "<group>"; };
 		3DCBA64214AAFE3000E02702 /* ofxFlocking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFlocking.h; sourceTree = "<group>"; };
 		3DCBA64314AAFE3000E02702 /* ofxFluid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFluid.cpp; sourceTree = "<group>"; };
@@ -144,7 +143,6 @@
 				3DCBA63D14AAFE3000E02702 /* ofxBlur.h */,
 				3DCBA64714AAFE3000E02702 /* ofxGlow.h */,
 				3DCBA63E14AAFE3000E02702 /* ofxBlurFast.h */,
-				3DCBA64014AAFE3000E02702 /* ofxConway.h */,
 				3DCBA64214AAFE3000E02702 /* ofxFlocking.h */,
 				3DCBA64114AAFE3000E02702 /* ofxFlocking.cpp */,
 				3DCBA64414AAFE3000E02702 /* ofxFluid.h */,

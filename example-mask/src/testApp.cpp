@@ -10,10 +10,13 @@ void testApp::setup(){
 	topLayer.loadImage("topLayer.png");
 	maskLayer.loadImage("mask.png");
 	bottomLayer.loadImage("bottomLayer.png");
+    
+    mask.setTexture(topLayer.getTextureReference(), 1);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+    ofSetWindowTitle(ofToString(ofGetFrameRate()));
     ofSetColor(255,255);
     
     // MASK
@@ -25,14 +28,7 @@ void testApp::update(){
     maskLayer.draw(0 , mouseY - 15);
     mask.end();
     
-    // IMAGE to be masked
-    mask.begin(1);
-    topLayer.draw(0,0);
-    mask.end(1);
-    
     mask.update();
-        
-    ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }
 
 //--------------------------------------------------------------

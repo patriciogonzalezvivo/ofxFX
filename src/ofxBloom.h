@@ -17,7 +17,6 @@ class ofxBloom : ofxFXObject {
 public:
     ofxBloom(){
         passes = 1;
-        nTextures = 1;
         internalFormat = GL_RGBA;
         
         fragmentShader = "#version 120\n \
