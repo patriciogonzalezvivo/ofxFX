@@ -43,6 +43,11 @@
 
 class ofxFXObject{
 public:
+    // CONSTRUCTOR 
+    // --------------------------------
+    // Most of the time you´ll just need to change this
+    //
+    
     ofxFXObject(){
         // All simple shaders need this three variables
         // If you need something more complex that require another structure
@@ -121,6 +126,10 @@ public:
         }";
     }
     
+    // SET up  
+    // --------------------------------
+    //
+    
     virtual void allocate(int _width, int _height, int _internalFormat){
         internalFormat = _internalFormat;
         allocate(_width, _height);
@@ -155,7 +164,12 @@ public:
         if ( num != nTextures ){
             // Delete the old ones
             if (textures != NULL){
-                delete[] textures;
+                
+                // TODO´s: 
+                //      - fix this in order not to waste memory
+                //
+                
+                //delete[] textures;
             }
             // And initialate the right amount of textures
             nTextures = num;
@@ -178,6 +192,18 @@ public:
     
     // Set the GL TEXTURE TYPE or FORMAT of the textures (needs re-injection and allocation)
     void setInternalFormat(int _internalFormat) { internalFormat = _internalFormat; injectShader(); };
+    
+    // Returns the build-in timer value
+    float getTime(){return time;};
+    
+    
+    
+    // GET some values
+    // ------------------------------------
+    //
+    
+    // Returns the resolution
+    ofVec2f getResolution(){ return ofVec2f(width,height);};
     
     // Returns the code of the shader
     string getFragShaderCode(){ return fragmentShader; };
@@ -202,6 +228,12 @@ public:
             ofPopStyle();
         }
     }
+    
+    
+    
+    // UPDATE
+    // -------------------------------------
+    //
     
     // As most objects on openFrameworks, ofxFXObject have to be updated() in order to process the information on the GPU
     void update(){
@@ -251,6 +283,9 @@ public:
         time += 1.0/ofGetFrameRate();   // here it´s where the time it´s updated.
     };
     
+    // DRAW
+    // --------------------------------------
+    
     // Finaly the drawing funtion. It can be use with or with-out arguments in order to make it more flexible
     void draw(int x = 0, int y = 0, float _width = -1, float _height = -1){
         if (_width == -1) _width = width;
@@ -264,7 +299,12 @@ public:
 
     
 protected:
-    // Built-in funtion that allocates and cleans an ofFbo´s
+    
+    // BUILD-IN functions & variables
+    // -------------------------------------
+    //
+    
+    // Allocates and cleans an ofFbo´s
     virtual void initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat = GL_RGBA ) {
         _fbo.allocate(_width, _height, _internalformat);
         _fbo.begin();
@@ -272,7 +312,7 @@ protected:
         _fbo.end();
     }
     
-    // Built-in funtion that draw a white box in order to let the final texture could be render
+    // Draw a white box in order to let the final texture could be render
     // It acts as a frame where the dst textures could rest.
     // If you want to distort the points of a textures, probably here you want to re-define something
     virtual void renderFrame(float _width = -1, float _height = -1){
@@ -288,7 +328,7 @@ protected:
         glEnd();
     }
     
-    // Built-in variables
+    // Variables
     ofxSwapBuffer   pingPong;
     ofFbo           *textures;
     ofShader        shader;

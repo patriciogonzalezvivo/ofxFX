@@ -22,8 +22,8 @@ public:
     void gotMessage(ofMessage msg);
 		
     ofxFXObject fxObject;
-
     ofImage     image;
     
     string frags[NUM_FRAG_SHADERS];
+    float       beat;
 };

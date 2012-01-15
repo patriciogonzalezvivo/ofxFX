@@ -7,9 +7,12 @@ void testApp::setup(){
     int width = 640;
     int height = 480;
     
+    beat = 0.0;
+    
     ofSetWindowShape(width, height);
     
     image.loadImage("logo.jpg");
+    
     
     frags[0] = "#version 120\n\
     #extension GL_ARB_texture_rectangle : enable\n \
@@ -889,17 +892,22 @@ void testApp::update(){
     fxObject.update();
         
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
+    beat += (1.0/ofGetFrameRate())*2;
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
     ofBackground(0);
     
+    ofSetColor(255);
     fxObject.draw();
     
+    ofPushStyle();
     ofEnableBlendMode(OF_BLENDMODE_SCREEN);
+    ofSetColor(255*cos(beat));
     image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofPopStyle();
 }
 
 //--------------------------------------------------------------

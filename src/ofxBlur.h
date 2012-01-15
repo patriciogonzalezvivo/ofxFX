@@ -15,13 +15,11 @@ class ofxBlur : public ofxFXObject {
 public:
     ofxBlur(){
         passes = 1;
-        nTextures = 1;
         internalFormat = GL_RGBA;
         
         radius = 10;
     }
     
-	ofxBlur& setPasses(int _passes) { this->passes = _passes; return * this;};
 	ofxBlur& setRadius(float _radius) { this->radius = _radius; return * this;};
     
     void update(){
@@ -52,6 +50,7 @@ public:
 
 protected:
     void injectShader(){
+        nTextures = 1;
         textures = new ofFbo[nTextures];
         for( int i = 0; i < nTextures; i++){
             initFbo(textures[i], width, height, internalFormat);
