@@ -43,26 +43,6 @@ public:
         tex.draw(0,0); 
         textures[0].end();
     };
-    
-    /*
-    void update(){
-        pingPong.dst->begin();
-        ofClear(0);
-        shader.begin();
-        shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
-           
-        for( int i = 0; i < nTextures; i++){
-            string texName = "tex" + ofToString(i); 
-            shader.setUniformTexture(texName.c_str(), textures[i].getTextureReference(), i+1 );
-        }
-            
-        shader.setUniform1f("time", (float)time );
-        shader.setUniform2f("resolution", (float)width, (float)height);
-        shader.setUniform2f("mouse", (float)ofGetMouseX(), (float)ofGetMouseY());
-        renderFrame();
-        shader.end();
-        pingPong.dst->end();
-    };*/
 };
 
 #endif
