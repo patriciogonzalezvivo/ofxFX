@@ -68,7 +68,6 @@ fxObject.begin(1);
     //Waht ever you want to render to tex1
 fxObject.end(1);
 
-
 fxObject.update();
 ```
 
@@ -109,5 +108,10 @@ This are the subclases of ofxFXObject that share part of the structure and need 
 * ofxOldTv: on Postprocessing from [ShaderToy](http://www.iquilezles.org/apps/shadertoy/)
 * ofxWater: water ripplies effect based on [Hugo Elias Tutorial](http://freespace.virgin.net/hugo.elias/graphics/x_water.htm)
 
-# Examples #
+# VIDEO of Examples #
 Watch some of this classes in action [HERE](http://www.patriciogonzalezvivo.com/blog/?p=488)
+
+# TODO´S #
+- something it´s not working properly on ofxFXObject for using the webGL Sandbox and ShaderToy that uses samples2D textures
+- auto seting the amount of textures by looking at the defaul fragmentShader
+- adding a text editor for programming the shaders on-the-fly
