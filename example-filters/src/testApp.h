@@ -1,5 +1,7 @@
 #pragma once
 
+//#define I_HAVE_WEBCAM
+
 #include "ofMain.h"
 #include "ofxFX.h"
 
@@ -22,6 +24,7 @@ public:
     void gotMessage(ofMessage msg);
 		
     ofImage     image;
+    ofVideoGrabber  video;
     
     ofxBloom    bloom;
     ofxBlur     blur;
@@ -29,8 +32,8 @@ public:
     ofxGlow     glow;
     ofxUnsharp  unsharp;
     
-    ofFbo fbo;
+    ofFbo       fbo;
 
-    float   beat;
-    int     width,height, selection;
+    float       beat;
+    int         width,height, selection;
 };

@@ -1,21 +1,21 @@
 # ofxFX #
 ![ofxFlocking](http://patriciogonzalezvivo.com/images/flock.png) ![ofxFluid](http://patriciogonzalezvivo.com/images/fluid.png) ![ofxGlow](http://patriciogonzalezvivo.com/images/oldTv.png) ![ofxGrayScott](http://patriciogonzalezvivo.com/images/grayScott.png) ![ofxWater](http://patriciogonzalezvivo.com/images/water.png)
 
-This addons originally born while I was working on [Efecto Mariposa](http://patriciogonzalezvivo.com/butterfly.html "Efecto Mariposa") and I need to do fast GPU image processing thought GLSL Shaders.
-
-The main goal of this addon it´s to make super easy to use and edit shaders on-the-fly for adding them on your projects.
+This addons begins while I was working on [Efecto Mariposa](http://patriciogonzalezvivo.com/butterfly.html "Efecto Mariposa") and I need some extra GPU processing power in order to make fast simulation of complex ecosystems. 
+On does days I found GLSL Shaders a hard and cryptic topic. That´s why the main goal of this addon it´s to make super easy to use and edit shaders on your projects. That´s why it becomes a sort of common used shader library.
+Recently I start playing with them new GLSL editors like [Ricardo Caballero´s WebGL SandBox](http://mrdoob.com/projects/glsl_sandbox/), [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) or [Kode80´s GLSL Studio](http://glslstudio.com/) that let you edit the shader on-the-fly. So right now I´m working on making a standard ofxFXObject that could receive fragment shader and know how to deal with them while the program it´s running. 
 
 ## ofxFXObject ##
-It´s the parent class of all the other effect. If you want to make a new filter it´s better if you start looking at the ```ofxFXObject.h``` in order to see how it works. 
+It´s the parent class of all the other effect. If you want to make a new filter you may want to start looking at the ofxFXObject.h .
 
-It have a simple structure:
+The structure it´s easy.
 
 1. Constructor: here it´s necessary to set three vital variables: 
     - passes: the number of passes or itineration of the main ping pong betweens FBO´s  
     - internalFormat: if it use GL_RGB, GL_RGBA, GL_RGB16f, GL_RGBA16f, GL_RGB32f, GL_RGBA32f, etc...
-    - fragShader: it´s the code of the shader. Note that some changes have to be made in order to fill everthing on a string
+    - fragShader: it´s the code of the shader. Note that some changes have to be made in order to fill everything on a string
     
-2. ```allocate(width,height,GL_RGBA)```: This usualy it´s no need to bee re-define. It´s basically allocate the FBO´s and loads the shader by using injectShader();
+2. ```allocate(width,height,GL_RGBA)```: This usually it´s no need to bee re-define. It´s basically allocate the FBO´s and loads the shader by using injectShader();
 
 3. ```injectShader(string fragContent)```: here is where the shaders are loaded. See the example bellow.
 
@@ -25,6 +25,7 @@ It have a simple structure:
 
 6. ```draw(x,y,w,h)```: after all you definitely want to look at it.
 
+An example of an implementation of an ofxFXObject could be:
 
 On setup:
 
@@ -52,7 +53,6 @@ fxObject.injectShader("#version 120\n\
                     }"); 
 ```
 
-
 On update:
 
 ```c++
@@ -61,7 +61,7 @@ fxObject.begin();
 fxObject.end();
 
 fxObject.begin(1);
-    //Waht ever you want to render to tex1
+    //What ever you want to render to tex1
 fxObject.end(1);
 
 fxObject.update();
@@ -73,52 +73,63 @@ On draw:
 fxObject.draw();
 ```
 
-
-Also in this class you can found some handy funtion as:
-
-* ```renderFrame(width,height)``` makes a frame where the textures could be draw;
-* ```initFbo(ofxFbo, width, height, internalFormat )```: it takes the work of allocating and cleaning an FBO.
-* ```ofxSwapBuffer.h```: this is actually a class for making easy dealing with ping-pongs.
-
-Most of the subClass that inherit from ofxFXObject that are part of this add-on are ones that in some point breaks this logic and structure and use just some elements and re-define new ones.
-
 ### Copy, Inject & Share ###
-The fun part start here. Go to [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) or [ShaderToy by Inigo Quilez](http://www.iquilezles.org/apps/shadertoy/) to found some inspiration. Explore by making changes. Inject it and compile. 
-Don´t forget to share and preserve the authors credits.
+If you are curious and want to learn the best way it´s to see and edit code. You could go to [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) or [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) to found some inspiration. Explore. Make changes. Inject. Compile.
+May be it´s the case things not compile as you spect. Some times (most of them when you are dealing with other textures) you will need to make some changes. As far as I know openGL and GPU hardware it´s makes lot´s of changes and improves year after year. So lot´s of problems related to compatibility will happened. Also openFrameworks works fine with openGL 1.2 and it use by default the ARB Rect Textures. 
 
-Take this opportunity to thank the developers of both communities that their examples have been a wonderful motivation to learn about GLSL Shaders.
+Having that in mind the process of adapting code it´s a matter of searching on google. Fortunately you can see the ones I already implement and make them work.
 
-Note: May be you will need to make some changes in order to make it work with openGL version of openFrameworks
+General tips:
+
+* Casting: openGL it will not cast for you. So if you assign an int to a float it will not compile properly. 
+```c
+float f = 1;    // FAIL 
+float f = 1.0;  // GOOD
+``` 
+
+* Norm coordinates: as far as I know there are two types of textures sample2D and sample2DRect. The first ones have the same length in both sides while the second one not. When you are using texture2D( tex, pos) the position have to be normalized while on texture2DRect(tex, pos) it´s not normalized. 
+
 
 ## ofxFXObject subclasses ##
 
-This are the subclases of ofxFXObject that share part of the structure and need more variables or shaders. This sometimes are complex or just it´s more handy to have them separated.
+If you are thinking on making your own filter or generative shader. You may want to look at the ofxFXObject parent class. There you will find some handy function that could help you. 
 
-* Filers: ofxBloom, ofxBlur, ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/), ofxGlow, ofxUnsharp and ofxOldTv ( Postprocessing from [ShaderToy](http://www.iquilezles.org/apps/shadertoy/). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488))
+* ```renderFrame(width,height)``` makes a frame where the textures could be draw;
 
-* ofxClone: maden by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for [FaceSubstitution](https://github.com/arturoc/FaceSubstitution)
+* ```initFbo(ofxFbo, width, height, internalFormat )```: it takes the work of allocating and cleaning an FBO.
 
-* ofxFlocking: a GPU flocking sistem [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) 
+* ```ofxSwapBuffer.h```: this is actually a class for making easy dealing with ping-pongs.
 
-* ofxFluid: fluid simulation based on [Mark Harris article from GPU Gems 1](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
+In the src/ directory of the addon you will find lot´s of subClasses that inherit from ofxFXObject. Most of them are there for two reasons. 
 
-* ofxGrayScott: based on Reaction Diffusion by Gray-Scott Model from [here](http://mrob.com/pub/comp/xmorphia/). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
+First case, the ones that in some point breaks the  structure of ofxFXObject with some extra tweaks. Like the way the pingPong works. The number of shaders need and how they pass the data to each other. Or if the implement vertex or Geometry shader as well. That´s the case of:
 
-* ofxMask: Based on ofxAlphaMaskShader reated by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
+* ofxFlocking: a GPU flocking system that implement two different types of fragment shaders, plus one vertex and geometry shader [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488) 
 
-* ofxWater: water ripplies effect based on [Hugo Elias Tutorial](http://freespace.virgin.net/hugo.elias/graphics/x_water.htm). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
+* ofxFluid: fluid simulation based on [this article of Mark Harris](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) that use a lot of shader on a very complex and crazy way
+
+* ofxGrayScott: based on ones [Cinder´s Reaction Diffusion example](http://libcinder.org/) that it´s based on [Gray-Scott model](http://mrob.com/pub/comp/xmorphia/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
+
+* ofxWater: a regular water waves effect based on [Hugo Elias´s Tutorial](http://freespace.virgin.net/hugo.elias/graphics/x_water.htm). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
+
+
+The second case, are the ones could be use as filters. That means, they could be use for many things. Giving lot of flexibility and freedom when you use it on your project. Like using the blur and the glow combined with mask and things like that.
+
+* Optical Filters: ofxBloom, ofxBlur, ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/), ofxGlow, ofxUnsharp and ofxOldTv ( from [ShaderToy postprocessing](http://www.iquilezles.org/apps/shadertoy/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488))
+
+* ofxClone: maden by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution)
+
+* ofxMask: based on ofxAlphaMaskShader made by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
+
 
 # Examples #
+On this addon you will find examples of the classes I just describe. Some of them are combined together in order to show clearly how to use them in the following examples:
 
-Mix:
-
-*   Composite: an example of how to combine the effect between them. In this case: mask, blur and OldTv
 
 *   Filter: A mix for showing bloom, blur, bokeh, glow and Unsharp filters
 
-*   Injection: a mix of shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [ShaderToy by Inigo Quilez](http://www.iquilezles.org/apps/shadertoy/)
+*   Injection: a mix of shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/)
 
-Special ones:
+*   Composite: an example of how to combine the effect between them. In this case: mask, blur and OldTv
 
 *   Conway: life game made by [Kalwalt](http://www.kalwaltart.it/)
-*   Flocking, Fluid, GrayScott and WaterWave

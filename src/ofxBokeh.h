@@ -23,7 +23,8 @@ public:
         // Fade constant
         value0 = 1.f;   
         
-        // In this example the tex0 it´s more like a backbuffer 
+        // In this example the tex0 it´s more like a backbuffer
+        // The doble loop demands lot´s of resources to the GPU
         fragmentShader = "#version 120\n \
         #extension GL_ARB_texture_rectangle : enable\n \
         \

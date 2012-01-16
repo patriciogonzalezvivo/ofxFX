@@ -8,9 +8,12 @@ void testApp::setup(){
     beat = 0;
     width = 640;
     height = 480;
-    selection = 0;
+    selection = -1;
     
     ofSetWindowShape(width, height);
+#ifdef I_HAVE_WEBCAM
+    video.initGrabber(width , height);
+#endif
     fbo.allocate(width, height);
     
     bloom.allocate(width, height);
@@ -22,12 +25,24 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
-    
-    fbo.begin();
-    ofClear(0, 0, 0, 255);
-    ofSetColor(255);
-    image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
-    fbo.end();
+#ifdef I_HAVE_WEBCAM
+    video.update();
+    if (video.isFrameNew() ){
+        ofSetColor(255);
+#endif
+        fbo.begin();
+        ofClear(0, 0, 0, 255);
+        ofSetColor(255);
+#ifdef I_HAVE_WEBCAM
+        video.draw(0,0);
+#endif
+        ofEnableBlendMode(OF_BLENDMODE_ADD);
+        image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
+        ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+        fbo.end();
+#ifdef I_HAVE_WEBCAM
+    }
+#endif
     
     if ( selection == 0 ){
         bloom.setTexture(fbo.getTextureReference());
@@ -74,7 +89,10 @@ void testApp::draw(){
     } else if ( selection == 4 ){
         unsharp.draw();
         ofDrawBitmapString("Unsharp at: "+ ofToString(sin(beat)), 15, 15);
-    } 
+    } else {
+        fbo.draw(0, 0);
+        ofDrawBitmapString("Original", 15, 15);
+    }
     
 }
 
@@ -90,8 +108,8 @@ void testApp::keyPressed(int key){
     }
     
     if (selection >= 5)
-        selection = 0;
-    else if ( selection < 0)
+        selection = -1;
+    else if ( selection < -1)
         selection = 4;
 }
 

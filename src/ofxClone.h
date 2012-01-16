@@ -1,10 +1,10 @@
 //
 //  ofxClone.h
 //
-//  This shaders and class was created by Arturo Castro and Kyle McDonald 
-//  https://github.com/arturoc/FaceSubstitution
+//  The shaders and class was created by Arturo Castro and Kyle McDonald 
+//  for FaceSubstitution https://github.com/arturoc/FaceSubstitution
 //  
-//  And then addapted to be a clone tool
+//  Then addapted to ofxFXObject structure
 //
 //  src ->  tex0
 //  mask -> tex1 
@@ -80,7 +80,6 @@ public:
         maskBlurShader.unload();
         maskBlurShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentMaskBlurShader);
         maskBlurShader.linkProgram();
-        cout << "Blur loaded" << endl;
         
         buffer.allocate(640,480);
         srcBlur.allocate(640,480);
