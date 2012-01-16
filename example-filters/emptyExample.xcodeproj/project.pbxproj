@@ -60,6 +60,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3D4ADCD314C3AF50009D683A /* ofxBokeh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBokeh.h; sourceTree = "<group>"; };
+		3D4ADD0114C3C365009D683A /* ofxUnsharp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUnsharp.h; sourceTree = "<group>"; };
 		3DCBA63A14AAFE3000E02702 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		3DCBA63C14AAFE3000E02702 /* ofxBloom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBloom.h; sourceTree = "<group>"; };
 		3DCBA63D14AAFE3000E02702 /* ofxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBlur.h; sourceTree = "<group>"; };
@@ -136,20 +138,22 @@
 		3DCBA63B14AAFE3000E02702 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				3DCBA64514AAFE3000E02702 /* ofxFX.h */,
+				3DCBA64614AAFE3000E02702 /* ofxFXObject.h */,
 				3DCBA63C14AAFE3000E02702 /* ofxBloom.h */,
 				3DCBA63D14AAFE3000E02702 /* ofxBlur.h */,
+				3D4ADCD314C3AF50009D683A /* ofxBokeh.h */,
 				3DCBA64114AAFE3000E02702 /* ofxFlocking.cpp */,
 				3DCBA64214AAFE3000E02702 /* ofxFlocking.h */,
 				3DCBA64314AAFE3000E02702 /* ofxFluid.cpp */,
 				3DCBA64414AAFE3000E02702 /* ofxFluid.h */,
-				3DCBA64514AAFE3000E02702 /* ofxFX.h */,
-				3DCBA64614AAFE3000E02702 /* ofxFXObject.h */,
 				3DCBA64714AAFE3000E02702 /* ofxGlow.h */,
 				3DCBA64914AAFE3000E02702 /* ofxGrayScott.h */,
 				3DCBA64A14AAFE3000E02702 /* ofxMask.h */,
 				3DCBA64B14AAFE3000E02702 /* ofxOldTv.h */,
-				3DCBA64D14AAFE3000E02702 /* ofxWater.h */,
+				3D4ADD0114C3C365009D683A /* ofxUnsharp.h */,
 				3DCBA64C14AAFE3000E02702 /* ofxWater.cpp */,
+				3DCBA64D14AAFE3000E02702 /* ofxWater.h */,
 			);
 			path = src;
 			sourceTree = "<group>";

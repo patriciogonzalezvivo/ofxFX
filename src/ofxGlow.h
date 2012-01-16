@@ -55,9 +55,10 @@ public:
         
         ofPushStyle();
         pingPong.dst->draw(x, y, _width, _height);
+        
 		ofEnableBlendMode(OF_BLENDMODE_ADD);
 		textures[0].draw(x,y, _width, _height);
-        ofDisableBlendMode();
+        ofEnableBlendMode(OF_BLENDMODE_ALPHA);
         ofPopStyle();
 	}
     

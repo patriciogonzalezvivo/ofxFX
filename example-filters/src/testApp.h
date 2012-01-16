@@ -1,12 +1,9 @@
-//
-// This example mix masked blur effect width an OldTv one
-//
-//
-
 #pragma once
 
 #include "ofMain.h"
 #include "ofxFX.h"
+
+#include "ofxBokeh.h"
 
 class testApp : public ofBaseApp{
 public:
@@ -23,15 +20,17 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-    
-    ofVideoGrabber  video;
+		
     ofImage     image;
     
-    ofImage     maskImage;
-    ofxMask     maskEffect;
-    ofxBlur     blurEffect;
-    ofxOldTv    oldTvEffect;
+    ofxBloom    bloom;
+    ofxBlur     blur;
+    ofxBokeh    bokeh;
+    ofxGlow     glow;
+    ofxUnsharp  unsharp;
     
-    float       beat;
-    int         width, height;
+    ofFbo fbo;
+
+    float   beat;
+    int     width,height, selection;
 };

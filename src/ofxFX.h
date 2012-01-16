@@ -33,22 +33,16 @@
 #define OFXFX
 
 #include "ofxBloom.h"
-
 #include "ofxBlur.h"
-#include "ofxBlurFast.h"
-
+#include "ofxBokeh.h"
 #include "ofxClone.h"
-
 #include "ofxGlow.h"
-
 #include "ofxWater.h"
 #include "ofxFluid.h"
 #include "ofxGrayScott.h"
-
 #include "ofxFlocking.h"
-
 #include "ofxMask.h"    // Based on http://github.com/Flightphase/ofxAlphaMask thanks Flightphase
-
 #include "ofxOldTv.h"
+#include "ofxUnsharp.h"
 
 #endif

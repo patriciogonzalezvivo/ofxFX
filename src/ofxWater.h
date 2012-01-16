@@ -12,7 +12,6 @@
 #include "ofMain.h"
 
 #include "ofxFXObject.h"
-#include "ofxBlurFast.h"
 
 class ofxWater : public ofxFXObject {
 public:

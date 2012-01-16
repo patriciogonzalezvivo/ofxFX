@@ -12,14 +12,13 @@ void testApp::setup(){
     video.initGrabber(width , height);
     image.loadImage("logo.jpg");
 
-    blurEffect.allocate(width, height);
-    blurEffect.setPasses(10);
-    
     maskImage.allocate(width, height, OF_IMAGE_COLOR);
     maskImage.loadImage("mask.png");
     maskEffect.allocate(width, height);
     
-
+    blurEffect.allocate(width, height);
+    blurEffect.setPasses(10);
+    
     oldTvEffect.allocate(width, height);
     
     beat = 13.0;
@@ -27,44 +26,32 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
-    
-    blurEffect.setRadius(sin(beat*0.3)*10);
-    
-#ifdef THERE_IS_CAM
     // Get Video input image
     video.update();
     if (video.isFrameNew() ){
         ofSetColor(255);
         
-        // Blur video -> out of focus
-        blurEffect.setTexture(video.getTextureReference());
-#else
-        blurEffect.begin();
-        ofClear(0);
-        image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
-        blurEffect.end();
-#endif
-        blurEffect.update();
-        
-        // Make the mask
-        maskEffect.begin();
+        // MAKS
+        //  texture 0 it«s the mask  
+        maskEffect.begin(0);
         ofClear(0,255);
         ofSetColor(255*sin(beat));
         maskImage.draw(0,0);
-        maskEffect.end();
-        
-        // Mask the original -> neat & focused
-#ifdef THERE_IS_CAM
+        maskEffect.end(0);
+        //  texture 1 it«s the texture to be mask
         maskEffect.setTexture(video.getTextureReference(),1);
-#else   
-        maskEffect.begin(1);
-        ofSetColor(255);
-        image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
-        maskEffect.end(1);
-#endif
+        
         maskEffect.update();
         
-        // Composite and apply the old-tv effect
+        
+        // BLUR
+        blurEffect.setRadius(sin(beat*0.3)*10);
+        blurEffect.setTexture(video.getTextureReference()); // Note: that when you are pass things 
+                                                            // to texture 0 you don«t need the 0
+        blurEffect.update();
+        
+
+        // OLD-TV
         oldTvEffect.begin();
         blurEffect.draw();
         ofEnableBlendMode(OF_BLENDMODE_ADD);
@@ -74,9 +61,7 @@ void testApp::update(){
         oldTvEffect.end();
         
         oldTvEffect.update();
-#ifdef THERE_IS_CAM
     }
-#endif
     
     beat += 1.0/ofGetFrameRate();
     ofSetWindowTitle(ofToString(ofGetFrameRate()));

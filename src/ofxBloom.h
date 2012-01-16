@@ -13,7 +13,7 @@
 #include "ofMain.h"
 #include "ofxFXObject.h"
 
-class ofxBloom : ofxFXObject {	
+class ofxBloom : public ofxFXObject {	
 public:
     ofxBloom(){
         passes = 1;
@@ -32,17 +32,17 @@ public:
             \
             for( i= -4 ;i < 4; i++){\
                 for (j = -3; j < 3; j++){\
-                    sum += texture2DRect(backbuffer, st + vec2(j, i)*0.004) * 0.25;\
+                    sum += texture2DRect(tex0, st + vec2(j, i)*0.004) * 0.25;\
                 }\
             }\
             \
-            if (texture2DRect(backbuffer, st).r < 0.3){\
-                gl_FragColor = sum * sum * 0.012 + texture2DRect(backbuffer, st);\
+            if (texture2DRect(tex0, st).r < 0.3){\
+                gl_FragColor = sum * sum * 0.012 + texture2DRect(tex0, st);\
             } else {\
-                if (texture2DRect(src_tex_unit0, st).r < 0.5){\
-                    gl_FragColor = sum * sum * 0.009 + texture2DRect(backbuffer, st);\
+                if (texture2DRect(tex0, st).r < 0.5){\
+                    gl_FragColor = sum * sum * 0.009 + texture2DRect(tex0, st);\
                 } else {\
-                    gl_FragColor = sum * sum * 0.0075 + texture2DRect(backbuffer, st);\
+                    gl_FragColor = sum * sum * 0.0075 + texture2DRect(tex0, st);\
                 }\
             }\
         }";

@@ -90,20 +90,35 @@ Take this opportunity to thank the developers of both communities that their exa
 
 Note: May be you will need to make some changes in order to make it work with openGL version of openFrameworks
 
-## ofxFXObject extensions ##
+## ofxFXObject subclasses ##
+
 This are the subclases of ofxFXObject that share part of the structure and need more variables or shaders. This sometimes are complex or just it´s more handy to have them separated.
 
-* ofxBloom
-* ofxBlur   
-* ofxBLurFast
+* Filers: ofxBloom, ofxBlur, ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/), ofxGlow, ofxUnsharp and ofxOldTv ( Postprocessing from [ShaderToy](http://www.iquilezles.org/apps/shadertoy/). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488))
+
+* ofxClone: maden by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for [FaceSubstitution](https://github.com/arturoc/FaceSubstitution)
+
 * ofxFlocking: a GPU flocking sistem [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) 
-* ofxFLuid: fluid simulation based on [Mark Harris article from GPU Gems 1](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
-* ofxGlow
+
+* ofxFluid: fluid simulation based on [Mark Harris article from GPU Gems 1](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
+
 * ofxGrayScott: based on Reaction Diffusion by Gray-Scott Model from [here](http://mrob.com/pub/comp/xmorphia/). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
+
 * ofxMask: Based on ofxAlphaMaskShader reated by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
-* ofxOldTv: on Postprocessing from [ShaderToy](http://www.iquilezles.org/apps/shadertoy/). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
+
 * ofxWater: water ripplies effect based on [Hugo Elias Tutorial](http://freespace.virgin.net/hugo.elias/graphics/x_water.htm). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488)
 
 # Examples #
 
+Mix:
+
+*   Composite: an example of how to combine the effect between them. In this case: mask, blur and OldTv
+
+*   Filter: A mix for showing bloom, blur, bokeh, glow and Unsharp filters
+
+*   Injection: a mix of shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [ShaderToy by Inigo Quilez](http://www.iquilezles.org/apps/shadertoy/)
+
+Special ones:
+
 *   Conway: life game made by [Kalwalt](http://www.kalwaltart.it/)
+*   Flocking, Fluid, GrayScott and WaterWave
