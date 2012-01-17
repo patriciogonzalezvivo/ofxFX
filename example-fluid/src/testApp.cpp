@@ -37,7 +37,7 @@ void testApp::update(){
         // Adding temporal Force
         fluid.addTemporalForce(m, d, ofFloatColor(c.x,c.y,0.5),3.0f);
     } 
-    
+
     // Updating the obstacle texture if not using obstacles you have to call update()
     fluid.begin();
     if (bClear) ofClear(0);

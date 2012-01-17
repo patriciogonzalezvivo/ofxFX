@@ -8,6 +8,8 @@
 #ifndef OFXBLUR
 #define OFXBLUR
 
+#define STRINGIFY(A) #A
+
 #include "ofMain.h"
 #include "ofxFXObject.h"
 
@@ -49,66 +51,69 @@ public:
 	}
 
 protected:
-    void injectShader(){
+    bool injectShader(){
         nTextures = 1;
         textures = new ofFbo[nTextures];
+        
         for( int i = 0; i < nTextures; i++){
             initFbo(textures[i], width, height, internalFormat);
         }
-         
-        string fragmentHorizontalBlurShader = "#version 120\n \
-    	#extension GL_ARB_texture_rectangle : enable\n \
-    	\
-		uniform sampler2DRect backbuffer;\
-		uniform float radius;\
-		\
-		const float total = (1. + 8. + 28. + 56.) * 2. + 70.;\
-		\
-		void main(void) {\
-            vec2 st = gl_TexCoord[0].st;\
-            \
-            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st - radius * vec2(4. / 4., 0.));\
-            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st - radius * vec2(3. / 4., 0.));\
-            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st - radius * vec2(2. / 4., 0.));\
-            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st - radius * vec2(1. / 4., 0.));\
-            \
-            gl_FragColor +=  (70. / total) * texture2DRect(backbuffer, st);\
-            \
-            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st + radius * vec2(4. / 4., 0.));\
-            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st + radius * vec2(3. / 4., 0.));\
-            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(2. / 4., 0.));\
-            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(1. / 4., 0.));\
-		}";
+        
+        string fragmentHorizontalBlurShader = STRINGIFY(
+		uniform sampler2DRect backbuffer;
+		uniform float radius;
+		
+		const float total = (1. + 8. + 28. + 56.) * 2. + 70.;
+		
+		void main(void) {
+            vec2 st = gl_TexCoord[0].st;
+            
+            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st - radius * vec2(4. / 4., 0.));
+            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st - radius * vec2(3. / 4., 0.));
+            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st - radius * vec2(2. / 4., 0.));
+            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st - radius * vec2(1. / 4., 0.));
+            
+            gl_FragColor +=  (70. / total) * texture2DRect(backbuffer, st);
+            
+            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st + radius * vec2(4. / 4., 0.));
+            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st + radius * vec2(3. / 4., 0.));
+            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(2. / 4., 0.));
+            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(1. / 4., 0.));
+		} 
+                                                        );
         blurShader[0].unload();
         blurShader[0].setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentHorizontalBlurShader);
     	blurShader[0].linkProgram();
         
-		string fragmentVerticalBlurShader = "#version 120\n \
-    	#extension GL_ARB_texture_rectangle : enable\n \
-            \
-            uniform sampler2DRect backbuffer;\
-            uniform float radius;\
-            \
-            const float total = (1. + 8. + 28. + 56.) * 2. + 70.;\
-            \
-            void main(void) {\
-            vec2 st = gl_TexCoord[0].st;\
-            \
-            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st - radius * vec2(0., 4. / 4.));\
-            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 3. / 4.));\
-            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 2. / 4.));\
-            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 1. / 4.));\
-            \
-            gl_FragColor +=  (70. / total) * texture2DRect(backbuffer, st);\
-            \
-            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st + radius * vec2(0., 4. / 4.));\
-            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 3. / 4.));\
-            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 2. / 4.));\
-            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 1. / 4.));\
-		}";
+		string fragmentVerticalBlurShader = STRINGIFY(
+            uniform sampler2DRect backbuffer;
+            uniform float radius;
+            
+            const float total = (1. + 8. + 28. + 56.) * 2. + 70.;
+            
+            void main(void) {
+            vec2 st = gl_TexCoord[0].st;
+            
+            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st - radius * vec2(0., 4. / 4.));
+            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 3. / 4.));
+            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 2. / 4.));
+            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 1. / 4.));
+            
+            gl_FragColor +=  (70. / total) * texture2DRect(backbuffer, st);
+            
+            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st + radius * vec2(0., 4. / 4.));
+            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 3. / 4.));
+            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 2. / 4.));
+            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 1. / 4.));
+		} 
+                                                      );
         blurShader[1].unload();
         blurShader[1].setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentVerticalBlurShader);
     	blurShader[1].linkProgram();
+        
+        return true;
+        // TODO: 
+        //      - make a real check
     }
     
     ofShader    blurShader[2];

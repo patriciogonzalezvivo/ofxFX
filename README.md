@@ -73,6 +73,21 @@ On draw:
 fxObject.draw();
 ```
 
+### In-line Code ###
+You may notice that I´m not dealing with .frag of .vert files. This have to main reasons. First, make your binnary excecutables more compact. And Secondly, to work in the on-the-fly edition mode.
+Thanks for Zach Lieberman tip you have to options one it´s to use normal " " with \ on the end of each line. Witch it´s very hard to read and your IDE couldn´t help you. Or by adding ```#define STRINGIFY(A)  #A``` at the .h and using it like this:
+
+```c++
+#define STRINGIFY(A)  #A
+
+const char shader[] = 
+STRINGIFY(
+
+//multiline code goes here.  no newline markers needed
+
+);
+``` 
+
 ### Copy, Inject & Share ###
 If you are curious and want to learn the best way it´s to see and edit code. You could go to [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) or [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) to found some inspiration. Explore. Make changes. Inject. Compile.
 May be it´s the case things not compile as you spect. Some times (most of them when you are dealing with other textures) you will need to make some changes. As far as I know openGL and GPU hardware it´s makes lot´s of changes and improves year after year. So lot´s of problems related to compatibility will happened. Also openFrameworks works fine with openGL 1.2 and it use by default the ARB Rect Textures. 
@@ -115,7 +130,7 @@ First case, the ones that in some point breaks the  structure of ofxFXObject wit
 
 The second case, are the ones could be use as filters. That means, they could be use for many things. Giving lot of flexibility and freedom when you use it on your project. Like using the blur and the glow combined with mask and things like that.
 
-* Optical Filters: ofxBloom, ofxBlur, ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/), ofxGlow, ofxUnsharp and ofxOldTv ( from [ShaderToy postprocessing](http://www.iquilezles.org/apps/shadertoy/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488))
+* Filters: ofxBloom, ofxBlur, ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/), ofxGlow, ofxUnsharp and ofxOldTv ( from [ShaderToy postprocessing](http://www.iquilezles.org/apps/shadertoy/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488))
 
 * ofxClone: maden by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution)
 
@@ -125,11 +140,8 @@ The second case, are the ones could be use as filters. That means, they could be
 # Examples #
 On this addon you will find examples of the classes I just describe. Some of them are combined together in order to show clearly how to use them in the following examples:
 
+*   Mix: diferent eyecandy shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) together and then passed to post-processing GLSL shaders that acts as filters ( blur, glow, bloom, etc ) 
 
-*   Filter: A mix for showing bloom, blur, bokeh, glow and Unsharp filters
-
-*   Injection: a mix of shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/)
-
-*   Composite: an example of how to combine the effect between them. In this case: mask, blur and OldTv
+*   Mask: an example of how to mask the effects between them.
 
 *   Conway: life game made by [Kalwalt](http://www.kalwaltart.it/)

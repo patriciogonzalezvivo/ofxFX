@@ -55,7 +55,7 @@ public:
         }";  
     };
     
-	void setRadius(float _radius) { value0 = _radius;};
+	void setRadius(float _radius) { if (_radius >= 1) value0 = _radius;};
 };
 
 #endif

@@ -9,7 +9,6 @@
 #ifndef OFXBLOOM
 #define OFXBLOOM
 
-
 #include "ofMain.h"
 #include "ofxFXObject.h"
 

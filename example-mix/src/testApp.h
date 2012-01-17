@@ -1,7 +1,5 @@
 #pragma once
 
-#define NUM_FRAG_SHADERS 17
-
 #include "ofMain.h"
 #include "ofxFX.h"
 
@@ -20,11 +18,21 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
-		
-    ofxFXObject fxObject;
+    
     ofImage     image;
     
-    string      frags[NUM_FRAG_SHADERS];
+    ofxFXObject sandbox;
+    
+    ofxBloom    bloom;
+    ofxBlur     blur;
+    ofxBokeh    bokeh;
+    ofxGlow     glow;
+    ofxUnsharp  unsharp;
+    ofxOldTv    oldtv;
+    
+    enum        { nTotalFrag = 19 };
+    string      frags[ nTotalFrag ];
+    string      fragsTitles[ nTotalFrag];
     float       beat;
-    int         nFrag;
+    int         nFrag, selection, width, height;
 };

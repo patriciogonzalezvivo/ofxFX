@@ -36,8 +36,12 @@
  *  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  *  OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *  ************************************************************************************ */
-
+ *  ************************************************************************************ 
+ * 
+ *  tex0 -> obstacles
+ *
+ */
+ 
 #ifndef OFXFLUID
 #define OFXFLUID
 
@@ -57,7 +61,7 @@ class ofxFluid : public ofxFXObject {
 public:
     ofxFluid();
     
-    void allocate(int _width, int _height, float _scale);
+    void allocate(int _width, int _height, float _scale = 0.5);
     
     //ofxFluid&   setDensity(ofTexture & _tex){setTextureToBuffer(_tex, densityBuffer); return * this; };
     ofxFluid&   setTexture(ofTexture & _tex){setTextureToBuffer(_tex, pingPong); return * this; };

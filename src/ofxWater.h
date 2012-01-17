@@ -5,6 +5,11 @@
 //  Copyright 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
 //  Based on http://freespace.virgin.net/hugo.elias/graphics/x_water.htm
+//
+//  tex0 -> background
+//  tex1 -> 
+//
+//
 
 #ifndef OFXWATER
 #define OFXWATER
@@ -22,7 +27,6 @@ public:
     
     ofxWater& setThreshold(float _threshold){ threshold = _threshold; return * this; };
     ofxWater& setDensity(float _density){ density = _density; return * this; };
-    ofxWater& setFade(float _fade){ blurFade = _fade; return * this; };
     
     ofTexture& getTextureReference(){ return textures[3].getTextureReference(); };
     
@@ -35,8 +39,8 @@ public:
 private:
     ofShader    renderShader;
     ofShader    blurShader;
-
-    float       blurFade, density, threshold;
+    
+    float       density, threshold;
 };
 
 #endif

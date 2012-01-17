@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3D79732214C3D98400CA7886 /* ofxFlocking.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7972CE14C3D98200CA7886 /* ofxFlocking.cpp */; };
-		3D79732314C3D98400CA7886 /* ofxFluid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7972D014C3D98200CA7886 /* ofxFluid.cpp */; };
-		3D79732414C3D98400CA7886 /* ofxWater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D7972DA14C3D98200CA7886 /* ofxWater.cpp */; };
+		3DB8E97314C5848900457F3C /* ofxFlocking.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DB8E91714C5848500457F3C /* ofxFlocking.cpp */; };
+		3DB8E97414C5848900457F3C /* ofxFluid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DB8E91914C5848500457F3C /* ofxFluid.cpp */; };
+		3DB8E97514C5848900457F3C /* ofxFXObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DB8E91C14C5848500457F3C /* ofxFXObject.cpp */; };
+		3DB8E97614C5848900457F3C /* ofxWater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DB8E92414C5848500457F3C /* ofxWater.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -60,26 +61,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3D79727814C3D98100CA7886 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		3D7972C814C3D98200CA7886 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		3D7972CA14C3D98200CA7886 /* ofxBloom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBloom.h; sourceTree = "<group>"; };
-		3D7972CB14C3D98200CA7886 /* ofxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBlur.h; sourceTree = "<group>"; };
-		3D7972CC14C3D98200CA7886 /* ofxBokeh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBokeh.h; sourceTree = "<group>"; };
-		3D7972CD14C3D98200CA7886 /* ofxClone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxClone.h; sourceTree = "<group>"; };
-		3D7972CE14C3D98200CA7886 /* ofxFlocking.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFlocking.cpp; sourceTree = "<group>"; };
-		3D7972CF14C3D98200CA7886 /* ofxFlocking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFlocking.h; sourceTree = "<group>"; };
-		3D7972D014C3D98200CA7886 /* ofxFluid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFluid.cpp; sourceTree = "<group>"; };
-		3D7972D114C3D98200CA7886 /* ofxFluid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFluid.h; sourceTree = "<group>"; };
-		3D7972D214C3D98200CA7886 /* ofxFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFX.h; sourceTree = "<group>"; };
-		3D7972D314C3D98200CA7886 /* ofxFXObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFXObject.h; sourceTree = "<group>"; };
-		3D7972D414C3D98200CA7886 /* ofxGlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGlow.h; sourceTree = "<group>"; };
-		3D7972D514C3D98200CA7886 /* ofxGrayScott.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGrayScott.h; sourceTree = "<group>"; };
-		3D7972D614C3D98200CA7886 /* ofxMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMask.h; sourceTree = "<group>"; };
-		3D7972D714C3D98200CA7886 /* ofxOldTv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOldTv.h; sourceTree = "<group>"; };
-		3D7972D814C3D98200CA7886 /* ofxSwapBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSwapBuffer.h; sourceTree = "<group>"; };
-		3D7972D914C3D98200CA7886 /* ofxUnsharp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUnsharp.h; sourceTree = "<group>"; };
-		3D7972DA14C3D98200CA7886 /* ofxWater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxWater.cpp; sourceTree = "<group>"; };
-		3D7972DB14C3D98200CA7886 /* ofxWater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxWater.h; sourceTree = "<group>"; };
+		3DB8E8C114C5848200457F3C /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		3DB8E91114C5848500457F3C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		3DB8E91314C5848500457F3C /* ofxBloom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBloom.h; sourceTree = "<group>"; };
+		3DB8E91414C5848500457F3C /* ofxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBlur.h; sourceTree = "<group>"; };
+		3DB8E91514C5848500457F3C /* ofxBokeh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBokeh.h; sourceTree = "<group>"; };
+		3DB8E91614C5848500457F3C /* ofxClone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxClone.h; sourceTree = "<group>"; };
+		3DB8E91714C5848500457F3C /* ofxFlocking.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFlocking.cpp; sourceTree = "<group>"; };
+		3DB8E91814C5848500457F3C /* ofxFlocking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFlocking.h; sourceTree = "<group>"; };
+		3DB8E91914C5848500457F3C /* ofxFluid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFluid.cpp; sourceTree = "<group>"; };
+		3DB8E91A14C5848500457F3C /* ofxFluid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFluid.h; sourceTree = "<group>"; };
+		3DB8E91B14C5848500457F3C /* ofxFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFX.h; sourceTree = "<group>"; };
+		3DB8E91C14C5848500457F3C /* ofxFXObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFXObject.cpp; sourceTree = "<group>"; };
+		3DB8E91D14C5848500457F3C /* ofxFXObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFXObject.h; sourceTree = "<group>"; };
+		3DB8E91E14C5848500457F3C /* ofxGlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGlow.h; sourceTree = "<group>"; };
+		3DB8E91F14C5848500457F3C /* ofxGrayScott.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGrayScott.h; sourceTree = "<group>"; };
+		3DB8E92014C5848500457F3C /* ofxMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMask.h; sourceTree = "<group>"; };
+		3DB8E92114C5848500457F3C /* ofxOldTv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOldTv.h; sourceTree = "<group>"; };
+		3DB8E92214C5848500457F3C /* ofxSwapBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSwapBuffer.h; sourceTree = "<group>"; };
+		3DB8E92314C5848500457F3C /* ofxUnsharp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxUnsharp.h; sourceTree = "<group>"; };
+		3DB8E92414C5848500457F3C /* ofxWater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxWater.cpp; sourceTree = "<group>"; };
+		3DB8E92514C5848500457F3C /* ofxWater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxWater.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -128,38 +130,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3D79720514C3D98100CA7886 /* ofxFX */ = {
+		3DB8E84014C5848000457F3C /* ofxFX */ = {
 			isa = PBXGroup;
 			children = (
-				3D79727814C3D98100CA7886 /* LICENSE.txt */,
-				3D7972C814C3D98200CA7886 /* README.md */,
-				3D7972C914C3D98200CA7886 /* src */,
+				3DB8E8C114C5848200457F3C /* LICENSE.txt */,
+				3DB8E91114C5848500457F3C /* README.md */,
+				3DB8E91214C5848500457F3C /* src */,
 			);
 			name = ofxFX;
 			path = ../../../addons/ofxFX;
 			sourceTree = "<group>";
 		};
-		3D7972C914C3D98200CA7886 /* src */ = {
+		3DB8E91214C5848500457F3C /* src */ = {
 			isa = PBXGroup;
 			children = (
-				3D7972CA14C3D98200CA7886 /* ofxBloom.h */,
-				3D7972CB14C3D98200CA7886 /* ofxBlur.h */,
-				3D7972CC14C3D98200CA7886 /* ofxBokeh.h */,
-				3D7972CD14C3D98200CA7886 /* ofxClone.h */,
-				3D7972CE14C3D98200CA7886 /* ofxFlocking.cpp */,
-				3D7972CF14C3D98200CA7886 /* ofxFlocking.h */,
-				3D7972D014C3D98200CA7886 /* ofxFluid.cpp */,
-				3D7972D114C3D98200CA7886 /* ofxFluid.h */,
-				3D7972D214C3D98200CA7886 /* ofxFX.h */,
-				3D7972D314C3D98200CA7886 /* ofxFXObject.h */,
-				3D7972D414C3D98200CA7886 /* ofxGlow.h */,
-				3D7972D514C3D98200CA7886 /* ofxGrayScott.h */,
-				3D7972D614C3D98200CA7886 /* ofxMask.h */,
-				3D7972D714C3D98200CA7886 /* ofxOldTv.h */,
-				3D7972D814C3D98200CA7886 /* ofxSwapBuffer.h */,
-				3D7972D914C3D98200CA7886 /* ofxUnsharp.h */,
-				3D7972DA14C3D98200CA7886 /* ofxWater.cpp */,
-				3D7972DB14C3D98200CA7886 /* ofxWater.h */,
+				3DB8E91B14C5848500457F3C /* ofxFX.h */,
+				3DB8E91D14C5848500457F3C /* ofxFXObject.h */,
+				3DB8E91C14C5848500457F3C /* ofxFXObject.cpp */,
+				3DB8E92214C5848500457F3C /* ofxSwapBuffer.h */,
+				3DB8E91314C5848500457F3C /* ofxBloom.h */,
+				3DB8E91414C5848500457F3C /* ofxBlur.h */,
+				3DB8E91514C5848500457F3C /* ofxBokeh.h */,
+				3DB8E91614C5848500457F3C /* ofxClone.h */,
+				3DB8E91714C5848500457F3C /* ofxFlocking.cpp */,
+				3DB8E91814C5848500457F3C /* ofxFlocking.h */,
+				3DB8E91914C5848500457F3C /* ofxFluid.cpp */,
+				3DB8E91A14C5848500457F3C /* ofxFluid.h */,
+				3DB8E91E14C5848500457F3C /* ofxGlow.h */,
+				3DB8E91F14C5848500457F3C /* ofxGrayScott.h */,
+				3DB8E92014C5848500457F3C /* ofxMask.h */,
+				3DB8E92114C5848500457F3C /* ofxOldTv.h */,
+				3DB8E92314C5848500457F3C /* ofxUnsharp.h */,
+				3DB8E92414C5848500457F3C /* ofxWater.cpp */,
+				3DB8E92514C5848500457F3C /* ofxWater.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -167,7 +170,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				3D79720514C3D98100CA7886 /* ofxFX */,
+				3DB8E84014C5848000457F3C /* ofxFX */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -334,9 +337,10 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
-				3D79732214C3D98400CA7886 /* ofxFlocking.cpp in Sources */,
-				3D79732314C3D98400CA7886 /* ofxFluid.cpp in Sources */,
-				3D79732414C3D98400CA7886 /* ofxWater.cpp in Sources */,
+				3DB8E97314C5848900457F3C /* ofxFlocking.cpp in Sources */,
+				3DB8E97414C5848900457F3C /* ofxFluid.cpp in Sources */,
+				3DB8E97514C5848900457F3C /* ofxFXObject.cpp in Sources */,
+				3DB8E97614C5848900457F3C /* ofxWater.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
