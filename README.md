@@ -40,6 +40,7 @@ fxObject.injectShader("#version 120\n\
                     uniform sampler2DRect backbuffer;\
                     uniform sampler2DRect tex0;\
                     uniform sampler2DRect tex1;\
+                    uniform sampler2DRect tex2;\
                     \
                     uniform float time; \
                     uniform vec2 mouse;\
@@ -56,13 +57,16 @@ fxObject.injectShader("#version 120\n\
 On update:
 
 ```c++
-fxObject.begin();
-    //Waht ever you want to render to tex0
+fxObject.begin();   // for tex0 you don´t need to pass the 0 as an argument 
+    //What ever you want to render to tex0
 fxObject.end();
 
 fxObject.begin(1);
     //What ever you want to render to tex1
 fxObject.end(1);
+
+fxObject.setTexture(image.getTextureReference(),2); // For object that have ofTexture you could just pass the ofTexture reference 
+
 
 fxObject.update();
 ```
@@ -103,6 +107,38 @@ float f = 1.0;  // GOOD
 ``` 
 
 * Norm coordinates: as far as I know there are two types of textures sample2D and sample2DRect. The first ones have the same length in both sides while the second one not. When you are using texture2D( tex, pos) the position have to be normalized while on texture2DRect(tex, pos) it´s not normalized. 
+
+
+### Mix them all ###
+
+ofxFXObject have some handy operators that let you combine them really easily. 
+At the Mix´s Example you will find how to do it. Basicaly it´s somethin like this
+
+```c++
+
+ofxFXObject objA;
+ofxGrayScott objB;
+ofxBlur     blur;
+
+objA.allocate(width, height);
+objB.allocate(width, height);
+blur.allocate(width, height);
+
+...
+
+objA >> objB >> blur;
+
+objA.update();
+objB.update();
+blur.update();
+
+...
+
+objA.draw();
+objB.draw();
+blur.draw();
+
+``` 
 
 
 ## ofxFXObject subclasses ##
