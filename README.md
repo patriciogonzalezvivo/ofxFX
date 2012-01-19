@@ -101,9 +101,13 @@ Having that in mind the process of adapting code it´s a matter of searching on 
 General tips:
 
 * Casting: openGL it will not cast for you. So if you assign an int to a float it will not compile properly. 
-```c
+
+```c++
+
 float f = 1;    // FAIL 
+
 float f = 1.0;  // GOOD
+
 ``` 
 
 * Norm coordinates: as far as I know there are two types of textures sample2D and sample2DRect. The first ones have the same length in both sides while the second one not. When you are using texture2D( tex, pos) the position have to be normalized while on texture2DRect(tex, pos) it´s not normalized. 
