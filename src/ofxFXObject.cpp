@@ -163,19 +163,24 @@ bool ofxFXObject::injectShader(){
     
     // Check if it´s the same number of tectures already created and allocated
     if ( num != nTextures ){
-        // Delete the old ones
-        if ((textures != NULL) && (nTextures > 0)){
-            
-            delete [] textures;
+        // If the number of textures it´s different
+        if (textures != NULL ){
+            if (nTextures > 0) {
+                delete [] textures;
+            }
         }
-        // And initialate the right amount of textures
+            // And initialate the right amount of textures
         nTextures = num;
-        textures = new ofFbo[nTextures];
-    }
-    
-    // In any case it will allocate the total amount of textures with the internalFormat need
-    for( int i = 0; i < nTextures; i++){
-        initFbo(textures[i], width, height, internalFormat);
+        if (nTextures > 0){
+            textures = new ofFbo[nTextures];
+        } else if ( nTextures == 0 ){
+            textures = NULL;
+        }
+        
+        // In any case it will allocate the total amount of textures with the internalFormat need
+        for( int i = 0; i < nTextures; i++){
+            initFbo(textures[i], width, height, internalFormat);
+        }
     }
     
     bool loaded;

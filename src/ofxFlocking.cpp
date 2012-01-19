@@ -324,8 +324,8 @@ void ofxFlocking::allocate(int _width, int _height, int _nBoids){
     imageHeight = sparkImage.getHeight();
     
     // 1. Process birth and death
-    float * pos = new float[nBoids*3];    
-    float offset = 1.0/resolution;
+    float * pos = new float[nBoids*3];
+    
     for (int x = 0; x < resolution; x++){
         for (int y = 0; y < resolution; y++){
             int i = resolution * y + x;
