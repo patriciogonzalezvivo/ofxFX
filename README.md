@@ -105,7 +105,6 @@ General tips:
 ```c++
 
 float f = 1;    // FAIL 
-
 float f = 1.0;  // GOOD
 
 ``` 
@@ -138,8 +137,6 @@ blur.update();
 
 ...
 
-objA.draw();
-objB.draw();
 blur.draw();
 
 ``` 
