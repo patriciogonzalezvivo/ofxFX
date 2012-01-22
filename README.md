@@ -169,9 +169,7 @@ The second case, are the ones could be use as filters. That means, they could be
 
 * Filters: ofxBloom, ofxBlur, ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/), ofxGlow, ofxUnsharp and ofxOldTv ( from [ShaderToy postprocessing](http://www.iquilezles.org/apps/shadertoy/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488))
 
-* ofxClone: maden by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution)
-
-* ofxMask: based on ofxAlphaMaskShader made by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
+* Composers: ofxClone: maden by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution). And ofxMask: based on ofxAlphaMaskShader made by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
 
 
 # Examples #

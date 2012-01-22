@@ -55,7 +55,7 @@ public:
     ofTexture& operator[](int _nText){ if ((_nText < nTextures) && (_nText >= 0) )return textures[_nText].getTextureReference(); };
 
     virtual void allocate(int _width, int _height, int _internalFormat);;
-    virtual void allocate(int _width, int _height);
+    void allocate(int _width, int _height);
     
     virtual bool injectShader(string fragShader);
     virtual bool injectShader();

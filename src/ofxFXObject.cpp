@@ -56,8 +56,8 @@ ofxFXObject::ofxFXObject():nTextures(0){
     // - tex0, tex1, tex2, ... : this are dynamicaly defined and allocated and can be
     //   filled with information by using .begin(0) and .end(0), or .begin(1) and .end(1), etc 
     //
-    // This dafault shader it´s a simple timer.
-    // Made of a mix on Ricardo Caballero´s webGL Sandbox http://mrdoob.com/projects/glsl_sandbox/
+    // This dafault shader it´s timer made of a mix on Ricardo Caballero´s webGL Sandbox
+    // http://mrdoob.com/projects/glsl_sandbox/
     //
     
     fragmentShader = 

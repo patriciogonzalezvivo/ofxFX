@@ -32,17 +32,21 @@
 #ifndef OFXFX
 #define OFXFX
 
-#include "ofxBloom.h"
-#include "ofxBlur.h"
-#include "ofxBokeh.h"
-#include "ofxClone.h"
-#include "ofxGlow.h"
-#include "ofxWater.h"
-#include "ofxFluid.h"
-#include "ofxGrayScott.h"
-#include "ofxFlocking.h"
-#include "ofxMask.h"    // Based on http://github.com/Flightphase/ofxAlphaMask thanks Flightphase
-#include "ofxOldTv.h"
-#include "ofxUnsharp.h"
+#include "composers/ofxMask.h"
+#include "composers/ofxClone.h"
+
+#include "filters/ofxBloom.h"
+#include "filters/ofxBlur.h"
+#include "filters/ofxBokeh.h"
+#include "filters/ofxGlow.h"
+#include "filters/ofxOldTv.h"
+#include "filters/ofxUnsharp.h"
+
+#include "generative/ofxGrayScott.h"
+
+#include "interactive/ofxWater.h"
+#include "interactive/ofxFluid.h"
+#include "interactive/ofxFlocking.h"
 
 #endif
+
