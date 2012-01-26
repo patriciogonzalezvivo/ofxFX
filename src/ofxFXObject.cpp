@@ -115,6 +115,13 @@ ofxFXObject::ofxFXObject(ofxFXObject& parent){
     fragmentShader = parent.getFragShaderCode();
 }
 
+ofxFXObject::~ofxFXObject(){
+    if (textures != NULL ){
+        if (nTextures > 0) {
+            delete [] textures;
+        }
+    }
+}
 
 ofxFXObject& ofxFXObject::operator =(ofxFXObject& parent){
     passes = parent.getPasses();
@@ -194,11 +201,13 @@ bool ofxFXObject::injectShader(){
 
 // A simplified way of filling the insides texture
 void ofxFXObject::setTexture(ofTexture& tex, int _texNum){ 
-    textures[_texNum].begin(); 
-    ofClear(0,255);
-    ofSetColor(255);
-    tex.draw(0,0); 
-    textures[_texNum].end();
+    if ((_texNum < nTextures) && ( _texNum >= 0)){
+        textures[_texNum].begin(); 
+        ofClear(0,255);
+        ofSetColor(255);
+        tex.draw(0,0); 
+        textures[_texNum].end();
+    }
 };
 
 // With begin(int) and end(int) the textures allocated can be filled with data

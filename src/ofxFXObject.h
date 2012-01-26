@@ -48,11 +48,12 @@ public:
     
     ofxFXObject();
     ofxFXObject(ofxFXObject& parent);
+    ~ofxFXObject();
     
     ofxFXObject& operator =(ofxFXObject& parent);
-    ofxFXObject& operator >>(ofxFXObject& parent){ parent.setTexture( getTextureReference() ); return * this;};
+    ofxFXObject& operator >>(ofxFXObject& parent) { parent.setTexture( getTextureReference() ); return * this;};
     ofxFXObject& operator <<(ofxFXObject& parent){ setTexture( parent.getTextureReference() ); return * this;};
-    ofTexture& operator[](int _nText){ if ((_nText < nTextures) && (_nText >= 0) )return textures[_nText].getTextureReference(); };
+    ofTexture& operator[](int _nText){ if ((_nText < nTextures) && (_nText >= 0) ) return textures[_nText].getTextureReference(); else return NULL; };
 
     virtual void allocate(int _width, int _height, int _internalFormat);;
     void allocate(int _width, int _height);
@@ -67,14 +68,14 @@ public:
     void begin(int _texNum = 0);
 	void end(int _texNum = 0);
     
-    float       getTime(){return time;};
-    int         getPasses() { return passes; };
-    int         getInternalFormat() { return internalFormat; };
-    ofVec2f     getResolution(){ return ofVec2f(width,height);};
-    string      getFragShaderCode(){ return fragmentShader; };
-    ofTexture&  getTextureReference() { return pingPong.dst->getTextureReference(); };
+    float       getTime() const {return time;};
+    int         getPasses() const { return passes; };
+    int         getInternalFormat() const { return internalFormat; };
+    ofVec2f     getResolution() const { return ofVec2f(width,height);};
+    string      getFragShaderCode() const { return fragmentShader; };
+    ofTexture&  getTextureReference() const { return pingPong.dst->getTextureReference(); };
     
-    void update();;
+    void update();
     void draw(int x = 0, int y = 0, float _width = -1, float _height = -1);
     
 protected:

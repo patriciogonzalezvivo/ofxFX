@@ -5,8 +5,6 @@
 
 #pragma once
 
-#define I_HAVE_WEBCAM
-
 #include "ofMain.h"
 #include "ofxFX.h"
 
@@ -26,9 +24,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    ofImage     image;
     ofVideoGrabber  video;
-    ofFbo       fbo;
     
     ofImage     maskImage;
     ofxMask     maskEffect;

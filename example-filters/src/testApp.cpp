@@ -3,7 +3,6 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     ofEnableAlphaBlending();
-	image.loadImage("logo.jpg");
     
     beat = 0;
     width = 640;
@@ -11,9 +10,9 @@ void testApp::setup(){
     selection = -1;
     
     ofSetWindowShape(width, height);
-#ifdef I_HAVE_WEBCAM
+
     video.initGrabber(width , height);
-#endif
+
     fbo.allocate(width, height);
     
     bloom.allocate(width, height);
@@ -25,24 +24,16 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
-#ifdef I_HAVE_WEBCAM
     video.update();
     if (video.isFrameNew() ){
         ofSetColor(255);
-#endif
+
         fbo.begin();
         ofClear(0, 0, 0, 255);
         ofSetColor(255);
-#ifdef I_HAVE_WEBCAM
         video.draw(0,0);
-#endif
-        ofEnableBlendMode(OF_BLENDMODE_ADD);
-        image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
-        ofEnableBlendMode(OF_BLENDMODE_ALPHA);
         fbo.end();
-#ifdef I_HAVE_WEBCAM
     }
-#endif
     
     if ( selection == 0 ){
         bloom.setTexture(fbo.getTextureReference());
