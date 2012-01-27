@@ -47,9 +47,9 @@ public:
         internalFormat = GL_RGB;
         
         diffU = 0.25f;
-        diffV = 0.04f;//0.04f;
-        k = 0.047f;//0.037f;
-        f = 0.1f;//0.2f;
+        diffV = 0.04f;
+        k = 0.047f;
+        f = 0.1f;
         
         fragmentShader = "#version 120 \n \
         #extension GL_ARB_texture_rectangle : enable \n \
