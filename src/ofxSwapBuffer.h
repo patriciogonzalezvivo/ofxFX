@@ -12,13 +12,15 @@
 class ofxSwapBuffer {
 public:
     void allocate( int _width, int _height, int _internalformat = GL_RGBA, float _dissipation = 1.0f){
-        for(int i = 0; i < 2; i++){
-            FBOs[i].allocate(_width,_height, _internalformat );
-            FBOs[i].begin();
-            ofClear(0,255);
-            FBOs[i].end();
-        }
         
+        // Allocate
+        for(int i = 0; i < 2; i++)
+            FBOs[i].allocate(_width,_height, _internalformat );
+        
+        // Clean
+        clear();
+        
+        // Set everything to 0
         flag = 0;
         swap();
         flag = 0;
@@ -29,6 +31,14 @@ public:
     void swap(){
         src = &(FBOs[(flag)%2]);
         dst = &(FBOs[++(flag)%2]);
+    }
+    
+    void clear(){
+        for(int i = 0; i < 2; i++){
+            FBOs[i].begin();
+            ofClear(0,255);
+            FBOs[i].end();
+        }
     }
     
     ofFbo& operator[]( int n ){ return FBOs[n];}
