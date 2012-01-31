@@ -49,7 +49,7 @@ public:
     ofxFXObject();
     ofxFXObject(ofxFXObject& parent);
     ~ofxFXObject();
-    
+
     ofxFXObject& operator =(ofxFXObject& parent);
     ofxFXObject& operator >>(ofxFXObject& parent) { parent.setTexture( getTextureReference() ); return * this;};
     ofxFXObject& operator <<(ofxFXObject& parent){ setTexture( parent.getTextureReference() ); return * this;};
@@ -75,7 +75,7 @@ public:
     string      getFragShaderCode() const { return fragmentShader; };
     ofTexture&  getTextureReference() const { return pingPong.dst->getTextureReference(); };
     
-    void clear(){ pingPong.clear(); }
+    void clear(){ pingPong.clear(); } 
     
     void update();
     void draw(int x = 0, int y = 0, float _width = -1, float _height = -1);
