@@ -20,7 +20,6 @@ public:
 	void		gotMessage(ofMessage msg);
 	
     ofxFlocking flocking;
-    ofImage     logo;
     
     int         width, height;
 };

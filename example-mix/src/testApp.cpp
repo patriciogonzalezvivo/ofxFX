@@ -5,7 +5,6 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     ofEnableAlphaBlending();
-	image.loadImage("logo.jpg");
     
     beat = 0.0;
     nFrag = -1;
@@ -1191,14 +1190,12 @@ void testApp::draw(){
         sandbox.draw();
     }
      
+    ofPopStyle();
+    
     title += " runing at " + ofToString(ofGetFrameRate(),1) + " fps";
     ofSetWindowTitle(title);
     
-    ofEnableBlendMode(OF_BLENDMODE_SCREEN);
-    ofSetColor(255 * (cos(beat*0.5))+0.5 );
-    image.draw(ofGetWindowWidth() *0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    ofPopStyle();
+    
 }
 
 //--------------------------------------------------------------

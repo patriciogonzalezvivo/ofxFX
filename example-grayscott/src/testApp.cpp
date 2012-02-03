@@ -4,7 +4,6 @@
 void testApp::setup(){
     ofEnableAlphaBlending();
 	ofSetWindowShape(640, 480);
-	image.loadImage("logo.jpg");
     
     grayScott.allocate(640, 480);
 }
@@ -15,7 +14,6 @@ void testApp::update(){
     grayScott.begin();
     ofClear(0, 0, 0, 255);
     ofSetColor(10);
-    image.draw(640*0.5 - image.getWidth()*0.5, 480*0.5 - image.getHeight()*0.5);
     ofCircle(mouseX, mouseY, 5);
     grayScott.end();
         

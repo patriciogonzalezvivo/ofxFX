@@ -4,7 +4,6 @@
 void testApp::setup(){
     ofEnableAlphaBlending();
 	ofSetWindowShape(640, 480);
-	image.loadImage("logo.jpg");
     
     // Initial Allocation
     fluid.allocate(640, 480, 0.5);
@@ -20,7 +19,6 @@ void testApp::setup(){
     bObstacle = false;
     bBounding = true;
     bClear = true;
-    bLogo = false;
 }
 
 //--------------------------------------------------------------
@@ -41,11 +39,6 @@ void testApp::update(){
     // Updating the obstacle texture if not using obstacles you have to call update()
     fluid.begin();
     if (bClear) ofClear(0);
-    
-    if (bLogo){
-        ofSetColor(250);
-        image.draw(ofGetWindowWidth()*0.5-image.getWidth()*0.5,ofGetWindowHeight()*0.5-image.getHeight()*0.5);
-    }
     
     if (bObstacle){
         ofFill();
@@ -85,8 +78,6 @@ void testApp::keyPressed(int key){
         bBounding = !bBounding;
     if( key == 'c')
         bClear = !bClear;
-    if( key == 'l')
-        bLogo = !bLogo;
 }
 
 //--------------------------------------------------------------

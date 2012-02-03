@@ -19,8 +19,6 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    ofImage     image;
-    
     ofxFXObject sandbox;
     
     ofxBloom    bloom;

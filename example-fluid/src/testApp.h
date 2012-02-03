@@ -19,10 +19,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 		
-    ofImage image;
-    
     ofxFluid fluid;
     
     ofVec2f oldM;
-    bool    bLogo, bPaint, bObstacle, bBounding, bClear;
+    bool    bPaint, bObstacle, bBounding, bClear;
 };

@@ -8,7 +8,6 @@ void testApp::setup(){
     
 	ofSetWindowShape(width,height);
     
-    logo.loadImage("logo.jpg");
     flocking.allocate(width,height,1000);
     flocking.setParticleSize(20).setTimpeStep(0.0005);
 }
@@ -18,7 +17,7 @@ void testApp::update(){
 	ofSetWindowTitle(ofToString(ofGetFrameRate()));
     
     flocking.begin();
-    logo.draw(width*0.5 - logo.getWidth()*0.5, height*0.5 - logo.getHeight()*0.5);
+    // Draw here an obstacle
     flocking.end();
     
 	flocking.update();
