@@ -68,17 +68,20 @@ protected:
 		void main(void) {
             vec2 st = gl_TexCoord[0].st;
             
-            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st - radius * vec2(4. / 4., 0.));
-            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st - radius * vec2(3. / 4., 0.));
-            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st - radius * vec2(2. / 4., 0.));
-            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st - radius * vec2(1. / 4., 0.));
+            vec4 color = vec4(0.0,0.0,0.0,0.0);
+            color += (1. / total) * texture2DRect(backbuffer, st - radius * vec2(4. / 4., 0.));
+            color += (8. / total)  * texture2DRect(backbuffer, st - radius * vec2(3. / 4., 0.));
+            color += (28. / total)  * texture2DRect(backbuffer, st - radius * vec2(2. / 4., 0.));
+            color += (56. / total)  * texture2DRect(backbuffer, st - radius * vec2(1. / 4., 0.));
             
-            gl_FragColor +=  (70. / total) * texture2DRect(backbuffer, st);
+            color +=  (70. / total) * texture2DRect(backbuffer, st);
             
-            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st + radius * vec2(4. / 4., 0.));
-            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st + radius * vec2(3. / 4., 0.));
-            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(2. / 4., 0.));
-            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(1. / 4., 0.));
+            color += (1. / total) * texture2DRect(backbuffer, st + radius * vec2(4. / 4., 0.));
+            color += (8. / total)  * texture2DRect(backbuffer, st + radius * vec2(3. / 4., 0.));
+            color += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(2. / 4., 0.));
+            color += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(1. / 4., 0.));
+            
+            gl_FragColor = color;
 		} 
                                                         );
         blurShader[0].unload();
@@ -94,17 +97,20 @@ protected:
             void main(void) {
             vec2 st = gl_TexCoord[0].st;
             
-            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st - radius * vec2(0., 4. / 4.));
-            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 3. / 4.));
-            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 2. / 4.));
-            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 1. / 4.));
+            vec4 color = vec4(0.0,0.0,0.0,0.0);
+            color += (1. / total) * texture2DRect(backbuffer, st - radius * vec2(0., 4. / 4.));
+            color += (8. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 3. / 4.));
+            color += (28. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 2. / 4.));
+            color += (56. / total)  * texture2DRect(backbuffer, st - radius * vec2(0., 1. / 4.));
             
-            gl_FragColor +=  (70. / total) * texture2DRect(backbuffer, st);
+            color +=  (70. / total) * texture2DRect(backbuffer, st);
             
-            gl_FragColor += (1. / total) * texture2DRect(backbuffer, st + radius * vec2(0., 4. / 4.));
-            gl_FragColor += (8. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 3. / 4.));
-            gl_FragColor += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 2. / 4.));
-            gl_FragColor += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 1. / 4.));
+            color += (1. / total) * texture2DRect(backbuffer, st + radius * vec2(0., 4. / 4.));
+            color += (8. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 3. / 4.));
+            color += (28. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 2. / 4.));
+            color += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 1. / 4.));
+                
+            gl_FragColor = color;
 		} 
                                                       );
         blurShader[1].unload();
