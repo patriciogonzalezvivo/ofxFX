@@ -1,60 +1,77 @@
+#define STRINGIFY(A) #A
+
 #include "testApp.h"
 
 //--------------------------------------------------------------
 void testApp::setup(){
     ofEnableAlphaBlending();
     
-    beat = 0;
     width = 640;
     height = 480;
-    selection = -1;
-    
-    ofSetWindowShape(width, height);
-
     video.initGrabber(width , height);
-
-    fbo.allocate(width, height);
+    
+    map.loadImage("map.jpg");
+    polaroid.loadImage("polaroid.png");
+    
+    mult.allocate(width, height);
+    mult.setTexture(map.getTextureReference());
+    
+    lut.allocate(width,height);
     
     bloom.allocate(width, height);
     blur.allocate(width, height);
     bokeh.allocate(width, height);
     glow.allocate(width, height);
     unsharp.allocate(width, height);
+    
+    dir.allowExt("cube");
+	dir.listDir("LUTs/");
+	dir.sort();
+    
+	if (dir.size()>0) {
+		dirLoadIndex=0;
+        lut.loadLUT(dir.getPath(dirLoadIndex));
+	}
+    
+    selection = 1;
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
     video.update();
     if (video.isFrameNew() ){
-        ofSetColor(255);
-
-        fbo.begin();
-        ofClear(0, 0, 0, 255);
-        ofSetColor(255);
-        video.draw(0,0);
-        fbo.end();
+        lut.setTexture(video.getTextureReference());
+        lut.update();
+        
+        mult.setTexture(lut.getTextureReference(),1);
+        
+        if ( selection == 0 ){
+            bloom << lut ;
+            bloom.update();
+        } else if ( selection == 1 ){
+            blur.setRadius(sin(beat)*10);
+            blur << lut;
+            mult.setTexture(blur.getTextureReference(),2);
+            blur.update();
+        } else if ( selection == 2 ){
+            bokeh.setRadius(abs(sin(beat)*10));
+            bokeh << lut;
+            mult.setTexture(bokeh.getTextureReference(),2);
+            bokeh.update();
+        } else if ( selection == 3 ){
+            glow.setRadius(sin(beat)*15);
+            glow << lut;
+            mult.setTexture(glow.getTextureReference(),2);
+            glow.update();
+        } else if ( selection == 4 ){
+            unsharp.setFade(sin(beat));
+            unsharp << lut;
+            mult.setTexture(unsharp.getTextureReference(),2);
+            unsharp.update();
+        }
+        
+        mult.update();
     }
-    
-    if ( selection == 0 ){
-        bloom.setTexture(fbo.getTextureReference());
-        bloom.update();
-    } else if ( selection == 1 ){
-        blur.setRadius(sin(beat)*10);
-        blur.setTexture(fbo.getTextureReference());
-        blur.update();
-    } else if ( selection == 2 ){
-        bokeh.setRadius(abs(sin(beat)*10));
-        bokeh.setTexture(fbo.getTextureReference());
-        bokeh.update();
-    } else if ( selection == 3 ){
-        glow.setRadius(sin(beat)*15);
-        glow.setTexture(fbo.getTextureReference());
-        glow.update();
-    } else if ( selection == 4 ){
-        unsharp.setFade(sin(beat));
-        unsharp.setTexture(fbo.getTextureReference());
-        unsharp.update();
-    } 
     
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
     
@@ -63,50 +80,77 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    ofBackground(0);
+	ofBackgroundGradient(ofColor::gray, ofColor::black);
+        
+	ofSetColor(255);
+	
+    ofPushMatrix();
+	ofTranslate(ofGetWindowWidth()*0.5f, ofGetWindowHeight()*0.5f, 0);
+    
+	mult.draw(-height*0.5,-height*0.5, height,height);
+    
+    
+    
+    ofSetColor(255, 255);
+    polaroid.draw(-polaroid.getWidth()*0.46,-polaroid.getHeight()*0.43,polaroid.getWidth()*0.95,polaroid.getHeight()*0.95);
+    
+    
+    
+    ofPopMatrix();
     
     if ( selection == 0 ){
-        bloom.draw();
-        ofDrawBitmapString("Bloom" , 15, 15);
+        ofDrawBitmapString("Bloom", 15,30);
     } else if ( selection == 1 ){
-        blur.draw();
-        ofDrawBitmapString("Blur at: " + ofToString(sin(beat)*10), 15, 15);
+        ofDrawBitmapString("Blur at: " + ofToString(sin(beat)*10),15,30);
     } else if ( selection == 2 ){
-        bokeh.draw();
-        ofDrawBitmapString("Bokeh at: "+ ofToString( abs(sin(beat)*10) ), 15, 15);
+        ofDrawBitmapString("Bokeh at: "+ ofToString( abs(sin(beat)*10)), 15,30);
     } else if ( selection == 3 ){
-        glow.draw();
-        ofDrawBitmapString("Glow at: "+ ofToString(sin(beat)*15), 15, 15);
+        ofDrawBitmapString("Glow at: "+ ofToString(sin(beat)*15), 15,30);
     } else if ( selection == 4 ){
-        unsharp.draw();
-        ofDrawBitmapString("Unsharp at: "+ ofToString(sin(beat)), 15, 15);
+        ofDrawBitmapString("Unsharp at: "+ ofToString(sin(beat)), 15,30);
     } else {
-        fbo.draw(0, 0);
-        ofDrawBitmapString("Original", 15, 15);
+        ofDrawBitmapString("No Filter", 15,30);
     }
-    
+    ofDrawBitmapString(dir.getName(dirLoadIndex), 15,15);
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-    switch(key){
-        case OF_KEY_UP:
+
+}
+
+//--------------------------------------------------------------
+void testApp::keyReleased(int key){
+	switch (key) {
+		case OF_KEY_UP:
+			dirLoadIndex++;
+			if (dirLoadIndex>=dir.size()) {
+				dirLoadIndex=0;
+			}
+			lut.loadLUT(dir.getPath(dirLoadIndex));
+			
+			break;
+		case OF_KEY_DOWN:
+			dirLoadIndex--;
+			if (dirLoadIndex<0) {
+				dirLoadIndex=dir.size()-1;
+			}
+			lut.loadLUT(dir.getPath(dirLoadIndex));
+			break;
+        case OF_KEY_RIGHT:
             selection++;
             break;
-        case OF_KEY_DOWN:
+        case OF_KEY_LEFT:
             selection--;
             break;
-    }
+		default:
+			break;
+	}
     
     if (selection >= 5)
         selection = -1;
     else if ( selection < -1)
         selection = 4;
-}
-
-//--------------------------------------------------------------
-void testApp::keyReleased(int key){
-
 }
 
 //--------------------------------------------------------------
@@ -129,17 +173,3 @@ void testApp::mouseReleased(int x, int y, int button){
 
 }
 
-//--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void testApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){ 
-
-}
