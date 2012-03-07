@@ -1,5 +1,6 @@
 # ofxFX #
 ![ofxFlocking](http://patriciogonzalezvivo.com/images/flock.png) ![ofxFluid](http://patriciogonzalezvivo.com/images/fluid.png) ![ofxGlow](http://patriciogonzalezvivo.com/images/oldTv.png) ![ofxGrayScott](http://patriciogonzalezvivo.com/images/grayScott.png) ![ofxWater](http://patriciogonzalezvivo.com/images/water.png)
+
 This addons begins while I was working on [Efecto Mariposa](http://patriciogonzalezvivo.com/butterfly.html "Efecto Mariposa") and I need some extra GPU processing power in order to make fast simulation of complex ecosystems. 
 On does days I found GLSL Shaders a hard and cryptic topic. That´s why the main goal of this addon it´s to make super easy to use and edit shaders on your projects. That´s why it becomes a sort of common used shader library.
 Recently I start playing with them new GLSL editors like [Ricardo Caballero´s WebGL SandBox](http://mrdoob.com/projects/glsl_sandbox/), [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) or [Kode80´s GLSL Studio](http://glslstudio.com/) that let you edit the shader on-the-fly. So right now I´m working on making a standard ofxFXObject that could receive fragment shader and know how to deal with them while the program it´s running. 
@@ -186,13 +187,11 @@ The second case, are the ones could be use as filters. That means, they could be
 # Examples #
 On this addon you will find examples of the classes I just describe. Some of them are combined together in order to show clearly how to use them in the following examples:
 
-*   Mix: diferent eyecandy shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) together and then passed to post-processing GLSL shaders that acts as filters ( blur, glow, bloom, etc ) 
+*   sandbox: diferent eyecandy shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) together and then passed to post-processing GLSL shaders that acts as filters ( blur, glow, bloom, etc ) 
 
 <iframe src="http://player.vimeo.com/video/35230297" width="640" height="504" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
-*   Mask: an example of how to mask the effects between them.
-
-*   Conway: life game made by [Kalwalt](http://www.kalwaltart.it/)
+*   conway: life game made by [Kalwalt](http://www.kalwaltart.it/)
 
 
 
