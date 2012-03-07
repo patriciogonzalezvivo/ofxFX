@@ -251,12 +251,16 @@ ofxFlocking::ofxFlocking(){
     uniform int resolution;\
     \
     void main() {\
-        vec4 pos = gl_Vertex;\
+        vec4 verPos = gl_Vertex;\
         \
-        pos.x *= screen.x;\
-        pos.y *= screen.y;\
+        verPos.x = abs(verPos.x * 0.5 + resolution * 0.5);\
+        verPos.y = abs(verPos.y * 0.5 + resolution * 0.5);\
+        vec4 pixPos = texture2DRect( posTex, verPos.xy );\
         \
-        gl_Position = pos;\
+        pixPos.x *= screen.x;\
+        pixPos.y *= screen.y;\
+        \
+        gl_Position = pixPos;\
         gl_FrontColor =  gl_Color;\
     }";
     renderShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexRenderShader);
@@ -355,12 +359,6 @@ void ofxFlocking::allocate(int _width, int _height, int _nBoids){
     
     delete(vel);
     
-    pixels.allocate(resolution,resolution, 4);
-    particles = new ofPoint[nBoids];
-    for (int i = 0; i < nBoids; i++){
-        particles[i].set(0.0,0.0,0.0);
-    }
-    
     initFbo(renderFbo, width, height);
 }
 
@@ -401,19 +399,6 @@ void ofxFlocking::update(){
     
     posBuffer.swap();
     
-    posBuffer.src->readToPixels(pixels);
-    for(int x = 0; x < resolution; x++){
-        for(int y = 0; y < resolution; y++){
-            ofFloatColor p = pixels.getColor(x, y);
-            int i = y * resolution + x;
-            particles[i].set(p.r,p.g,p.b);
-        }
-    }
-    
-    // 4. sort for alpha blending (optional)
-    
-    
-    
     // 5. Transfer texture data to vertex data
     renderFbo.begin();
     ofClear(0);
@@ -430,8 +415,10 @@ void ofxFlocking::update(){
     ofEnableBlendMode( OF_BLENDMODE_ADD );
     ofSetColor(255);
     glBegin( GL_POINTS );
-    for(int i = 0; i < nBoids; i++){
-        glVertex3d(particles[i].x, particles[i].y,0.0);
+    for(int x = 0; x < resolution; x++){
+        for(int y = 0; y < resolution; y++){
+            glVertex2d(x,y);
+        }
     }
     ofDisableBlendMode();
     glEnd();
