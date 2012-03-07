@@ -1,6 +1,5 @@
 # ofxFX #
 ![ofxFlocking](http://patriciogonzalezvivo.com/images/flock.png) ![ofxFluid](http://patriciogonzalezvivo.com/images/fluid.png) ![ofxGlow](http://patriciogonzalezvivo.com/images/oldTv.png) ![ofxGrayScott](http://patriciogonzalezvivo.com/images/grayScott.png) ![ofxWater](http://patriciogonzalezvivo.com/images/water.png)
-
 This addons begins while I was working on [Efecto Mariposa](http://patriciogonzalezvivo.com/butterfly.html "Efecto Mariposa") and I need some extra GPU processing power in order to make fast simulation of complex ecosystems. 
 On does days I found GLSL Shaders a hard and cryptic topic. That´s why the main goal of this addon it´s to make super easy to use and edit shaders on your projects. That´s why it becomes a sort of common used shader library.
 Recently I start playing with them new GLSL editors like [Ricardo Caballero´s WebGL SandBox](http://mrdoob.com/projects/glsl_sandbox/), [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) or [Kode80´s GLSL Studio](http://glslstudio.com/) that let you edit the shader on-the-fly. So right now I´m working on making a standard ofxFXObject that could receive fragment shader and know how to deal with them while the program it´s running. 
