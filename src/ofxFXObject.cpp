@@ -194,7 +194,7 @@ bool ofxFXObject::injectShader(){
     // Compile the shader and loadit to the GPU
     shader.unload();
     shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
-    loaded =  shader.linkProgram();
+    loaded = shader.linkProgram();
     
     return loaded;
 }

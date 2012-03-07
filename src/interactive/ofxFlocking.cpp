@@ -47,7 +47,7 @@ ofxFlocking::ofxFlocking(){
     separation = 1.5f;
     alineation = 1.0f;
     cohesion = 1.0f;
-    
+
     fragmentShader = "#version 120\n \
     #extension GL_ARB_texture_rectangle : enable \n \
     #define KERNEL_SIZE 9\n \

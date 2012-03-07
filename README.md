@@ -158,11 +158,21 @@ First case, the ones that in some point breaks the  structure of ofxFXObject wit
 
 * ofxFlocking: a GPU flocking system that implement two different types of fragment shaders, plus one vertex and geometry shader [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488) 
 
+<iframe src="http://player.vimeo.com/video/30684308" width="640" height="478" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+
 * ofxFluid: fluid simulation based on [this article of Mark Harris](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) that use a lot of shader on a very complex and crazy way
+
+<iframe src="http://player.vimeo.com/video/29887776" width="640" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 * ofxGrayScott: based on ones [Cinder´s Reaction Diffusion example](http://libcinder.org/) that it´s based on [Gray-Scott model](http://mrob.com/pub/comp/xmorphia/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
 
+<iframe src="http://player.vimeo.com/video/29894099" width="640" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+
 * ofxWater: a regular water waves effect based on [Hugo Elias´s Tutorial](http://freespace.virgin.net/hugo.elias/graphics/x_water.htm). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
+
+<iframe src="http://player.vimeo.com/video/29896245" width="640" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 
 The second case, are the ones could be use as filters. That means, they could be use for many things. Giving lot of flexibility and freedom when you use it on your project. Like using the blur and the glow combined with mask and things like that.
@@ -171,12 +181,19 @@ The second case, are the ones could be use as filters. That means, they could be
 
 * Composers: ofxClone: maden by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution). And ofxMask: based on ofxAlphaMaskShader made by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
 
+<iframe src="http://player.vimeo.com/video/34304485" width="640" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
 
 # Examples #
 On this addon you will find examples of the classes I just describe. Some of them are combined together in order to show clearly how to use them in the following examples:
 
 *   Mix: diferent eyecandy shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) together and then passed to post-processing GLSL shaders that acts as filters ( blur, glow, bloom, etc ) 
 
+<iframe src="http://player.vimeo.com/video/35230297" width="640" height="504" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
 *   Mask: an example of how to mask the effects between them.
 
 *   Conway: life game made by [Kalwalt](http://www.kalwaltart.it/)
+
+
+

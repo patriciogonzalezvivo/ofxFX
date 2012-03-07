@@ -34,6 +34,7 @@
 
 #include "composers/ofxMask.h"
 #include "composers/ofxClone.h"
+#include "composers/ofxMultiTexture.h"
 
 #include "filters/ofxBloom.h"
 #include "filters/ofxBlur.h"
@@ -41,6 +42,7 @@
 #include "filters/ofxGlow.h"
 #include "filters/ofxOldTv.h"
 #include "filters/ofxUnsharp.h"
+#include "ofxLUT.h"
 
 #include "generative/ofxGrayScott.h"
 
