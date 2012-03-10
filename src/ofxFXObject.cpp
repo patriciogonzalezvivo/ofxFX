@@ -60,59 +60,60 @@ ofxFXObject::ofxFXObject():nTextures(0){
     // http://mrdoob.com/projects/glsl_sandbox/
     //
     
-    fragmentShader = 
-    STRINGIFY(
-              uniform float time;
-              uniform vec2 mouse;
-              uniform vec2 resolution;
-              
-              float box( vec2 p, vec4 rect ){ 
-                  float trim = min(rect.z, rect.w) * 0.5;
-                  float minX = min(p.x - rect.x, rect.x + rect.z - p.x);
-                  float minY = min(p.y - rect.y, rect.y + rect.w - p.y);
-                  return ((minX > 0.0) && (minY > 0.0) && ((minX + minY) > trim)) ? 1.0 : 0.0;
-              }
-              
-              float digit( vec2 p, vec4 dim, float d){
-                  d = (d - mod(d,1.0)) / 10.0;
-                  d = mod( d, 1.0 );
-                  
-                  p.xy -= dim.xy;
-                  p.xy /= dim.zw;
-                  
-                  float c = 0.0;
-                  
-                  c += box( p, vec4( 0.05, 0.9, 0.9, 0.1 ) ) * ( cos( (0.85*d+0.1)*30.0) - sin(pow(d,1.0)) < 0.0 ? 1.0 : 0.0 );
-                  c += box( p, vec4( 0.05, 0.45, 0.9, 0.1 ) ) * ( min( pow(6.0*d,2.0), pow(20.0*(d-0.7),2.0) ) < 1.0 ? 0.0 : 1.0 );
-                  c += box( p, vec4( 0.05, 0.0, 0.9, 0.1 ) ) * ( max( cos(18.6*pow(d,0.75)), 1.0-pow(40.0*(d-0.8),2.0)) > 0.0 ? 1.0 : 0.0 );
-                  c += box( p, vec4( 0.0, 0.08, 0.1, 0.39 ) ) * ( cos( d * 30.0 ) * abs(d-0.4) > 0.1 ? 1.0 : 0.0 );
-                  c += box( p, vec4( 0.9, 0.08, 0.1, 0.39) ) * ( pow( 4.0*d-0.8, 2.0) > 0.1 ? 1.0 : 0.0 );
-                  c += box( p, vec4( 0.0, 0.52, 0.1, 0.39 ) ) * ( sin((d-0.05)*10.5) - 12.0*sin(pow(d,10.0)) > 0.0 ? 0.0 : 1.0 );
-                  c += box( p, vec4( 0.9, 0.52, 0.1, 0.39 ) ) * ( pow( d-0.55, 2.0 ) > 0.02 ? 1.0 : 0.0 );
-                  
-                  return c;
-              }
-              
-              void main( void ){
-                  vec2 p = (gl_FragCoord.xy / resolution.xy);
-                  p.y = 1.0 - p.y;
-                  
-                  float c= 0.0;
-                  c += ( time < 100.0 ) ? 0.0 : digit( p, vec4( 0.2, 0.5, 0.09, 0.1 ), time/100.0 );
-                  c += ( time < 10.0) ? 0.0 : digit( p, vec4( 0.3, 0.5, 0.09, 0.1 ), time/10.0 );
-                  c += digit( p, vec4( 0.4, 0.5, 0.09, 0.1 ), time );
-                  c += box( p, vec4( 0.5, 0.5, 0.01, 0.01 ) );
-                  c += digit( p, vec4( 0.52, 0.5, 0.09, 0.1 ), time*10.0 );
-                  
-                  gl_FragColor = vec4( 0.0, c * 0.5, c, 1.0 )*(abs(sin(time*0.5))+0.5);
-              } 
-              );
+    fragmentShader = "\n\
+\n\
+\n\
+uniform float time;\n\
+uniform vec2 mouse;\n\
+uniform vec2 resolution;\n\
+\n\
+float box( vec2 p, vec4 rect ){\n\
+    float trim = min(rect.z, rect.w) * 0.5;\n\
+    float minX = min(p.x - rect.x, rect.x + rect.z - p.x);\n\
+    float minY = min(p.y - rect.y, rect.y + rect.w - p.y);\n\
+    return ((minX > 0.0) && (minY > 0.0) && ((minX + minY) > trim)) ? 1.0 : 0.0;\n\
+}\n\
+\n\
+float digit( vec2 p, vec4 dim, float d){\n\
+    d = (d - mod(d,1.0)) / 10.0;\n\
+    d = mod( d, 1.0 );\n\
+    \n\
+    p.xy -= dim.xy;\n\
+    p.xy /= dim.zw;\n\
+    \n\
+    float c = 0.0;\n\
+    \n\
+    c += box( p, vec4( 0.05, 0.9, 0.9, 0.1 ) ) * ( cos( (0.85*d+0.1)*30.0) - sin(pow(d,1.0)) < 0.0 ? 1.0 : 0.0 );\n\
+    c += box( p, vec4( 0.05, 0.45, 0.9, 0.1 ) ) * ( min( pow(6.0*d,2.0), pow(20.0*(d-0.7),2.0) ) < 1.0 ? 0.0 : 1.0 );\n\
+    c += box( p, vec4( 0.05, 0.0, 0.9, 0.1 ) ) * ( max( cos(18.6*pow(d,0.75)), 1.0-pow(40.0*(d-0.8),2.0)) > 0.0 ? 1.0 : 0.0 );\n\
+    c += box( p, vec4( 0.0, 0.08, 0.1, 0.39 ) ) * ( cos( d * 30.0 ) * abs(d-0.4) > 0.1 ? 1.0 : 0.0 );\n\
+    c += box( p, vec4( 0.9, 0.08, 0.1, 0.39) ) * ( pow( 4.0*d-0.8, 2.0) > 0.1 ? 1.0 : 0.0 );\n\
+    c += box( p, vec4( 0.0, 0.52, 0.1, 0.39 ) ) * ( sin((d-0.05)*10.5) - 12.0*sin(pow(d,10.0)) > 0.0 ? 0.0 : 1.0 );\n\
+    c += box( p, vec4( 0.9, 0.52, 0.1, 0.39 ) ) * ( pow( d-0.55, 2.0 ) > 0.02 ? 1.0 : 0.0 );\n\
+    \n\
+    return c;\n\
+}\n\
+\n\
+void main( void ){\n\
+    vec2 p = (gl_FragCoord.xy / resolution.xy);\n\
+    p.y = 1.0 - p.y;\n\
+    \n\
+    float c= 0.0;\n\
+    c += ( time < 100.0 ) ? 0.0 : digit( p, vec4( 0.2, 0.5, 0.09, 0.1 ), time/100.0 );\n\
+    c += ( time < 10.0) ? 0.0 : digit( p, vec4( 0.3, 0.5, 0.09, 0.1 ), time/10.0 );\n\
+    c += digit( p, vec4( 0.4, 0.5, 0.09, 0.1 ), time );\n\
+    c += box( p, vec4( 0.5, 0.5, 0.01, 0.01 ) );\n\
+    c += digit( p, vec4( 0.52, 0.5, 0.09, 0.1 ), time*10.0 );\n\
+    \n\
+    gl_FragColor = vec4( 0.0, c * 0.5, c, 1.0 )*(abs(sin(time*0.5))+0.5);\n\
+}\n\
+\n";
 }
 
 ofxFXObject::ofxFXObject(ofxFXObject& parent){
     passes = parent.getPasses();
     internalFormat = parent.getInternalFormat();
-    fragmentShader = parent.getFragShaderCode();
+    fragmentShader = parent.getCode();
 }
 
 ofxFXObject::~ofxFXObject(){
@@ -126,7 +127,7 @@ ofxFXObject::~ofxFXObject(){
 ofxFXObject& ofxFXObject::operator =(ofxFXObject& parent){
     passes = parent.getPasses();
     internalFormat = parent.getInternalFormat();
-    fragmentShader = parent.getFragShaderCode();
+    fragmentShader = parent.getCode();
     ofVec2f resolution = parent.getResolution();
     allocate(resolution.x, resolution.y);
     
@@ -144,19 +145,28 @@ void ofxFXObject::allocate(int _width, int _height){
     height = _height;
     
     pingPong.allocate(width, height, internalFormat);
-    injectShader();
+    compileCode();
 };
 
-bool ofxFXObject::injectShader(string fragShader){
+bool ofxFXObject::setCode(string _fragShader){
     bool loaded = false;
-    if ( fragmentShader != fragShader ){
-        fragmentShader = fragShader;
-        loaded = injectShader();
+    
+    if ( fragmentShader != _fragShader ){
+        
+        ofShader test;
+        test.setupShaderFromSource(GL_FRAGMENT_SHADER, _fragShader);
+        bFine = test.linkProgram();
+        
+        if( bFine ){
+            fragmentShader = _fragShader;
+            loaded = compileCode();
+        }
     }
+    
     return loaded;
 }
 
-bool ofxFXObject::injectShader(){
+bool ofxFXObject::compileCode(){
     
     // Looks how many textures it´s need on the injected fragment shader
     int num = 0;
@@ -251,6 +261,8 @@ void ofxFXObject::update(){
         for( int i = 0; i < nTextures; i++){
             string texName = "tex" + ofToString(i); 
             shader.setUniformTexture(texName.c_str(), textures[i].getTextureReference(), i+1 );
+            string texRes = "res" + ofToString(i); 
+            shader.setUniform2f(texRes.c_str() , (float)textures[i].getWidth(), (float)textures[i].getHeight());
         }
         
         // Also there are some standar variables that are passes to the shaders
@@ -313,7 +325,13 @@ void ofxFXObject::renderFrame(float _width, float _height){
     if (_width == -1) _width = width;
     if (_height == -1) _height = height;
     
-    ofSetColor(255,255,255,255);
+    // If it´s not well compiled it will show an image little more gray.
+    //
+    if (bFine)
+        ofSetColor(255,255);  
+    else
+        ofSetColor(150,255);
+    
     glBegin(GL_QUADS);
     glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
     glTexCoord2f(_width, 0); glVertex3f(_width, 0, 0);

@@ -58,21 +58,23 @@ public:
     virtual void allocate(int _width, int _height, int _internalFormat);;
     void allocate(int _width, int _height);
     
-    virtual bool injectShader(string fragShader);
-    virtual bool injectShader();
+    virtual bool setCode(string fragShader);
+    virtual bool compileCode();
     
     void setPasses(int _passes) { passes = _passes; };
-    void setInternalFormat(int _internalFormat) { internalFormat = _internalFormat; injectShader(); };
+    void setInternalFormat(int _internalFormat) { internalFormat = _internalFormat; compileCode(); };
     void setTexture(ofTexture& tex, int _texNum = 0);
     
     void begin(int _texNum = 0);
 	void end(int _texNum = 0);
     
-    float       getTime() const {return time;};
+    bool        compiled() const{ return bFine; };
+    string      getCode() const { return fragmentShader; };
+    float       getTime() const { return time;};
     int         getPasses() const { return passes; };
     int         getInternalFormat() const { return internalFormat; };
+    int         getNumberOfCalledTextures() const { return nTextures; };
     ofVec2f     getResolution() const { return ofVec2f(width,height);};
-    string      getFragShaderCode() const { return fragmentShader; };
     ofTexture&  getTextureReference() const { return pingPong.dst->getTextureReference(); };
     
     void clear(){ pingPong.clear(); } 
@@ -90,6 +92,7 @@ protected:
     string          fragmentShader;
     float           width, height, time;
     int             nTextures, passes, internalFormat;
+    bool            bFine;
 };
 
 #endif

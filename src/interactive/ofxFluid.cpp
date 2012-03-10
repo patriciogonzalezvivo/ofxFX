@@ -271,7 +271,7 @@ void ofxFluid::allocate(int _width, int _height, float _scale){
     initFbo(obstaclesFbo, gridWidth, gridHeight, GL_RGB);
     initFbo(divergenceFbo, gridWidth, gridHeight, GL_RGB16F);
     
-    injectShader();
+    compileCode();
     
     temperatureBuffer.src->begin();
     ofClear( ambientTemperature );

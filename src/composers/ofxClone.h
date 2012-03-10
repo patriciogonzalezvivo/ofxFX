@@ -25,26 +25,26 @@ public:
         
         strength = 0;
         
-        fragmentShader = "#version 120\n \
-        #extension GL_ARB_texture_rectangle : enable\n \
-        \
-        uniform sampler2DRect tex0;\
-        uniform sampler2DRect tex1;\
-        uniform sampler2DRect tex2;\
-        \
-        void main() {\
-            vec2 st = gl_TexCoord[0].st;	\
-            vec4 srcColorBlur = texture2DRect(tex1, st);\
-            \
-            if(srcColorBlur.a > 0.) {\
-                vec3 srcColor = texture2DRect(tex0, st).rgb;\
-                vec4 dstColorBlur = texture2DRect(tex2, st);\
-                vec3 offset = dstColorBlur.rgb - srcColorBlur.rgb;\
-                gl_FragColor = vec4(srcColor + offset, 1.);\
-            } else {\
-                gl_FragColor = vec4(0.);\
-            }\
-        }";
+        fragmentShader = "#version 120\n\
+#extension GL_ARB_texture_rectangle : enable\n\
+\n\
+uniform sampler2DRect tex0;\n\
+uniform sampler2DRect tex1;\n\
+uniform sampler2DRect tex2;\n\
+\n\
+void main() {\n\
+    vec2 st = gl_TexCoord[0].st;\n\
+    vec4 srcColorBlur = texture2DRect(tex1, st);\n\
+    \n\
+    if(srcColorBlur.a > 0.) {\n\
+        vec3 srcColor = texture2DRect(tex0, st).rgb;\n\
+        vec4 dstColorBlur = texture2DRect(tex2, st);\n\
+        vec3 offset = dstColorBlur.rgb - srcColorBlur.rgb;\n\
+        gl_FragColor = vec4(srcColor + offset, 1.);\n\
+    } else {\n\
+        gl_FragColor = vec4(0.);\n\
+    }\n\
+}\n ";
         
         string fragmentMaskBlurShader = "#version 120\n \
         #extension GL_ARB_texture_rectangle : enable\n \

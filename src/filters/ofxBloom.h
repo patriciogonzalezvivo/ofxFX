@@ -18,33 +18,34 @@ public:
         passes = 1;
         internalFormat = GL_RGBA;
         
-        fragmentShader = "#version 120\n \
-        #extension GL_ARB_texture_rectangle : enable\n \
-        \
-        uniform sampler2DRect tex0;\
-        \
-        void main(){\
-            vec4 sum = vec4(0);\
-            vec2 st = gl_TexCoord[0].st;\
-            int j;\
-            int i;\
-            \
-            for( i= -4 ;i < 4; i++){\
-                for (j = -3; j < 3; j++){\
-                    sum += texture2DRect(tex0, st + vec2(j, i)*0.004) * 0.25;\
-                }\
-            }\
-            \
-            if (texture2DRect(tex0, st).r < 0.3){\
-                gl_FragColor = sum * sum * 0.012 + texture2DRect(tex0, st);\
-            } else {\
-                if (texture2DRect(tex0, st).r < 0.5){\
-                    gl_FragColor = sum * sum * 0.009 + texture2DRect(tex0, st);\
-                } else {\
-                    gl_FragColor = sum * sum * 0.0075 + texture2DRect(tex0, st);\
-                }\
-            }\
-        }";
+        fragmentShader = "#version 120\n\
+#extension GL_ARB_texture_rectangle : enable\n\
+\n\
+uniform sampler2DRect tex0;\n\
+\n\
+void main(){\n\
+    vec4 sum = vec4(0);\n\
+    vec2 st = gl_TexCoord[0].st;\n\
+    int j;\n\
+    int i;\n\
+    \n\
+    for( i= -4 ;i < 4; i++){\n\
+        for (j = -3; j < 3; j++){\n\
+            sum += texture2DRect(tex0, st + vec2(j, i)*0.004) * 0.25;\n\
+        }\n\
+    }\n\
+    \n\
+    if (texture2DRect(tex0, st).r < 0.3){\n\
+        gl_FragColor = sum * sum * 0.012 + texture2DRect(tex0, st);\n\
+    } else {\n\
+        if (texture2DRect(tex0, st).r < 0.5){\n\
+            gl_FragColor = sum * sum * 0.009 + texture2DRect(tex0, st);\n\
+        } else {\n\
+            gl_FragColor = sum * sum * 0.0075 + texture2DRect(tex0, st);\n\
+        }\n\
+    }\n\
+}\n\
+\n";
     }
 };
 #endif
