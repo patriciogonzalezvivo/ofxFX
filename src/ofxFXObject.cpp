@@ -261,7 +261,7 @@ void ofxFXObject::update(){
         for( int i = 0; i < nTextures; i++){
             string texName = "tex" + ofToString(i); 
             shader.setUniformTexture(texName.c_str(), textures[i].getTextureReference(), i+1 );
-            string texRes = "res" + ofToString(i); 
+            string texRes = "size" + ofToString(i); 
             shader.setUniform2f(texRes.c_str() , (float)textures[i].getWidth(), (float)textures[i].getHeight());
         }
         
@@ -271,6 +271,7 @@ void ofxFXObject::update(){
         // webGL interactive GLSL editors
         //
         shader.setUniform1f("time", (float)time );
+        shader.setUniform2f("size", (float)width, (float)height);
         shader.setUniform2f("resolution", (float)width, (float)height);
         shader.setUniform2f("mouse", (float)(ofGetMouseX()/width), (float)(ofGetMouseY()/height));
         
