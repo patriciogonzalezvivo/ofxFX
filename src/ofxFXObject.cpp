@@ -200,13 +200,13 @@ bool ofxFXObject::compileCode(){
         }
     }
     
-    bool loaded;
+    //bool loaded;
     // Compile the shader and loadit to the GPU
     shader.unload();
     shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
-    loaded = shader.linkProgram();
+    bFine = shader.linkProgram();
     
-    return loaded;
+    return bFine;
 }
 
 // A simplified way of filling the insides texture

@@ -56,7 +56,7 @@ public:
     ofTexture& operator[](int _nText){ if ((_nText < nTextures) && (_nText >= 0) ) return textures[_nText].getTextureReference(); };
 
     virtual void allocate(int _width, int _height, int _internalFormat);;
-    void allocate(int _width, int _height);
+    virtual void allocate(int _width, int _height);
     
     virtual bool setCode(string fragShader);
     virtual bool compileCode();
@@ -79,7 +79,7 @@ public:
     
     void clear(){ pingPong.clear(); } 
     
-    void update();
+    virtual void update();
     void draw(int x = 0, int y = 0, float _width = -1, float _height = -1);
     
 protected:
