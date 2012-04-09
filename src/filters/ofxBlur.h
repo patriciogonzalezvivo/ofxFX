@@ -51,7 +51,7 @@ public:
 	}
 
 protected:
-    bool injectShader(){
+    bool compileCode(){
         nTextures = 1;
         textures = new ofFbo[nTextures];
         
@@ -118,8 +118,6 @@ protected:
     	blurShader[1].linkProgram();
         
         return true;
-        // TODO: 
-        //      - make a real check
     }
     
     ofShader    blurShader[2];
