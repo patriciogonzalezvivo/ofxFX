@@ -70,7 +70,6 @@ public:
     
     bool        compiled() const{ return bFine; };
     string      getCode() const { return fragmentShader; };
-    float       getTime() const { return time;};
     int         getPasses() const { return passes; };
     int         getInternalFormat() const { return internalFormat; };
     int         getNumberOfCalledTextures() const { return nTextures; };
@@ -90,7 +89,7 @@ protected:
     ofFbo           *textures;
     ofShader        shader;
     string          fragmentShader;
-    float           width, height, time;
+    float           width, height;
     int             nTextures, passes, internalFormat;
     bool            bFine;
 };

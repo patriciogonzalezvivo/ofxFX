@@ -270,7 +270,7 @@ void ofxFXObject::update(){
         // http://mrdoob.com/projects/glsl_sandbox/ and ShaderToy by Inigo Quilez http://www.iquilezles.org/apps/shadertoy/
         // webGL interactive GLSL editors
         //
-        shader.setUniform1f("time", (float)time );
+        shader.setUniform1f("time", ofGetElapsedTimef() );
         shader.setUniform2f("size", (float)width, (float)height);
         shader.setUniform2f("resolution", (float)width, (float)height);
         shader.setUniform2f("mouse", (float)(ofGetMouseX()/width), (float)(ofGetMouseY()/height));
@@ -289,8 +289,6 @@ void ofxFXObject::update(){
     
     pingPong.swap();        // After the loop the render information will be at the src ofFbo of the ofxSwapBuffer 
     // this extra swap() call will put it on the dst one. Witch sounds more reasonable... isn´t?
-    
-    time += 1.0/ofGetFrameRate();   // here it´s where the time it´s updated.
 };
 
 // DRAW

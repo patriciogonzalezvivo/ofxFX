@@ -45,6 +45,7 @@
 #include "ofxLUT.h"
 
 #include "generative/ofxGrayScott.h"
+#include "generative/ofxTint.h"
 
 #include "interactive/ofxWater.h"
 #include "interactive/ofxFluid.h"

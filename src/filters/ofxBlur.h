@@ -33,16 +33,16 @@ public:
         
         for(int i = 0; i < passes; i++) {
             for(int j = 0; j < 2; j++) {    
-                pingPong[(j+1)%2].begin();
+                pingPong.dst->begin();
                 blurShader[j].begin();
                 blurShader[j].setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
                 blurShader[j].setUniform1f("radius", radius);
                 renderFrame();
                 blurShader[j].end();
-                pingPong[(j+1)%2].end();
+                pingPong.dst->end();
+                
+                pingPong.swap();
             }
-            
-            pingPong.swap();
         }
         
         pingPong.swap();
