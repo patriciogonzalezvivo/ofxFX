@@ -70,6 +70,8 @@ public:
     
     bool        compiled() const{ return bFine; };
     string      getCode() const { return fragmentShader; };
+    float       getWidth() const { return width;};
+    float       getHeight() const { return height;};
     int         getPasses() const { return passes; };
     int         getInternalFormat() const { return internalFormat; };
     int         getNumberOfCalledTextures() const { return nTextures; };
