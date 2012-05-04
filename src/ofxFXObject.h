@@ -43,10 +43,11 @@
 
 #define STRINGIFY(A) #A
 
-class ofxFXObject{
+class ofxFXObject: public ofRectangle {
 public:
     
     ofxFXObject();
+    ofxFXObject(ofRectangle const & _rect){ set(_rect); };
     ofxFXObject(ofxFXObject& parent);
     ~ofxFXObject();
 
@@ -58,6 +59,7 @@ public:
     virtual void allocate(int _width, int _height, int _internalFormat);;
     virtual void allocate(int _width, int _height);
     
+    virtual void set(ofRectangle const & _rect){ ofRectangle::set(_rect); allocate(width,height); };
     virtual bool setCode(string fragShader);
     virtual bool compileCode();
     
@@ -81,7 +83,8 @@ public:
     void clear(){ pingPong.clear(); } 
     
     virtual void update();
-    void draw(int x = 0, int y = 0, float _width = -1, float _height = -1);
+    void draw(ofRectangle &_rect){ draw(_rect.x,_rect.y,_rect.width,_rect.height);};
+    void draw(int _x = -1, int _y = -1, float _width = -1, float _height = -1);
     
 protected:
     virtual void initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat = GL_RGBA );
@@ -91,7 +94,6 @@ protected:
     ofFbo           *textures;
     ofShader        shader;
     string          fragmentShader;
-    float           width, height;
     int             nTextures, passes, internalFormat;
     bool            bFine;
 };

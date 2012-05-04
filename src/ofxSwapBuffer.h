@@ -11,7 +11,7 @@
 
 class ofxSwapBuffer {
 public:
-    void allocate( int _width, int _height, int _internalformat = GL_RGBA, float _dissipation = 1.0f){
+    virtual void allocate( int _width, int _height, int _internalformat = GL_RGBA, float _dissipation = 1.0f){
         
         // Allocate
         for(int i = 0; i < 2; i++)
@@ -28,12 +28,12 @@ public:
         diss = _dissipation;
     }
     
-    void swap(){
+    virtual void swap(){
         src = &(FBOs[(flag)%2]);
         dst = &(FBOs[++(flag)%2]);
     }
     
-    void clear(){
+    virtual void clear(){
         for(int i = 0; i < 2; i++){
             FBOs[i].begin();
             ofClear(0,255);

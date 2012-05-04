@@ -295,13 +295,16 @@ void ofxFXObject::update(){
 // --------------------------------------
 
 // Finaly the drawing funtion. It can be use with or with-out arguments in order to make it more flexible
-void ofxFXObject::draw(int x, int y, float _width, float _height){
+void ofxFXObject::draw(int _x, int _y, float _width, float _height){
+    if (_x == -1) _x = x;
+    if (_y == -1) _y = y;
+    
     if (_width == -1) _width = width;
     if (_height == -1) _height = height;
     
     ofPushStyle();
     ofEnableAlphaBlending();
-    pingPong.dst->draw(x, y, _width, _height);
+    pingPong.dst->draw(_x, _y, _width, _height);
     ofPopStyle();
 }
 
