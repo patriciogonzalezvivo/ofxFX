@@ -42,10 +42,11 @@ typedef enum {
 class ofxBlend : public ofxFXObject {	
 public:
     ofxBlend(){
-        blendMode   = 0;
-        internalFormat = GL_RGBA;
+        passes          = 1;
+        blendMode       = BLEND_NORMAL;
+        internalFormat  = GL_RGBA;
         
-        fragmentShader = "#version 120\n \
+        fragmentShader  = "#version 120\n \
     	#extension GL_ARB_texture_rectangle : enable\n \
         \
         #define BlendLinearDodgef BlendAddf\n \
@@ -281,13 +282,13 @@ public:
     }
   
     void    setBlendMode( PSBlendMode _blendMode){ blendMode = _blendMode; };
-    /*
+    
     void    begin(int _texNum = 0 ) {
         if ((_texNum < nTextures) && ( _texNum >= 0)){
             ofPushStyle();
             ofPushMatrix();
             textures[_texNum].begin();
-            ofClear(0,255);
+            ofClear(0,0);
         }
     }
     
@@ -297,7 +298,7 @@ public:
             ofPopMatrix();
             ofPopStyle();
         }
-    }*/
+    }
     
     void    addLayer( ofTexture& tex, PSBlendMode _blendMode){
         setBlendMode(_blendMode);
@@ -311,26 +312,34 @@ public:
     
     void    update(){
         
-        //ofEnableAlphaBlending();
+        ofEnableAlphaBlending();
+
+        cout << blendMode << endl;
         
-        pingPong.dst->begin();
-        //ofClear(0,0);
+        pingPong[0].begin();
+        
+        ofClear(0,0);
         ofSetColor(255,255);
+        
         shader.begin();
-            shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0);
+            shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 1);
             shader.setUniformTexture("tex0", textures[0].getTextureReference(), 1);
             shader.setUniform1i("mode", blendMode); 
-            
+        
             renderFrame();
-            //textures[0].getTextureReference().draw(0,0);
         
         shader.end();
-        pingPong.dst->end();
         
-        //pingPong.swap();
-        //pingPong.swap();
+        pingPong[0].end();
+        
+        pingPong[1].begin();
+        pingPong[0].draw(0,0);
+        pingPong[1].end();
     };
 
+    void    draw(int _x, int _y){
+        pingPong[1].draw(_x,_y);
+    }
 private:
     int blendMode;
 };
