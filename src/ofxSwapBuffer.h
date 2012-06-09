@@ -33,10 +33,10 @@ public:
         dst = &(FBOs[++(flag)%2]);
     }
     
-    virtual void clear(){
+    virtual void clear(int _alpha = 255){
         for(int i = 0; i < 2; i++){
             FBOs[i].begin();
-            ofClear(0,255);
+            ofClear(0,_alpha);
             FBOs[i].end();
         }
     }

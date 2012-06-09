@@ -67,8 +67,8 @@ public:
     void setInternalFormat(int _internalFormat) { internalFormat = _internalFormat; compileCode(); };
     void setTexture(ofTexture& tex, int _texNum = 0);
     
-    void begin(int _texNum = 0);
-	void end(int _texNum = 0);
+    virtual void begin(int _texNum = 0);
+	virtual void end(int _texNum = 0);
     
     bool        compiled() const{ return bFine; };
     string      getCode() const { return fragmentShader; };
@@ -80,7 +80,7 @@ public:
     ofVec2f     getResolution() const { return ofVec2f(width,height);};
     ofTexture&  getTextureReference() const { return pingPong.dst->getTextureReference(); };
     
-    void clear(){ pingPong.clear(); } 
+    void clear(int alpha = 255){ pingPong.clear(alpha); } 
     
     virtual void update();
     void draw(ofRectangle &_rect){ draw(_rect.x,_rect.y,_rect.width,_rect.height);};
