@@ -273,11 +273,7 @@ public:
                 result = BlendNormal(baseCol.rgb, blendCol.rgb);\
             }\
             \
-            if (blendCol.a <= 0.0){\
-                gl_FragColor = vec4(0.0,0.0,0.0,0.0);\
-            } else {\
-                gl_FragColor = vec4(result, 1.0);\
-            }\
+            gl_FragColor = vec4(result, min(baseCol.a+blendCol.a,1.0));\
         }";
     }
   
@@ -313,32 +309,25 @@ public:
     void    update(){
         
         ofEnableAlphaBlending();
-
-        cout << blendMode << endl;
         
-        pingPong[0].begin();
+        pingPong.swap();
         
-        ofClear(0,0);
+        pingPong.dst->begin();
+        //ofClear(0,0);
         ofSetColor(255,255);
         
         shader.begin();
-            shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 1);
-            shader.setUniformTexture("tex0", textures[0].getTextureReference(), 1);
-            shader.setUniform1i("mode", blendMode); 
+        shader.setUniformTexture("tex0", textures[0].getTextureReference(), 1);
+        shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0);
+        shader.setUniform1i("mode", blendMode); 
         
-            renderFrame();
-        
+        renderFrame();
         shader.end();
-        
-        pingPong[0].end();
-        
-        pingPong[1].begin();
-        pingPong[0].draw(0,0);
-        pingPong[1].end();
+        pingPong.dst->end();
     };
 
     void    draw(int _x, int _y){
-        pingPong[1].draw(_x,_y);
+        pingPong.dst->draw(_x,_y);
     }
 private:
     int blendMode;
