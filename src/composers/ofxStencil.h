@@ -29,7 +29,8 @@ public:
             vec4 image = texture2DRect(tex0, st);\n\
             vec4 stencil = texture2DRect(tex1, st);\n\
             \n\
-            gl_FragColor = vec4(image.rgb*(1.0-stencil.r)*image.a, (1.0-stencil.r)*image.a);\n\
+            float alpha = 1.0 - max(stencil.r,max(stencil.g,stencil.b));\n\
+            gl_FragColor = vec4(image.rgb, min(alpha,image.a));\n\
         }\n";
     }
     
@@ -49,6 +50,16 @@ public:
             ofPopStyle();
         }
     }
+    
+    void setTexture(ofTexture& tex, int _texNum){ 
+        if ((_texNum < nTextures) && ( _texNum >= 0)){
+            textures[_texNum].begin(); 
+            ofClear(0,0);
+            ofSetColor(255);
+            tex.draw(0,0); 
+            textures[_texNum].end();
+        }
+    };
     
     void    update(){
         ofEnableAlphaBlending();

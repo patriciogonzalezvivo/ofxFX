@@ -38,10 +38,37 @@ void main (void){\n\
     vec4 mask = texture2DRect(tex0, st);\n\
     vec4 image = texture2DRect(tex1, st);\n\
     \n\
-    gl_FragColor = vec4(image.rgb,mask.r);\n\
+    gl_FragColor = vec4(image.rgb,max(mask.r,max(mask.g,mask.b)));\n\
 }\n\
 \n";
     }
+    
+    void    begin(int _texNum = 0 ) {
+        if ((_texNum < nTextures) && ( _texNum >= 0)){
+            ofPushStyle();
+            ofPushMatrix();
+            textures[_texNum].begin();
+            //ofClear(0,0);
+        }
+    }
+    
+    void    end(int _texNum = 0) {
+        if ((_texNum < nTextures) && ( _texNum >= 0)){
+            textures[_texNum].end();
+            ofPopMatrix();
+            ofPopStyle();
+        }
+    }
+    
+    void setTexture(ofTexture& tex, int _texNum){ 
+        if ((_texNum < nTextures) && ( _texNum >= 0)){
+            textures[_texNum].begin(); 
+            ofClear(0,0);
+            ofSetColor(255);
+            tex.draw(0,0); 
+            textures[_texNum].end();
+        }
+    };
 };
 
 #endif

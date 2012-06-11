@@ -65,7 +65,7 @@ public:
     
     void setPasses(int _passes) { passes = _passes; };
     void setInternalFormat(int _internalFormat) { internalFormat = _internalFormat; compileCode(); };
-    void setTexture(ofTexture& tex, int _texNum = 0);
+    virtual void setTexture(ofTexture& tex, int _texNum = 0);
     
     virtual void begin(int _texNum = 0);
 	virtual void end(int _texNum = 0);
