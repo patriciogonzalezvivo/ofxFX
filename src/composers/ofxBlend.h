@@ -273,7 +273,7 @@ public:
                 result = BlendNormal(baseCol.rgb, blendCol.rgb);\
             }\
             \
-            gl_FragColor = vec4(result, min(baseCol.a+blendCol.a,1.0));\
+            gl_FragColor = vec4(result, max( max(result.r,max(result.g,result.b)),blendCol.a));\
         }";
     }
   
@@ -284,7 +284,7 @@ public:
             ofPushStyle();
             ofPushMatrix();
             textures[_texNum].begin();
-            ofClear(0,0);
+            //ofClear(0,0);
         }
     }
     
