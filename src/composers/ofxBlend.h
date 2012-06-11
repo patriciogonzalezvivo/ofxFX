@@ -220,7 +220,7 @@ public:
             \
             vec3 result;\
             if (mode == 0){\
-                result = BlendNormal(baseCol.rgb, blendCol.rgb);\
+                result = mix(baseCol.rgb, blendCol.rgb, blendCol.a);\
             } else if (mode == 1) {\
                 result = BlendMultiply(baseCol.rgb, blendCol.rgb);\
             } else if (mode == 2) {\
