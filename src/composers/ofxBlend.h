@@ -273,10 +273,12 @@ public:
                 result = BlendNormal(baseCol.rgb, blendCol.rgb);\
             }\
             \
-            gl_FragColor = vec4(result, max( max(result.r,max(result.g,result.b)),blendCol.a));\
+            gl_FragColor = vec4(result, max(baseCol.a, min(blendCol.a*2.0,1.0) ) );\
         }";
     }
   
+    //gl_FragColor = vec4(result, max( max(result.r,max(result.g,result.b)),blendCol.a));
+    
     void    setBlendMode( PSBlendMode _blendMode){ blendMode = _blendMode; };
     
     void    begin(int _texNum = 0 ) {
@@ -305,6 +307,14 @@ public:
             tex.draw(0,0); 
         textures[0].end();
     };
+    
+    void    beginBackground(){
+        pingPong.dst->begin();
+    }
+    
+    void    endBackground(){
+        pingPong.dst->end();
+    }
     
     void    update(){
         
