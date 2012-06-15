@@ -38,7 +38,7 @@ void main (void){\n\
     vec4 mask = texture2DRect(tex0, st);\n\
     vec4 image = texture2DRect(tex1, st);\n\
     \n\
-    gl_FragColor = vec4(image.rgb,max(mask.r,max(mask.g,mask.b)));\n\
+    gl_FragColor = vec4(image.rgb,max(mask.r,max(mask.g,mask.b))*image.a );\n\
 }\n\
 \n";
     }

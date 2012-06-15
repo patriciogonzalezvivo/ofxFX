@@ -36,7 +36,6 @@
 #include "composers/ofxClone.h"
 #include "composers/ofxMultiTexture.h"
 #include "composers/ofxBlend.h"
-#include "composers/ofxStencil.h"
 
 #include "filters/ofxBloom.h"
 #include "filters/ofxBlur.h"
