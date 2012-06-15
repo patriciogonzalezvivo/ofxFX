@@ -273,7 +273,7 @@ public:
                 result = BlendNormal(baseCol.rgb, blendCol.rgb);\
             }\
             \
-            gl_FragColor = vec4(result, max(baseCol.a, min(blendCol.a*2.0,1.0) ) );\
+            gl_FragColor = vec4(result, max(baseCol.a, min(blendCol.a*3.0,1.0) ) );\
         }";
     }
   
