@@ -66,9 +66,6 @@ private:
     ofShader posUpdateShader;
     ofShader renderShader;
     
-    //ofPoint *particles;
-    //ofFloatPixels pixels;
-    
     ofxSwapBuffer posBuffer;
     
     ofFbo   renderFbo;

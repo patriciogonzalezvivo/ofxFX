@@ -4,6 +4,7 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
+    ofSetVerticalSync(true);
     ofEnableAlphaBlending();
     
     width = 640;
@@ -33,7 +34,7 @@ void testApp::setup(){
         lut.loadLUT(dir.getPath(dirLoadIndex));
 	}
     
-    selection = 1;
+    selection = -1;
 }
 
 //--------------------------------------------------------------
@@ -45,37 +46,39 @@ void testApp::update(){
         
         mult.setTexture(lut.getTextureReference(),1);
         
-        if ( selection == 0 ){
+        if ( selection == -1 ){         //  NO FILTER
+            
+            mult.setTexture(lut.getTextureReference(),2);
+        } else if ( selection == 0 ){   // BLOOM
             bloom << lut ;
             bloom.update();
-        } else if ( selection == 1 ){
-            blur.setRadius(sin(beat)*10);
+            mult.setTexture(bloom.getTextureReference(),2);
+        } else if ( selection == 1 ){   // BLUR
+            blur.setRadius(sin( ofGetElapsedTimef() )*10);
             blur << lut;
-            mult.setTexture(blur.getTextureReference(),2);
             blur.update();
-        } else if ( selection == 2 ){
-            bokeh.setRadius(abs(sin(beat)*10));
+            mult.setTexture(blur.getTextureReference(),2);
+        } else if ( selection == 2 ){   // BOKEH
+            bokeh.setRadius(abs(sin( ofGetElapsedTimef() )*10));
             bokeh << lut;
-            mult.setTexture(bokeh.getTextureReference(),2);
             bokeh.update();
-        } else if ( selection == 3 ){
-            glow.setRadius(sin(beat)*15);
+            mult.setTexture(bokeh.getTextureReference(),2);
+        } else if ( selection == 3 ){   // GLOW
+            glow.setRadius(sin( ofGetElapsedTimef() )*15);
             glow << lut;
-            mult.setTexture(glow.getTextureReference(),2);
             glow.update();
-        } else if ( selection == 4 ){
-            unsharp.setFade(sin(beat));
+            mult.setTexture(glow.getTextureReference(),2);
+        } else if ( selection == 4 ){   // UNSHARP
+            unsharp.setFade(sin( ofGetElapsedTimef() ));
             unsharp << lut;
-            mult.setTexture(unsharp.getTextureReference(),2);
             unsharp.update();
+            mult.setTexture(unsharp.getTextureReference(),2);
         }
         
         mult.update();
     }
     
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
-    
-    beat += 1.0/ofGetFrameRate();
 }
 
 //--------------------------------------------------------------
@@ -89,29 +92,30 @@ void testApp::draw(){
     
 	mult.draw(-height*0.5,-height*0.5, height,height);
     
-    
-    
     ofSetColor(255, 255);
     polaroid.draw(-polaroid.getWidth()*0.46,-polaroid.getHeight()*0.43,polaroid.getWidth()*0.95,polaroid.getHeight()*0.95);
     
-    
+    ofSetColor(50, 255);
+    ofDrawBitmapString("LUT: " + dir.getName(dirLoadIndex), -220 ,280);
+    if ( selection == 0 ){
+        ofDrawBitmapString("FILTER: Bloom", -220 ,300);
+    } else if ( selection == 1 ){
+        ofDrawBitmapString("FILTER: Blur at: " + ofToString(sin( ofGetElapsedTimef() )*10),-220 ,300);
+    } else if ( selection == 2 ){
+        ofDrawBitmapString("FILTER: Bokeh at: "+ ofToString( abs(sin( ofGetElapsedTimef() )*10)), -220 ,300);
+    } else if ( selection == 3 ){
+        ofDrawBitmapString("FILTER: Glow at: "+ ofToString(sin( ofGetElapsedTimef() )*15), -220 ,300);
+    } else if ( selection == 4 ){
+        ofDrawBitmapString("FILTER: Unsharp at: "+ ofToString(sin( ofGetElapsedTimef() )), -220 ,300);
+    } else {
+        ofDrawBitmapString("FILTER: No Filter", -220 ,300);
+    }
     
     ofPopMatrix();
     
-    if ( selection == 0 ){
-        ofDrawBitmapString("Bloom", 15,30);
-    } else if ( selection == 1 ){
-        ofDrawBitmapString("Blur at: " + ofToString(sin(beat)*10),15,30);
-    } else if ( selection == 2 ){
-        ofDrawBitmapString("Bokeh at: "+ ofToString( abs(sin(beat)*10)), 15,30);
-    } else if ( selection == 3 ){
-        ofDrawBitmapString("Glow at: "+ ofToString(sin(beat)*15), 15,30);
-    } else if ( selection == 4 ){
-        ofDrawBitmapString("Unsharp at: "+ ofToString(sin(beat)), 15,30);
-    } else {
-        ofDrawBitmapString("No Filter", 15,30);
-    }
-    ofDrawBitmapString(dir.getName(dirLoadIndex), 15,15);
+    ofSetColor(255, 255);
+    ofDrawBitmapString("Press LEFT/RIGHT keys to change between filters", 15,15);
+    ofDrawBitmapString("Press UP/DOWN keys to change between LUT«s", 15,30);
 }
 
 //--------------------------------------------------------------

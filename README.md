@@ -177,15 +177,16 @@ First case, the ones that in some point breaks the  structure of ofxFXObject wit
 
 The second case, are the ones could be use as filters. That means, they could be use for many things. Giving lot of flexibility and freedom when you use it on your project. Like using the blur and the glow combined with mask and things like that.
 
-* Filters: ofxBloom, ofxBlur, ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/), ofxGlow, ofxUnsharp and ofxOldTv ( from [ShaderToy postprocessing](http://www.iquilezles.org/apps/shadertoy/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488))
+* Filters: ofxBloom, ofxBlur, ofxLUT, ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/), ofxGlow, ofxUnsharp and ofxOldTv ( from [ShaderToy postprocessing](http://www.iquilezles.org/apps/shadertoy/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488))
 
-* Composers: ofxClone: maden by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution). And ofxMask: based on ofxAlphaMaskShader made by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
+![filter0](http://patriciogonzalezvivo.com/images/filter0.png) ![filter1](http://patriciogonzalezvivo.com/images/filter1.png) ![filter2](http://patriciogonzalezvivo.com/images/filter2.png) ![filter3](http://patriciogonzalezvivo.com/images/filter3.png)
+
+* Composers: ofxBlend: by [Akira Hayasaka Photoshop blend modes shader](https://github.com/Akira-Hayasaka/ofxPSBlend) with alpha mixing as well.  ofxClone: by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution). And ofxMask: based on ofxAlphaMaskShader made by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
 
 <iframe src="http://player.vimeo.com/video/34304485" width="640" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
-
 # Examples #
-On this addon you will find examples of the classes I just describe. Some of them are combined together in order to show clearly how to use them in the following examples:
+On this addon you will find examples of the classes I just describe. Some of them are combined together in order to show clearly how to use them. Other examples shows new ways of making new shaders by injecting code or extending classes as the following ones:
 
 *   sandbox: diferent eyecandy shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) together and then passed to post-processing GLSL shaders that acts as filters ( blur, glow, bloom, etc ) 
 

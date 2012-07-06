@@ -32,7 +32,6 @@ public:
     ofxGlow     glow;
     ofxUnsharp  unsharp;
     
-    float       beat;
     int         width,height;
     int         selection;
     int         dirLoadIndex;
