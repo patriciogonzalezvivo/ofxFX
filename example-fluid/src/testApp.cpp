@@ -6,57 +6,45 @@ void testApp::setup(){
 	ofSetWindowShape(640, 480);
     
     // Initial Allocation
+    //
     fluid.allocate(640, 480, 0.5);
+    
     // Seting the gravity set up & injecting the background image
-    fluid.setGravity(ofVec2f(0.0,0.0098));
-    fluid.setTexture(image.getTextureReference());
+    //
+    fluid.setGravity(ofVec2f(0.0,-0.098));
+    fluid.setDissipation(0.99);
+    
+    //  Set obstacle
+    //
+    fluid.begin();
+    ofSetColor(255);
+    ofCircle(640*0.5, 480*0.7, 10);
+    fluid.end();
     
     // Adding constant forces
-    //fluid.addConstantForce(ofVec2f(640*0.5,480*0.85), ofVec2f(0,-3), ofFloatColor(0.5,0.0,0.0), 6.f);
+    //
+    fluid.addConstantForce(ofVec2f(640*0.5,480*0.85), ofVec2f(0,-10.), ofFloatColor(0.5,0.0,0.0), 6.f);
     //fluid.addConstantForce(ofVec2f(640*0.5,480*0.85), ofVec2f(0,-1), ofFloatColor(0.0,0.3,0.0), 3.f);
     
-    bPaint = true;
-    bObstacle = false;
-    bBounding = true;
-    bClear = true;
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+    
+    // Adding temporal Force
+    //
     ofVec2f m = ofVec2f(mouseX,mouseY);
-    
-    if (bPaint){
-        ofVec2f center = ofVec2f(640*0.5, 480*0.5);
-        ofVec2f d = m - oldM;
-        ofVec2f c = center - m;
-        d *= 2.0;
-        c.normalize();
-        
-        // Adding temporal Force
-        fluid.addTemporalForce(m, d, ofFloatColor(c.x,c.y,0.5),3.0f);
-    } 
-
-    // Updating the obstacle texture if not using obstacles you have to call update()
-    fluid.begin();
-    if (bClear) ofClear(0);
-    
-    if (bObstacle){
-        ofFill();
-        ofColor(255,0,0);
-        ofCircle(m.x, m.y, 5);
-    } 
-    
-    if (bBounding){
-        ofNoFill();
-        ofSetColor(200);
-        ofRect(2, 2, 636, 476);
-    }
-    fluid.end();
-    
-    fluid.update();
-    
-    // Storing the mouse position in order to get the velocity of it and pass it to the fluid
+    ofVec2f center = ofVec2f(640*0.5, 480*0.5);
+    ofVec2f d = m - oldM;
+    ofVec2f c = center - m;
+    d *= 12.0;
+    c.normalize();
     oldM = m;
+    fluid.addTemporalForce(m, d, ofFloatColor(c.x,c.y,0.5),5.0f);
+
+    //  Update
+    //
+    fluid.update();
     
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
 }

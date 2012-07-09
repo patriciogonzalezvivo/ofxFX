@@ -43,7 +43,7 @@
 #include "filters/ofxGlow.h"
 #include "filters/ofxOldTv.h"
 #include "filters/ofxUnsharp.h"
-#include "ofxLUT.h"
+#include "filters/ofxLUT.h"
 
 #include "generative/ofxGrayScott.h"
 #include "generative/ofxTint.h"
@@ -51,6 +51,9 @@
 #include "interactive/ofxWater.h"
 #include "interactive/ofxFluid.h"
 #include "interactive/ofxFlocking.h"
+
+#include "transformers/ofxRotate.h"
+#include "transformers/ofxKaleidoscope.h"
 
 #endif
 
