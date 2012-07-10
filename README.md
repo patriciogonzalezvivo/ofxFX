@@ -154,25 +154,22 @@ If you are thinking on making your own filter or generative shader. You may want
 
 In the src/ directory of the addon you will find lot´s of subClasses that inherit from ofxFXObject. Most of them are there for two reasons. 
 
-First case, the ones that in some point breaks the  structure of ofxFXObject with some extra tweaks. Like the way the pingPong works. The number of shaders need and how they pass the data to each other. Or if the implement vertex or Geometry shader as well. That´s the case of:
+* Interactive: First case, the ones that in some point breaks the  structure of ofxFXObject with some extra tweaks. Like the way the pingPong works. The number of shaders need and how they pass the data to each other. Or if the implement vertex or Geometry shader as well. That´s the case of:
 
-* ofxFlocking: a GPU flocking system that implement two different types of fragment shaders, plus one vertex and geometry shader [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488) 
+	* ofxFlocking: a GPU flocking system that implement two different types of fragment shaders, plus one vertex and geometry shader [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488) . This as the next for are consider interactive shaders
 
 <iframe src="http://player.vimeo.com/video/30684308" width="640" height="478" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
+	* ofxFluid: fluid simulation based on [this article of Mark Harris](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) that use a lot of shader on a very complex and crazy way
 
-* ofxFluid: fluid simulation based on [this article of Mark Harris](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) that use a lot of shader on a very complex and crazy way
+![fluid](http://patriciogonzalezvivo.com/images/fluid01.png)
 
 <iframe src="http://player.vimeo.com/video/29887776" width="640" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
-* ofxGrayScott: based on ones [Cinder´s Reaction Diffusion example](http://libcinder.org/) that it´s based on [Gray-Scott model](http://mrob.com/pub/comp/xmorphia/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
-
-<iframe src="http://player.vimeo.com/video/29894099" width="640" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-
-
-* ofxWater: a regular water waves effect based on [Hugo Elias´s Tutorial](http://freespace.virgin.net/hugo.elias/graphics/x_water.htm). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
+	* ofxWater: a regular water waves effect based on [Hugo Elias´s Tutorial](http://freespace.virgin.net/hugo.elias/graphics/x_water.htm). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
 
 <iframe src="http://player.vimeo.com/video/29896245" width="640" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
 
 
 The second case, are the ones could be use as filters. That means, they could be use for many things. Giving lot of flexibility and freedom when you use it on your project. Like using the blur and the glow combined with mask and things like that.
@@ -181,9 +178,35 @@ The second case, are the ones could be use as filters. That means, they could be
 
 ![filter0](http://patriciogonzalezvivo.com/images/filter0.png) ![filter1](http://patriciogonzalezvivo.com/images/filter1.png) ![filter2](http://patriciogonzalezvivo.com/images/filter2.png) ![filter3](http://patriciogonzalezvivo.com/images/filter3.png)
 
-* Composers: ofxBlend: by [Akira Hayasaka Photoshop blend modes shader](https://github.com/Akira-Hayasaka/ofxPSBlend) with alpha mixing as well.  ofxClone: by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution). And ofxMask: based on ofxAlphaMaskShader made by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
+
+* Composers: 
+
+	* ofxBlend: by [Akira Hayasaka Photoshop blend modes shader](https://github.com/Akira-Hayasaka/ofxPSBlend) with alpha mixing as well.  
+	* ofxClone: by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution). 
+
+	* ofxMask: based on ofxAlphaMaskShader made by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
+
+	* ofxMultiTexture: let you combine 3 textures into one using a RGB map of how to mix them.
 
 <iframe src="http://player.vimeo.com/video/34304485" width="640" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+* Generative: 
+
+	* ofxTint: generate a noise like pattern applied to a mask that´s it´s very similar to ink;
+![tint](http://patriciogonzalezvivo.com/images/tint.png)
+ 
+	* ofxGrayScott: based on ones [Cinder´s Reaction Diffusion example](http://libcinder.org/) that it´s based on [Gray-Scott model](http://mrob.com/pub/comp/xmorphia/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
+
+<iframe src="http://player.vimeo.com/video/29894099" width="640" height="480" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+* Transformers:
+	
+	* ofxRotation: let you rotate a texture through GPU
+
+	
+	* ofxKaleidoscope: kaleidoscope effect
+
+![kaleido](http://patriciogonzalezvivo.com/images/kaleido.png)
 
 # Examples #
 On this addon you will find examples of the classes I just describe. Some of them are combined together in order to show clearly how to use them. Other examples shows new ways of making new shaders by injecting code or extending classes as the following ones:
