@@ -278,7 +278,7 @@ void ofxFluid::allocate(int _width, int _height, float _scale){
     temperatureBuffer.src->end();
 }
 
-void ofxFluid::addTemporalForce(ofVec2f _pos, ofVec2f _vel, ofFloatColor _col, float _rad, float _temp, float _den){
+void ofxFluid::addTemporalForce(ofPoint _pos, ofPoint _vel, ofFloatColor _col, float _rad, float _temp, float _den){
     punctualForce f;
     
     f.pos = _pos * scale;
@@ -291,7 +291,7 @@ void ofxFluid::addTemporalForce(ofVec2f _pos, ofVec2f _vel, ofFloatColor _col, f
     temporalForces.push_back(f);
 }
 
-void ofxFluid::addConstantForce(ofVec2f _pos, ofVec2f _vel, ofFloatColor _col, float _rad, float _temp, float _den){
+void ofxFluid::addConstantForce(ofPoint _pos, ofPoint _vel, ofFloatColor _col, float _rad, float _temp, float _den){
     punctualForce f;
     
     f.pos = _pos * scale;
@@ -452,7 +452,7 @@ void ofxFluid::computeDivergence(){
     divergenceFbo.end();
 }
 
-void ofxFluid::applyImpulse(ofxSwapBuffer& _buffer, ofVec2f _force, ofVec3f _value, float _radio){
+void ofxFluid::applyImpulse(ofxSwapBuffer& _buffer, ofPoint _force, ofPoint _value, float _radio){
     glEnable(GL_BLEND);
     _buffer.src->begin();
     applyImpulseShader.begin();

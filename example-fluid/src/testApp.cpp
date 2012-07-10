@@ -13,18 +13,23 @@ void testApp::setup(){
     //
     fluid.setGravity(ofVec2f(0.0,-0.098));
     fluid.setDissipation(0.99);
+    fluid.setVelocityDissipation(0.99);
     
     //  Set obstacle
     //
     fluid.begin();
     ofSetColor(255);
     ofCircle(640*0.5, 480*0.7, 10);
+    ofCircle(640*0.5-30, 480*0.7-60, 5);
+    ofCircle(640*0.5+30, 480*0.7-60, 5);
+    ofCircle(640*0.5+50, 480*0.7-120, 2);
+    ofCircle(640*0.5-50, 480*0.7-120, 2);
     fluid.end();
     
     // Adding constant forces
     //
-    fluid.addConstantForce(ofVec2f(640*0.5,480*0.85), ofVec2f(0,-10.), ofFloatColor(0.5,0.0,0.0), 6.f);
-    //fluid.addConstantForce(ofVec2f(640*0.5,480*0.85), ofVec2f(0,-1), ofFloatColor(0.0,0.3,0.0), 3.f);
+    fluid.addConstantForce(ofPoint(640*0.5,480*0.85), ofPoint(0,-3.), ofFloatColor(0.5,0.1,0.0), 5.f);
+    //fluid.addConstantForce(ofPoint(640*0.5,480*0.85), ofPoint(0,-1), ofFloatColor(0.0,0.3,0.0), 3.f);
     
 }
 
@@ -33,14 +38,12 @@ void testApp::update(){
     
     // Adding temporal Force
     //
-    ofVec2f m = ofVec2f(mouseX,mouseY);
-    ofVec2f center = ofVec2f(640*0.5, 480*0.5);
-    ofVec2f d = m - oldM;
-    ofVec2f c = center - m;
-    d *= 12.0;
-    c.normalize();
+    ofPoint m = ofPoint(mouseX,mouseY);
+    ofPoint d = (m - oldM)*10.0;
     oldM = m;
-    fluid.addTemporalForce(m, d, ofFloatColor(c.x,c.y,0.5),5.0f);
+    ofPoint c = ofPoint(640*0.5, 480*0.5) - m;
+    c.normalize();
+    fluid.addTemporalForce(m, d, ofFloatColor(c.x,c.y,0.5),3.0f);
 
     //  Update
     //

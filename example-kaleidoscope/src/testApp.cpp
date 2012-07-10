@@ -2,12 +2,13 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
+    ofSetWindowShape(640, 480);
     video.initGrabber(640, 480);
     kal.allocate(640, 480);
 }
 
 //--------------------------------------------------------------
-void testApp::update(){ // CPU
+void testApp::update(){
     video.update();
     
     kal.setTexture(video.getTextureReference());
@@ -16,8 +17,14 @@ void testApp::update(){ // CPU
 }
 
 //--------------------------------------------------------------
-void testApp::draw(){   // GPU
+void testApp::draw(){
+    ofBackgroundGradient(ofColor(abs(sin(ofGetElapsedTimef()*0.01)*255),
+                                 abs(sin(ofGetElapsedTimef()*0.03)*255),
+                                 abs(sin(ofGetElapsedTimef()*0.09)*255)),
+                         ofColor(0));
+    ofSetColor(255, 200);
     kal.draw(0,0);
+    
 }
 
 //--------------------------------------------------------------

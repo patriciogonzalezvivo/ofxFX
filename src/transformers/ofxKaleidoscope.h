@@ -56,7 +56,7 @@ public:
         shader.setUniform2f("size", width,height);
         shader.setUniform1f("rotate", angle);
         
-        ofVec2f radio = ofVec2f(0,- height*0.5);
+        ofVec2f radio = ofVec2f(0,MIN(width,height)*-0.5);
         //  A
         ofVec2f A= ofVec2f(width*0.5, height*0.5);
         ofVec2f p[2];
