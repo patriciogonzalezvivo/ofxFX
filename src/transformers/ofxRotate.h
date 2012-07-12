@@ -44,6 +44,8 @@ void main(){\n\
 }";
     }
 
+    void    setRotation(float _angle){angle = _angle;};
+    
     void update(){
         ofPushStyle();
         
@@ -61,7 +63,6 @@ void main(){\n\
         ofPopStyle();
 	}
     
-    void    setRotation(float _angle){angle = _angle;};
     float   angle;
 };
 #endif

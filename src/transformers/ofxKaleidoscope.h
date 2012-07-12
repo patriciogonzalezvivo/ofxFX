@@ -46,6 +46,8 @@ public:
         }";
     }
     
+    void setFacesRotation(float _angle){facesRotation = _angle;};
+    
     void update(){
         ofPushStyle();
         
@@ -64,6 +66,8 @@ public:
         p[0] = radio + A;
         //  C
         p[1] = radio.getRotated(facesAngle) + A;
+        
+        radio = radio.getRotatedRad(facesRotation);
         
         glBegin(GL_TRIANGLE_FAN);
         glTexCoord2f(A.x, A.y);
@@ -91,6 +95,7 @@ public:
 private:
     int     faces;
     float   facesAngle;
+    float   facesRotation;
     
 };
 #endif
