@@ -321,7 +321,7 @@ void ofxFlocking::allocate(int _width, int _height, int _nBoids){
     
     compileCode();
     
-    resolution = (int) sqrt(_nBoids);
+    resolution = (int) sqrt( (double)_nBoids);
     nBoids = resolution * resolution;
     
     sparkImage.loadImage("spark.png");
