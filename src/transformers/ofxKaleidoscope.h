@@ -25,25 +25,28 @@ public:
         #extension GL_ARB_texture_rectangle : enable\n\
         \n\
         uniform sampler2DRect tex0;\n\
+        uniform vec2 offset;\n\
         uniform vec2 size;\n\
         uniform float rotate;\n\
         \n\
         void main(){\n\
         \n\
         vec2 st = gl_TexCoord[0].xy;\n\
-        st.x -= size.x*0.5;\n\
-        st.y -= size.y*0.5;\n\
+        st.x -= size.x*0.5 + offset.x;\n\
+        st.y -= size.y*0.5 + offset.y;\n\
         vec2 uv;\n\
         \n\
         float angle = atan(st.y,st.x);\n\
         float radio = sqrt(dot(st,st));\n\
         \n\
-        uv.x = cos( angle - rotate) * radio + size.x*0.5;\n\
-        uv.y = sin( angle - rotate) * radio + size.y*0.5;\n\
+        uv.x = cos( angle - rotate) * radio + size.x*0.5 + offset.x;\n\
+        uv.y = sin( angle - rotate) * radio + size.y*0.5 + offset.y;\n\
         \n\
         vec3 color = texture2DRect(tex0, uv).rgb;\n\
         gl_FragColor = vec4(color, 1.0);\n\
         }";
+        
+        offset = ofPoint(0,0);
     }
     
     void setFacesRotation(float _angle){facesRotation = _angle;};
@@ -56,11 +59,12 @@ public:
         shader.begin();
         shader.setUniformTexture("tex0",  textures[0].getTextureReference(), 0 );
         shader.setUniform2f("size", width,height);
+        shader.setUniform2f("offset", offset.x, offset.y);
         shader.setUniform1f("rotate", angle);
         
         ofVec2f radio = ofVec2f(0,MIN(width,height)*-0.5);
         //  A
-        ofVec2f A= ofVec2f(width*0.5, height*0.5);
+        ofVec2f A= ofVec2f(width*0.5 + offset.x , height*0.5 + offset.y );
         ofVec2f p[2];
         //  B
         p[0] = radio + A;
@@ -92,6 +96,7 @@ public:
         facesAngle = 360/faces;
     };
 
+    ofPoint offset;
 private:
     int     faces;
     float   facesAngle;
