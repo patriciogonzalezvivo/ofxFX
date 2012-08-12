@@ -1,5 +1,5 @@
 # ofxFX #
-![ofxFlocking](http://patriciogonzalezvivo.com/images/flock.png) ![ofxFluid](http://patriciogonzalezvivo.com/images/fluid.png) ![ofxGlow](http://patriciogonzalezvivo.com/images/oldTv.png) ![ofxGrayScott](http://patriciogonzalezvivo.com/images/grayScott.png) ![ofxWater](http://patriciogonzalezvivo.com/images/water.png)
+![ofxFlocking](http://patriciogonzalezvivo.com/images/ofxfx/flock.png) ![ofxFluid](http://patriciogonzalezvivo.com/images/ofxfx/fluid.png) ![ofxGlow](http://patriciogonzalezvivo.com/images/ofxfx/oldTv.png) ![ofxGrayScott](http://patriciogonzalezvivo.com/images/ofxfx/grayScott.png) ![ofxWater](http://patriciogonzalezvivo.com/images/ofxfx/water.png)
 
 This addons begins while I was working on [Efecto Mariposa](http://patriciogonzalezvivo.com/butterfly.html "Efecto Mariposa") and I need some extra GPU processing power in order to make fast simulation of complex ecosystems. 
 On does days I found GLSL Shaders a hard and cryptic topic. That´s why the main goal of this addon it´s to make super easy to use and edit shaders on your projects. That´s why it becomes a sort of common used shader library.
@@ -176,7 +176,7 @@ The second case, are the ones could be use as filters. That means, they could be
 
 * Filters: ofxBloom, ofxBlur, ofxLUT, ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/), ofxGlow, ofxUnsharp and ofxOldTv ( from [ShaderToy postprocessing](http://www.iquilezles.org/apps/shadertoy/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488))
 
-![filter0](http://patriciogonzalezvivo.com/images/filter0.png) ![filter1](http://patriciogonzalezvivo.com/images/filter1.png) ![filter2](http://patriciogonzalezvivo.com/images/filter2.png) ![filter3](http://patriciogonzalezvivo.com/images/filter3.png)
+![filter0](http://patriciogonzalezvivo.com/images/ofxfx/filter0.png) ![filter1](http://patriciogonzalezvivo.com/images/ofxfx/filter1.png) ![filter2](http://patriciogonzalezvivo.com/images/ofxfx/filter2.png) ![filter3](http://patriciogonzalezvivo.com/images/ofxfx/filter3.png)
 
 
 * Composers: 
@@ -193,7 +193,7 @@ The second case, are the ones could be use as filters. That means, they could be
 * Generative: 
 
 	* ofxTint: generate a noise like pattern applied to a mask that´s it´s very similar to ink;
-![tint](http://patriciogonzalezvivo.com/images/tint.png)
+![tint](http://patriciogonzalezvivo.com/images/ofxfx/tint.png)
  
 	* ofxGrayScott: based on ones [Cinder´s Reaction Diffusion example](http://libcinder.org/) that it´s based on [Gray-Scott model](http://mrob.com/pub/comp/xmorphia/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
 
@@ -206,7 +206,7 @@ The second case, are the ones could be use as filters. That means, they could be
 	
 	* ofxKaleidoscope: kaleidoscope effect
 
-![kaleido](http://patriciogonzalezvivo.com/images/kaleido.png)
+![kaleido](http://patriciogonzalezvivo.com/images/ofxfx/kaleido.png)
 
 # Examples #
 On this addon you will find examples of the classes I just describe. Some of them are combined together in order to show clearly how to use them. Other examples shows new ways of making new shaders by injecting code or extending classes as the following ones:
