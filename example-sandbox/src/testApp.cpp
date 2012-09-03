@@ -1220,7 +1220,7 @@ void testApp::keyPressed(int key){
     else if ( nFrag < 0)
         nFrag = nTotalFrag - 1;
     
-    sandbox.injectShader( frags[nFrag] );
+    sandbox.setCode( frags[nFrag] );
     
     if (selection >= 6)
         selection = -1;
