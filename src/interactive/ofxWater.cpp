@@ -2,7 +2,7 @@
 //  ofxWater.cpp
 //
 //  Created by Patricio Gonzalez Vivo on 9/26/11.
-//  Copyright 2011 http://www.kalwaltart.it/ All rights reserved.
+//  Copyright 2011 http://www.patriciogonzalezvivo.com/ All rights reserved.
 //
 
 #include "ofxWater.h"
@@ -10,27 +10,40 @@
 ofxWater::ofxWater(){
     passes = 1;
     internalFormat = GL_RGB;
-    
-    threshold = 0.3;
+
     density = 1.0;
+    velocity = 1.0;
     
     fragmentShader = STRINGIFY(
-    uniform sampler2DRect backbuffer;
-    uniform sampler2DRect tex0; // This is used in the shader
-    uniform sampler2DRect tex1; // This is going to be the background
-    uniform sampler2DRect tex2; // and this the render FBO
+    uniform sampler2DRect backbuffer;   // previus buffer
+    uniform sampler2DRect tex0;         // actual buffer
+                               
+    //  This two are not going to be used in this shader
+    //  but are need to tell ofxFXObject that need to create them
+    //
+    uniform sampler2DRect tex1;         // is going to be the background
+    uniform sampler2DRect tex2;         // is going to be the render FBO
     
     uniform float damping;
+    uniform float velocity;
     
     vec2 offset[4];
     
     void main(){
         vec2 st = gl_TexCoord[0].st;
         
-        offset[0] = vec2(-1.0, 0.0);
-        offset[1] = vec2(1.0, 0.0);
-        offset[2] = vec2(0.0, 1.0);
-        offset[3] = vec2(0.0, -1.0);
+        offset[0] = vec2(-velocity, 0.0);
+        offset[1] = vec2(velocity, 0.0);
+        offset[2] = vec2(0.0, velocity);
+        offset[3] = vec2(0.0, -velocity);
+        
+        //  Grab the information arround the active pixel
+        //
+        //      [3]
+        //
+        //  [0]  st  [1]
+        //
+        //      [2]
         
         vec3 sum = vec3(0.0, 0.0, 0.0);
         
@@ -38,16 +51,22 @@ ofxWater::ofxWater(){
             sum += texture2DRect(tex0, st + offset[i]).rgb;
         }
         
+        //  make an average and substract the center value
+        //
         sum = (sum / 2.0) - texture2DRect(backbuffer, st).rgb;
         sum *= damping;
         
         gl_FragColor = vec4(sum, 1.0);
     } );
+    shader.unload();
+    shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
+    shader.linkProgram();
     
-    // This map the desplacement map to the background
+    // This map the desplacement to the background 
+    //
     string fragmentRenderShader = STRINGIFY(
-    uniform sampler2DRect tex0;
-    uniform sampler2DRect tex1;
+    uniform sampler2DRect tex0; //  background
+    uniform sampler2DRect tex1; //  displacement
     
     void main(){
         vec2 st = gl_TexCoord[0].st;
@@ -66,11 +85,15 @@ ofxWater::ofxWater(){
         gl_FragColor.rgb =  pixel;
         gl_FragColor.a = 1.0;
     } );
+    renderShader.unload();
+    renderShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentRenderShader);
+    renderShader.linkProgram();
     
-    // Blur
+    // Fast Blur Shader
+    //
     string fragmentBlurShader = STRINGIFY(
     uniform sampler2DRect tex1;
-    float fade_const = 0.000005;
+    float fade_const = 0.000001;
     
     float kernel[9];
     vec2 offset[9];
@@ -112,18 +135,9 @@ ofxWater::ofxWater(){
         gl_FragColor = (1.0 - fade_const) * color0 +  fade_const * vec4(sum.rgb, color0.a);
     }
                                           );
-    
-    shader.unload();
-    shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
-    shader.linkProgram();
-    
     blurShader.unload();
     blurShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentBlurShader);
     blurShader.linkProgram();
-    
-    renderShader.unload();
-    renderShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentRenderShader);
-    renderShader.linkProgram();
 }
 
 ofxWater& ofxWater::loadBackground(string file){
@@ -166,6 +180,7 @@ void ofxWater::update(){
     shader.setUniformTexture("backbuffer", pingPong.dst->getTextureReference(), 0);
     shader.setUniformTexture("tex0", pingPong.src->getTextureReference(), 1);
     shader.setUniform1f("damping", (float)density );
+    shader.setUniform1f("velocity", (float)velocity);
     renderFrame();
     shader.end();
     textures[1].end();

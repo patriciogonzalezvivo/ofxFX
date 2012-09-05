@@ -1,9 +1,8 @@
 # [ofxFX](http://patriciogonzalezvivo.com/2011/ofxfx/)
 [ ![ofxFlocking](http://patriciogonzalezvivo.com/2011/ofxfx/flock.png) ![ofxFluid](http://patriciogonzalezvivo.com/2011/ofxfx/fluid.png) ![ofxGlow](http://patriciogonzalezvivo.com/2011/ofxfx/oldTv.png) ![ofxGrayScott](http://patriciogonzalezvivo.com/2011/ofxfx/grayScott.png) ![ofxWater](http://patriciogonzalezvivo.com/2011/ofxfx/water.png)](http://patriciogonzalezvivo.com/2011/ofxfx/)
 
-This addons begins while I was working on [Efecto Mariposa](http://patriciogonzalezvivo.com/butterfly.html "Efecto Mariposa") and I need some extra GPU processing power in order to make fast simulation of complex ecosystems. 
-On does days I found GLSL Shaders a hard and cryptic topic. That´s why the main goal of this addon it´s to make super easy to use and edit shaders on your projects. That´s why it becomes a sort of common used shader library.
-Recently I start playing with them new GLSL editors like [Ricardo Caballero´s WebGL SandBox](http://mrdoob.com/projects/glsl_sandbox/), [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) or [Kode80´s GLSL Studio](http://glslstudio.com/) that let you edit the shader on-the-fly. So right now I´m working on making a standard ofxFXObject that could receive fragment shader and know how to deal with them while the program it´s running. 
+This addon begins while I was working on [Efecto Mariposa](http://patriciogonzalezvivo.com/butterfly.html "Efecto Mariposa") when I was to adapting different well know GLSL Shaders Algorithms for making fast simulations and organic effects. After that project I decide to make an addon that allow easy implementation of different effects that could be render super fast on the GPU.
+All of this effect heritage from ofxFXObject. Making easy to combine them and create new ones.
 
 ## ofxFXObject ##
 It´s the parent class of all the other effect. If you want to make a new filter you may want to start looking at the ofxFXObject.h .
@@ -11,13 +10,13 @@ It´s the parent class of all the other effect. If you want to make a new filter
 The structure it´s easy.
 
 1. Constructor: here it´s necessary to set three vital variables: 
-    - passes: the number of passes or itineration of the main ping pong betweens FBO´s  
-    - internalFormat: if it use GL_RGB, GL_RGBA, GL_RGB16f, GL_RGBA16f, GL_RGB32f, GL_RGBA32f, etc...
-    - fragShader: it´s the code of the shader. Note that some changes have to be made in order to fill everything on a string
+    - ```int passes```: the number of passes or itineration of the main ping pong betweens FBO´s  
+    - ```int internalFormat```: if it use GL_RGB, GL_RGBA, GL_RGB16f, GL_RGBA16f, GL_RGB32f, GL_RGBA32f, etc...
+    - ```string fragShader```: it´s the code of the shader. Note that some changes have to be made in order to fill everything on a string
     
 2. ```allocate(width,height,GL_RGBA)```: This usually it´s no need to bee re-define. It´s basically allocate the FBO´s and loads the shader by using injectShader();
 
-3. ```injectShader(string fragContent)```: here is where the shaders are loaded. See the example bellow.
+3. ```setCode(string fragContent)```: here is where the shaders are loaded. See the example bellow.
 
 4. ```begin(int texN)``` and ```end(int texN)```: remember nTextures variable? you can passthrough information to it by using this end() and begin() and giving the argument the number of texture you want to open. This texture can be access from the shader by the ```uniform sample2DRect tex0``` or ```tex1``` or ```tex2``` and so on. Also you can access to the previous FBO of the ping pong by calling ```uniform sample2DRect backbuffer```. 
 
@@ -35,7 +34,7 @@ ofxFXObject fxObject = ofxFXObject();
 fxObject.allocate(800,600); // At this point it will load a default timer shader
 
 //Let´s play a little injecting a new one
-fxObject.injectShader("#version 120\n\
+fxObject.setCode("#version 120\n\
                     \
                     uniform sampler2DRect backbuffer;\
                     uniform sampler2DRect tex0;\
@@ -75,21 +74,6 @@ On draw:
 
 ```c++
 fxObject.draw();
-```
-
-### In-line Code ###
-You may notice that I´m not dealing with .frag of .vert files. This have to main reasons. First, make your binnary excecutables more compact. And Secondly, to work in the on-the-fly edition mode.
-Thanks for Zach Lieberman tip you have to options one it´s to use normal " " with \ on the end of each line. Witch it´s very hard to read and your IDE couldn´t help you. Or by adding ```#define STRINGIFY(A)  #A``` at the .h and using it like this:
-
-```c++
-#define STRINGIFY(A)  #A
-
-const char shader[] = 
-STRINGIFY(
-
-//multiline code goes here.  no newline markers needed
-
-);
 ``` 
 
 ### Copy, Inject & Share ###

@@ -6,10 +6,6 @@
 //
 //  Based on http://freespace.virgin.net/hugo.elias/graphics/x_water.htm
 //
-//  tex0 -> background
-//  tex1 -> 
-//
-//
 
 #ifndef OFXWATER
 #define OFXWATER
@@ -25,8 +21,8 @@ public:
     ofxWater& loadBackground(string file);
     ofxWater& linkBackground(ofTexture * _backText);
     
-    ofxWater& setThreshold(float _threshold){ threshold = _threshold; return * this; };
-    ofxWater& setDensity(float _density){ density = _density; return * this; };
+    ofxWater& setDensity(float _density){ density = ofClamp(_density,0.0,1.0); return * this; };
+    ofxWater& setVelocity(float _velocity){ velocity = _velocity; return * this; };
     
     ofTexture& getTextureReference(){ return textures[3].getTextureReference(); };
     
@@ -40,7 +36,7 @@ private:
     ofShader    renderShader;
     ofShader    blurShader;
     
-    float       density, threshold;
+    float       density, velocity;
 };
 
 #endif
