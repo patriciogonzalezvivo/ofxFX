@@ -93,7 +93,7 @@ ofxWater::ofxWater(){
     //
     string fragmentBlurShader = STRINGIFY(
     uniform sampler2DRect tex1;
-    float fade_const = 0.000001;
+    float fade_const = 0.000005;
     
     float kernel[9];
     vec2 offset[9];
