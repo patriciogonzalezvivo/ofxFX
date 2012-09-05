@@ -29,11 +29,18 @@
  *
  *  ************************************************************************************ 
  *  
- *  Fade: control the sharp/unsharp mode
+ *  This use a convolution matrix to make the blur so you can actually modify this same
+ *  addon to do different things.
  *
- *  1.0 -> unsharp: smooth or a fast blur
- *  0.0
- * -1.0 -> sharp
+ *  Take a look at:
+ *
+ *     http://www.jasonwaltman.com/thesis/filter-convolution.html
+ *
+ *  You can alter the fade value to:
+ *
+ *   1.0 -> unsharp the edges ( make it more smooth )
+ *   0.0
+ *  -1.0 -> sharp the edges
  *
  */
 
@@ -43,63 +50,54 @@
 #include "ofMain.h"
 #include "ofxFXObject.h"
 
-class ofxUnsharp : public ofxFXObject {	
+class ofxBlur : public ofxFXObject {
 public:
-    ofxUnsharp(){
+    ofxBlur(){
         passes = 3;
         internalFormat = GL_RGBA;
         
         // Fade constant
-        value0 = 0.f;   
+        value0 = 0.0003f;
         
         // In this example the tex0 it´s more like a backbuffer 
-        fragmentShader = "#version 120\n \
-#extension GL_ARB_texture_rectangle : enable\n \
-\n\
-float kernel[9];\n\
-\n\
-uniform sampler2DRect tex0;\n\
-uniform float value0;\n\
-\n\
-vec2 offset[9];\n\
-\n\
-void main(void){\n\
-    vec2  st = gl_TexCoord[0].st;\n\
-    vec4 sum = vec4(0.0);\n\
-    \n\
-    offset[0] = vec2(-1.0, -1.0);\n\
-    offset[1] = vec2(0.0, -1.0);\n\
-    offset[2] = vec2(1.0, -1.0);\n\
-    \n\
-    offset[3] = vec2(-1.0, 0.0);\n\
-    offset[4] = vec2(0.0, 0.0);\n\
-    offset[5] = vec2(1.0, 0.0);\n\
-    \n\
-    offset[6] = vec2(-1.0, 1.0);\n\
-    offset[7] = vec2(0.0, 1.0);\n\
-    offset[8] = vec2(1.0, 1.0);\n\
-    \n\
-    kernel[0] = 1.0/16.0;   kernel[1] = 2.0/16.0;   kernel[2] = 1.0/16.0;\n\
-    kernel[3] = 2.0/16.0;   kernel[4] = 4.0/16.0;   kernel[5] = 2.0/16.0;\n\
-    kernel[6] = 1.0/16.0;   kernel[7] = 2.0/16.0;   kernel[8] = 1.0/16.0;\n\
-    \n\
-    int i = 0;\n\
-    for (i = 0; i < 4; i++){\n\
-        vec4 tmp = texture2DRect(tex0, st + offset[i]);\n\
-        sum += tmp * kernel[i];\n\
-    }\n\
-    \n\
-    for (i = 5; i < 9; i++){\n\
-        vec4 tmp = texture2DRect(tex0, st + offset[i]);\n\
-        sum += tmp * kernel[i];\n\
-    }\n\
-    \n\
-    vec4 color0 = texture2DRect(tex0, st + offset[4]);\n\
-    sum += color0 * kernel[4];\n\
-    \n\
-    gl_FragColor = (1.0 - value0) * color0 +  value0 * vec4(sum.rgb, color0.a);\n\
-}\n\
-\n";  
+        fragmentShader = STRINGIFY(
+                                   uniform sampler2DRect tex0;
+                                   uniform float fade;
+                                   
+                                   float kernel[9];
+                                   vec2 offset[9];
+                                   
+                                   void main(void){
+                                       vec2  st = gl_TexCoord[0].st;
+                                       vec4 sum = vec4(0.0);
+                                       
+                                       offset[0] = vec2(-1.0, -1.0);
+                                       offset[1] = vec2(0.0, -1.0);
+                                       offset[2] = vec2(1.0, -1.0);
+                                       
+                                       offset[3] = vec2(-1.0, 0.0);
+                                       offset[4] = vec2(0.0, 0.0);
+                                       offset[5] = vec2(1.0, 0.0);
+                                       
+                                       offset[6] = vec2(-1.0, 1.0);
+                                       offset[7] = vec2(0.0, 1.0);
+                                       offset[8] = vec2(1.0, 1.0);
+                                       
+                                       kernel[0] = 1.0/16.0;   kernel[1] = 2.0/16.0;   kernel[2] = 1.0/16.0;
+                                       kernel[3] = 2.0/16.0;   kernel[4] = 4.0/16.0;   kernel[5] = 2.0/16.0;
+                                       kernel[6] = 1.0/16.0;   kernel[7] = 2.0/16.0;   kernel[8] = 1.0/16.0;
+                                       
+                                       int i = 0;
+                                       for (i = 0; i < 9; i++){
+                                           vec4 tmp = texture2DRect(tex0, st + offset[i]);
+                                           sum += tmp * kernel[i];
+                                       }
+                                       
+                                       vec4 previousValue = texture2DRect(tex0, st);
+                                       gl_FragColor = (1.0 - fade) * previousValue +  fade * vec4(sum.rgb, previousValue.a);
+                                   }
+                                   );
+         
     };
     
 	void setFade(float _fade) { value0 = _fade;};
@@ -112,7 +110,7 @@ void main(void){\n\
         for(int i = 0; i < passes; i++) {
             pingPong.dst->begin();
             shader.begin();
-            // In this example the tex0 it´s more like a backbuffer 
+            // In this example the tex0 it's more like a backbuffer 
             shader.setUniformTexture("tex0", pingPong.src->getTextureReference(), 0 );
             shader.setUniform1f("value0", value0);
             renderFrame();

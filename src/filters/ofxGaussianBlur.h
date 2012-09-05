@@ -1,7 +1,7 @@
 //
 //  ofxBlur.h
 //
-//  Created by Patricio González Vivo on 25/11/11.
+//  Created by Patricio Gonzalez Vivo on 25/11/11.
 //  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
@@ -13,16 +13,16 @@
 #include "ofMain.h"
 #include "ofxFXObject.h"
 
-class ofxBlur : public ofxFXObject {	
+class ofxGaussianBlur : public ofxFXObject {
 public:
-    ofxBlur(){
+    ofxGaussianBlur(){
         passes = 1;
         internalFormat = GL_RGBA;
         
         radius = 10;
     }
     
-	ofxBlur& setRadius(float _radius) { this->radius = _radius; return * this;};
+	ofxGaussianBlur& setRadius(float _radius) { this->radius = _radius; return * this;};
     
     void update(){
         ofPushStyle();
