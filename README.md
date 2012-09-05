@@ -142,9 +142,9 @@ In the src/ directory of the addon you will find lot´s of subClasses that inher
 
 First case, the ones that in some point breaks the  structure of ofxFXObject with some extra tweaks. Like the way the pingPong works. The number of shaders need and how they pass the data to each other. Or if the implement vertex or Geometry shader as well. That´s the case of:
 
-* ofxFlocking: a GPU flocking system that implement two different types of fragment shaders, plus one vertex and geometry shader [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488). If you are interested in this technique you can explore the openFrameworks core example that I made at: https://github.com/openframeworks/openFrameworks/tree/master/examples/gl/GPUparticleSystemExample
+* ofxFlocking: a GPU flocking system that implement two different types of fragment shaders, plus one vertex and geometry shader [Look at the video example](http://patriciogonzalezvivo.com/2011/ofxfx/). If you are interested in this technique you can explore the openFrameworks core example that I made at: https://github.com/openframeworks/openFrameworks/tree/master/examples/gl/GPUparticleSystemExample
 
-* ofxFluid: fluid simulation based on [this article of Mark Harris](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) that use a lot of shader on a very complex and crazy way
+* ofxFluid: fluid simulation based on [this article of Mark Harris](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://patriciogonzalezvivo.com/2011/ofxfx/) that use a lot of shader on a very complex and crazy way
 
 ![fluid](http://patriciogonzalezvivo.com/2011/ofxfx/fluid01.png)
 
