@@ -38,9 +38,9 @@
 #define OFXGLOW
 
 #include "ofMain.h"
-#include "ofxBlur.h"
+#include "ofxGaussianBlur.h"
 
-class ofxGlow : public ofxBlur {	
+class ofxGlow : public ofxGaussianBlur {	
 public:
     ofxGlow(){
         passes = 1;

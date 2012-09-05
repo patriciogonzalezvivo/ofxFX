@@ -20,10 +20,10 @@ void testApp::setup(){
     lut.allocate(width,height);
     
     bloom.allocate(width, height);
-    blur.allocate(width, height);
+    gaussianBlur.allocate(width, height);
     bokeh.allocate(width, height);
     glow.allocate(width, height);
-    unsharp.allocate(width, height);
+    blur.allocate(width, height);
     
     dir.allowExt("cube");
 	dir.listDir("LUTs/");
@@ -53,11 +53,11 @@ void testApp::update(){
             bloom << lut ;
             bloom.update();
             mult.setTexture(bloom.getTextureReference(),2);
-        } else if ( selection == 1 ){   // BLUR
-            blur.setRadius(sin( ofGetElapsedTimef() )*10);
-            blur << lut;
-            blur.update();
-            mult.setTexture(blur.getTextureReference(),2);
+        } else if ( selection == 1 ){   // GAUSSIAN BLUR
+            gaussianBlur.setRadius(sin( ofGetElapsedTimef() )*10);
+            gaussianBlur << lut;
+            gaussianBlur.update();
+            mult.setTexture(gaussianBlur.getTextureReference(),2);
         } else if ( selection == 2 ){   // BOKEH
             bokeh.setRadius(abs(sin( ofGetElapsedTimef() )*10));
             bokeh << lut;
@@ -68,11 +68,11 @@ void testApp::update(){
             glow << lut;
             glow.update();
             mult.setTexture(glow.getTextureReference(),2);
-        } else if ( selection == 4 ){   // UNSHARP
-            unsharp.setFade(sin( ofGetElapsedTimef() ));
-            unsharp << lut;
-            unsharp.update();
-            mult.setTexture(unsharp.getTextureReference(),2);
+        } else if ( selection == 4 ){   // BLUR
+            blur.setFade(sin( ofGetElapsedTimef() ));
+            blur << lut;
+            blur.update();
+            mult.setTexture(blur.getTextureReference(),2);
         }
         
         mult.update();
@@ -100,13 +100,13 @@ void testApp::draw(){
     if ( selection == 0 ){
         ofDrawBitmapString("FILTER: Bloom", -220 ,300);
     } else if ( selection == 1 ){
-        ofDrawBitmapString("FILTER: Blur at: " + ofToString(sin( ofGetElapsedTimef() )*10),-220 ,300);
+        ofDrawBitmapString("FILTER: Gaussian Blur at: " + ofToString(sin( ofGetElapsedTimef() )*10),-220 ,300);
     } else if ( selection == 2 ){
         ofDrawBitmapString("FILTER: Bokeh at: "+ ofToString( abs(sin( ofGetElapsedTimef() )*10)), -220 ,300);
     } else if ( selection == 3 ){
         ofDrawBitmapString("FILTER: Glow at: "+ ofToString(sin( ofGetElapsedTimef() )*15), -220 ,300);
     } else if ( selection == 4 ){
-        ofDrawBitmapString("FILTER: Unsharp at: "+ ofToString(sin( ofGetElapsedTimef() )), -220 ,300);
+        ofDrawBitmapString("FILTER: Blur (smooth/sharp) at: "+ ofToString(sin( ofGetElapsedTimef() )), -220 ,300);
     } else {
         ofDrawBitmapString("FILTER: No Filter", -220 ,300);
     }

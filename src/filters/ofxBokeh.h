@@ -12,16 +12,16 @@
 #define OFXBOKEH
 
 #include "ofxFXObject.h"
-#include "ofxUnsharp.h"
+#include "ofxBlur.h"
 
-class ofxBokeh : public ofxUnsharp {	
+class ofxBokeh : public ofxBlur {
 public:
     ofxBokeh(){
         passes = 3;
         internalFormat = GL_RGBA;
         
         // Fade constant
-        value0 = 1.f;   
+        value0 = 1.0f;
         
         // In this example the tex0 it´s more like a backbuffer
         // The doble loop demands lot´s of resources to the GPU

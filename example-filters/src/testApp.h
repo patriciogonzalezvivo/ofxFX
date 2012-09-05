@@ -26,11 +26,11 @@ public:
     ofDirectory dir;
     ofxLUT      lut;
     
-    ofxBloom    bloom;
-    ofxBlur     blur;
-    ofxBokeh    bokeh;
-    ofxGlow     glow;
-    ofxUnsharp  unsharp;
+    ofxBloom        bloom;
+    ofxGaussianBlur gaussianBlur;
+    ofxBokeh        bokeh;
+    ofxGlow         glow;
+    ofxBlur         blur;
     
     int         width,height;
     int         selection;

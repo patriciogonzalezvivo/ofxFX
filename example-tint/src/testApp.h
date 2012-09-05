@@ -20,8 +20,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 	
-    ofxBlur blur;
-    ofxTint tint;
+    ofxGaussianBlur blur;
+    ofxTint         tint;
     
     ofImage background;
     ofTrueTypeFont  font;

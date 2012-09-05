@@ -18,7 +18,7 @@ void testApp::setup(){
     //
     // Created by kalwalt alias Walter Perdan on 24/12/11
     // Copyright 2011 http://www.kalwaltart.it/ All rights reserved.
-    conway.injectShader("#version 120\n \
+    conway.setCode( "#version 120\n \
                         #extension GL_ARB_texture_rectangle : enable\n \
                         \
                         uniform sampler2DRect tex0; \

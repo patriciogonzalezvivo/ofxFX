@@ -22,7 +22,6 @@ public:
     ofxWater& linkBackground(ofTexture * _backText);
     
     ofxWater& setDensity(float _density){ density = ofClamp(_density,0.0,1.0); return * this; };
-    ofxWater& setVelocity(float _velocity){ velocity = _velocity; return * this; };
     
     ofTexture& getTextureReference(){ return textures[3].getTextureReference(); };
     
@@ -34,9 +33,8 @@ public:
     
 private:
     ofShader    renderShader;
-    ofShader    blurShader;
     
-    float       density, velocity;
+    float       density;
 };
 
 #endif

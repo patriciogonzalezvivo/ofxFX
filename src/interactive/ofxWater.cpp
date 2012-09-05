@@ -9,10 +9,9 @@
 
 ofxWater::ofxWater(){
     passes = 1;
-    internalFormat = GL_RGB;
+    internalFormat = GL_RGBA32F ;
 
-    density = 1.0;
-    velocity = 1.0;
+    density = 0.995;
     
     fragmentShader = STRINGIFY(
     uniform sampler2DRect backbuffer;   // previus buffer
@@ -25,17 +24,16 @@ ofxWater::ofxWater(){
     uniform sampler2DRect tex2;         // is going to be the render FBO
     
     uniform float damping;
-    uniform float velocity;
     
     vec2 offset[4];
     
     void main(){
         vec2 st = gl_TexCoord[0].st;
         
-        offset[0] = vec2(-velocity, 0.0);
-        offset[1] = vec2(velocity, 0.0);
-        offset[2] = vec2(0.0, velocity);
-        offset[3] = vec2(0.0, -velocity);
+        offset[0] = vec2(-1.0, 0.0);
+        offset[1] = vec2(1.0, 0.0);
+        offset[2] = vec2(0.0, 1.0);
+        offset[3] = vec2(0.0, -1.0);
         
         //  Grab the information arround the active pixel
         //
@@ -76,68 +74,17 @@ ofxWater::ofxWater(){
         
         float shading = offsetX;
         
-        vec3 pixel = texture2DRect(tex0, st + vec2(offsetX, offsetY)).rgb;
+        vec4 pixel = texture2DRect(tex0, st + vec2(offsetX, offsetY));
         
         pixel.r += shading;
         pixel.g += shading;
         pixel.b += shading;
         
-        gl_FragColor.rgb =  pixel;
-        gl_FragColor.a = 1.0;
+        gl_FragColor =  pixel;
     } );
     renderShader.unload();
     renderShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentRenderShader);
     renderShader.linkProgram();
-    
-    // Fast Blur Shader
-    //
-    string fragmentBlurShader = STRINGIFY(
-    uniform sampler2DRect tex1;
-    float fade_const = 0.000005;
-    
-    float kernel[9];
-    vec2 offset[9];
-
-    void main(void){
-        vec2  st = gl_TexCoord[0].st;
-        vec4 sum = vec4(0.0);
-        
-        offset[0] = vec2(-1.0, -1.0);
-        offset[1] = vec2(0.0, -1.0);
-        offset[2] = vec2(1.0, -1.0);
-        
-        offset[3] = vec2(-1.0, 0.0);
-        offset[4] = vec2(0.0, 0.0);
-        offset[5] = vec2(1.0, 0.0);
-        
-        offset[6] = vec2(-1.0, 1.0);
-        offset[7] = vec2(0.0, 1.0);
-        offset[8] = vec2(1.0, 1.0);
-        
-        kernel[0] = 1.0/16.0;   kernel[1] = 2.0/16.0;   kernel[2] = 1.0/16.0;
-        kernel[3] = 2.0/16.0;   kernel[4] = 4.0/16.0;   kernel[5] = 2.0/16.0;
-        kernel[6] = 1.0/16.0;   kernel[7] = 2.0/16.0;   kernel[8] = 1.0/16.0;
-        
-        int i = 0;
-        for (i = 0; i < 4; i++){
-            vec4 tmp = texture2DRect(tex1, st + offset[i]);
-            sum += tmp * kernel[i];
-        }
-        
-        for (i = 5; i < 9; i++){
-            vec4 tmp = texture2DRect(tex1, st + offset[i]);
-            sum += tmp * kernel[i];
-        }
-        
-        vec4 color0 = texture2DRect(tex1, st + offset[4]);
-            sum += color0 * kernel[4];
-        
-        gl_FragColor = (1.0 - fade_const) * color0 +  fade_const * vec4(sum.rgb, color0.a);
-    }
-                                          );
-    blurShader.unload();
-    blurShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentBlurShader);
-    blurShader.linkProgram();
 }
 
 ofxWater& ofxWater::loadBackground(string file){
@@ -163,7 +110,7 @@ ofxWater& ofxWater::linkBackground(ofTexture * _backText){
 void ofxWater::begin() {
     ofPushStyle();
     ofPushMatrix();
-    pingPong.src->begin();	
+    pingPong.src->begin();
 }
 
 void ofxWater::end() {
@@ -175,22 +122,17 @@ void ofxWater::end() {
 void ofxWater::update(){
     // Calculate the difference between buffers and spread the waving
     textures[1].begin();
-    ofClear(0);
     shader.begin();
     shader.setUniformTexture("backbuffer", pingPong.dst->getTextureReference(), 0);
     shader.setUniformTexture("tex0", pingPong.src->getTextureReference(), 1);
     shader.setUniform1f("damping", (float)density );
-    shader.setUniform1f("velocity", (float)velocity);
     renderFrame();
     shader.end();
     textures[1].end();
     
-    // Blur the waving in order to make it smooth
+    // TODO: improve this, it's almost non-sense
     pingPong.dst->begin();
-    blurShader.begin();
-    blurShader.setUniformTexture("tex1", textures[1].getTextureReference(), 0);
-    renderFrame();
-    blurShader.end();
+    textures[1].draw(0, 0);
     pingPong.dst->end();
     
     // Use the buffer as a bumpmap to morph the surface of the background texture

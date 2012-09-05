@@ -42,7 +42,7 @@
 #include "filters/ofxBokeh.h"
 #include "filters/ofxGlow.h"
 #include "filters/ofxOldTv.h"
-#include "filters/ofxUnsharp.h"
+#include "filters/ofxGaussianBlur.h"
 #include "filters/ofxLUT.h"
 
 #include "generative/ofxGrayScott.h"

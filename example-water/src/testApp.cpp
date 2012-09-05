@@ -26,7 +26,16 @@ void testApp::update(){
 void testApp::draw(){
     ofBackground(0);
     ofSetColor(255,255);
-    water.draw();
+    
+    if ( ofGetKeyPressed() ) {
+        water[1].draw(0,0);
+        ofDrawBitmapString("Release the key to view the mapped background ussing the bouncemap", 15,15);
+    } else {
+        water.draw();
+        ofDrawBitmapString("Press any key to view the bouncemap", 15,15);
+    }
+    
+    
 }
 
 //--------------------------------------------------------------
