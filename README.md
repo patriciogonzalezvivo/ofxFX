@@ -142,63 +142,70 @@ In the src/ directory of the addon you will find lot´s of subClasses that inher
 
 First case, the ones that in some point breaks the  structure of ofxFXObject with some extra tweaks. Like the way the pingPong works. The number of shaders need and how they pass the data to each other. Or if the implement vertex or Geometry shader as well. That´s the case of:
 
-	* ofxFlocking: a GPU flocking system that implement two different types of fragment shaders, plus one vertex and geometry shader [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488). If you are interested in this technique you can explore the openFrameworks core example that I made at: https://github.com/openframeworks/openFrameworks/tree/master/examples/gl/GPUparticleSystemExample
+* ofxFlocking: a GPU flocking system that implement two different types of fragment shaders, plus one vertex and geometry shader [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488). If you are interested in this technique you can explore the openFrameworks core example that I made at: https://github.com/openframeworks/openFrameworks/tree/master/examples/gl/GPUparticleSystemExample
 
-	* ofxFluid: fluid simulation based on [this article of Mark Harris](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) that use a lot of shader on a very complex and crazy way
+* ofxFluid: fluid simulation based on [this article of Mark Harris](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://www.patriciogonzalezvivo.com/blog/?p=488) that use a lot of shader on a very complex and crazy way
 
 ![fluid](http://patriciogonzalezvivo.com/2011/ofxfx/fluid01.png)
 
-	* ofxWater: water ripples waves effect. Take a look to the documentation [on this article on my blog](http://www.patriciogonzalezvivo.com/blog/?p=657)
+* ofxWater: water ripples waves effect. Take a look to the documentation [on this article on my blog](http://www.patriciogonzalezvivo.com/blog/?p=657)
 
 
 ### Filters
 
 The second case, are the ones could be use as filters. That means, they could be use for many things. Giving lot of flexibility and freedom when you use it on your project. Like using the blur and the glow combined with mask and things like that.
 
-	* ofxBlur: convultion matrix
-	* ofxGaussianBlur
-	* ofxLUT
-	* ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/)
-	* ofxGlow
-	* ofxBloom
-	* ofxOldTv ( from [ShaderToy postprocessing](http://www.iquilezles.org/apps/shadertoy/).
+* ofxBlur: convultion matrix
+
+* ofxGaussianBlur
+
+* ofxLUT
+
+* ofxBokeh ( by [Tim Scaffidi](http://timothyscaffidi.com/)
+
+* ofxGlow
+
+* ofxBloom
+
+* ofxOldTv ( from [ShaderToy postprocessing](http://www.iquilezles.org/apps/shadertoy/).
 
 ![filter0](http://patriciogonzalezvivo.com/2011/ofxfx/filter0.png) ![filter1](http://patriciogonzalezvivo.com/2011/ofxfx/filter1.png) ![filter2](http://patriciogonzalezvivo.com/2011/ofxfx/filter2.png) ![filter3](http://patriciogonzalezvivo.com/2011/ofxfx/filter3.png)
 
 
 ### Composition Shaders 
 
-	* ofxBlend: by [Akira Hayasaka Photoshop blend modes shader](https://github.com/Akira-Hayasaka/ofxPSBlend) with alpha mixing as well.  
+* ofxBlend: by [Akira Hayasaka Photoshop blend modes shader](https://github.com/Akira-Hayasaka/ofxPSBlend) with alpha mixing as well.  
 	
-	* ofxClone: by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution). 
+* ofxClone: by [Arturo Castro](http://arturocastro.net/) and [Kyle McDonald](http://kylemcdonald.net/) for their brillant project call [FaceSubstitution](https://github.com/arturoc/FaceSubstitution). 
 
-	* ofxMask: based on ofxAlphaMaskShader made by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
+* ofxMask: based on ofxAlphaMaskShader made by [James George](http://www.jamesgeorge.org) in collaboration with [FlightPhase](http://www.flightphase.com)
 
-	* ofxMultiTexture: let you combine 3 textures into one using a RGB map of how to mix them.
+* ofxMultiTexture: let you combine 3 textures into one using a RGB map of how to mix them.
 
 
 ### Generative
 
-	* ofxTint: generate a noise like pattern applied to a mask that´s it´s very similar to ink;
+* ofxTint: generate a noise like pattern applied to a mask that´s it´s very similar to ink;
 ![tint](http://patriciogonzalezvivo.com/2011/ofxfx/tint.png)
  
-	* ofxGrayScott: based on ones [Cinder´s Reaction Diffusion example](http://libcinder.org/) that it´s based on [Gray-Scott model](http://mrob.com/pub/comp/xmorphia/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
+* ofxGrayScott: based on ones [Cinder´s Reaction Diffusion example](http://libcinder.org/) that it´s based on [Gray-Scott model](http://mrob.com/pub/comp/xmorphia/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
 
 
 ### Transformers:
 	
-	* ofxRotation: let you rotate a texture through GPU
+* ofxRotation: let you rotate a texture through GPU
 
-	* ofxKaleidoscope: kaleidoscope effect
+* ofxKaleidoscope: kaleidoscope effect
 
 ![kaleido](http://patriciogonzalezvivo.com/2011/ofxfx/kaleido.png)
 
-# Examples #
+
+## Other Examples 
 On this addon you will find examples of the classes I just describe. Some of them are combined together in order to show clearly how to use them. Other examples shows new ways of making new shaders by injecting code or extending classes as the following ones:
 
-*   sandbox: diferent eyecandy shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) together and then passed to post-processing GLSL shaders that acts as filters ( blur, glow, bloom, etc ) 
+* sandbox: diferent eyecandy shaders from [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) and [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) together and then passed to post-processing GLSL shaders that acts as filters ( blur, glow, bloom, etc ) 
 
-*   conway: life game made by [Kalwalt](http://www.kalwaltart.it/)
+* conway: life game made by [Kalwalt](http://www.kalwaltart.it/)
 
 
 
