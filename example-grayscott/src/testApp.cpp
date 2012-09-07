@@ -25,8 +25,8 @@ void testApp::draw(){
     
     gray.draw();
     
-    ofDrawBitmapString("K: " + ofToString(gray.getK()) + " (x)", 15,15);
-    ofDrawBitmapString("F: " + ofToString(gray.getF()) + " (y)", 15,35);
+    ofDrawBitmapString("K ( mouseX ): " + ofToString(gray.getK()) , 15,15);
+    ofDrawBitmapString("F ( mouseY ): " + ofToString(gray.getF()) , 15,35);
 }
 
 //--------------------------------------------------------------

@@ -52,73 +52,68 @@ public:
         diffV = 0.04f;
         k = 0.066f;
 
-        fragmentShader = "#version 120\n\
-#extension GL_ARB_texture_rectangle : enable\n\
-#define KERNEL_SIZE 9\n\
-\n\
-float kernel[KERNEL_SIZE];\n\
-vec2 offset[KERNEL_SIZE];\n\
-\n\
-uniform sampler2DRect backbuffer;\n\
-uniform sampler2DRect tex0;\n\
-\n\
-uniform float diffU;\n\
-uniform float diffV;\n\
-uniform float f;\n\
-uniform float k;\n\
-\n\
-void main(void){\n\
-    vec2 st   = gl_TexCoord[0].st;\n\
-    \n\
-    kernel[0] = 0.707106781;\n\
-    kernel[1] = 1.0;\n\
-    kernel[2] = 0.707106781;\n\
-    kernel[3] = 1.0;\n\
-    kernel[4] = -6.82842712;\n\
-    kernel[5] = 1.0;\n\
-    kernel[6] = 0.707106781;\n\
-    kernel[7] = 1.0;\n\
-    kernel[8] = 0.707106781;\n\
-    \n\
-    offset[0] = vec2( -1.0, -1.0);\n\
-    offset[1] = vec2(  0.0, -1.0);\n\
-    offset[2] = vec2(  1.0, -1.0);\n\
-    \n\
-    offset[3] = vec2( -1.0, 0.0);\n\
-    offset[4] = vec2(  0.0, 0.0);\n\
-    offset[5] = vec2(  1.0, 0.0);\n\
-    \n\
-    offset[6] = vec2( -1.0, 1.0);\n\
-    offset[7] = vec2(  0.0, 1.0);\n\
-    offset[8] = vec2(  1.0, 1.0);\n\
-    \n\
-    vec2 texColor		= texture2DRect( backbuffer, st ).rb;\n\
-    float srcTexColor   = texture2DRect( tex0, st ).r;\n\
-    \n\
-    vec2 lap            = vec2( 0.0, 0.0 );\n\
-    \n\
-    for( int i=0; i < KERNEL_SIZE; i++ ){\n\
-        vec2 tmp    = texture2DRect( backbuffer, st + offset[i] ).rb;\n\
-        lap         += tmp * kernel[i];\n\
-    }\n\
-    \n\
-    float F     = f + srcTexColor * 0.025 - 0.0005;\n\
-    float K     = k + srcTexColor * 0.025 - 0.0005;\n\
-    \n\
-    float u		= texColor.r;\n\
-    float v		= texColor.g + srcTexColor * 0.5;\n\
-    \n\
-    float uvv   = u * v * v;\n\
-    \n\
-    float du    = diffU * lap.r - uvv + F * (1.0 - u);\n\
-    float dv    = diffV * lap.g + uvv - (F + K) * v;\n\
-    \n\
-    u += du * 0.6;\n\
-    v += dv * 0.6;\n\
-    \n\
-    gl_FragColor.rgba = vec4(clamp( u, 0.0, 1.0 ), 1.0 - u/v ,clamp( v, 0.0, 1.0 ), 1.0);\n\
-}\n\
-\n";
+        fragmentShader = STRINGIFY(
+                                   float kernel[9];
+                                   vec2 offset[9];
+                                   
+                                   uniform sampler2DRect backbuffer;
+                                   uniform sampler2DRect tex0;
+
+                                   uniform float diffU;
+                                   uniform float diffV;
+                                   uniform float f;
+                                   uniform float k;
+
+                                   void main(void){
+                                       vec2 st   = gl_TexCoord[0].st;
+                                       kernel[0] = 0.707106781;
+                                       kernel[1] = 1.0;
+                                       kernel[2] = 0.707106781;
+                                       kernel[3] = 1.0;
+                                       kernel[4] = -6.82842712;
+                                       kernel[5] = 1.0;
+                                       kernel[6] = 0.707106781;
+                                       kernel[7] = 1.0;
+                                       kernel[8] = 0.707106781;
+                                       
+                                       offset[0] = vec2( -1.0, -1.0);
+                                       offset[1] = vec2(  0.0, -1.0);
+                                       offset[2] = vec2(  1.0, -1.0);
+
+                                       offset[3] = vec2( -1.0, 0.0);
+                                       offset[4] = vec2(  0.0, 0.0);
+                                       offset[5] = vec2(  1.0, 0.0);
+                                       
+                                       offset[6] = vec2( -1.0, 1.0);
+                                       offset[7] = vec2(  0.0, 1.0);
+                                       offset[8] = vec2(  1.0, 1.0);
+                                       
+                                       vec2 texColor = texture2DRect( backbuffer, st ).rb;
+                                       float srcTexColor = texture2DRect( tex0, st ).r;
+                                       
+                                       vec2 lap = vec2( 0.0, 0.0 );
+                                       
+                                       for( int i=0; i < 9; i++ ){
+                                           vec2 tmp = texture2DRect( backbuffer, st + offset[i] ).rb;
+                                           lap += tmp * kernel[i];
+                                       }
+                                       
+                                       float F  = f + srcTexColor * 0.025 - 0.0005;
+                                       float K  = k + srcTexColor * 0.025 - 0.0005;
+                                       
+                                       float u  = texColor.r;
+                                       float v  = texColor.g + srcTexColor * 0.5;
+                                       
+                                       float uvv = u * v * v;
+                                       
+                                       float du = diffU * lap.r - uvv + F * (1.0 - u);
+                                       float dv = diffV * lap.g + uvv - (F + K) * v;
+                                       
+                                       u += du * 0.6;
+                                       v += dv * 0.6;
+            
+                                       gl_FragColor = vec4(clamp( u, 0.0, 1.0 ), 1.0 - u/v ,clamp( v, 0.0, 1.0 ), 1.0);
+                                   });
     };
     
     ofxGrayScott& setPasses(int _i){ passes = _i; return * this;};
