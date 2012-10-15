@@ -36,6 +36,8 @@
 #include "composers/ofxClone.h"
 #include "composers/ofxMultiTexture.h"
 #include "composers/ofxBlend.h"
+#include "composers/ofxSubstract.h"
+#include "composers/ofxAbsDiff.h"
 
 #include "filters/ofxBloom.h"
 #include "filters/ofxBlur.h"
@@ -44,6 +46,12 @@
 #include "filters/ofxOldTv.h"
 #include "filters/ofxGaussianBlur.h"
 #include "filters/ofxLUT.h"
+#include "filters/ofxGrayscale.h"
+#include "filters/ofxContrast.h"
+#include "filters/ofxInverse.h"
+
+#include "operations/ofxThreshold.h"
+#include "operations/ofxNormals.h"
 
 #include "generative/ofxGrayScott.h"
 #include "generative/ofxTint.h"
