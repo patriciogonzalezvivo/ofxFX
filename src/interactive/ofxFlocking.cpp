@@ -35,7 +35,7 @@ ofxFlocking::ofxFlocking(){
     passes = 1;
     internalFormat = GL_RGBA;
     
-    timeStep = 0.005f;
+    timeStep = 0.0005f;
     
     particleSize = 30.0f;
     

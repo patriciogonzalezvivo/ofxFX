@@ -18,12 +18,14 @@ class ofxWater : public ofxFXObject {
 public:
     ofxWater();
     
-    ofxWater& loadBackground(string file);
-    ofxWater& linkBackground(ofTexture * _backText);
+    ofxWater&   loadBackground(string file);
+    ofxWater&   linkBackground(ofTexture &_backText);
+    void        backgroundBegin();
+    void        backgroundEnd();
     
-    ofxWater& setDensity(float _density){ density = ofClamp(_density,0.0,1.0); return * this; };
+    ofxWater&   setDensity(float _density){ density = ofClamp(_density,0.0,1.0); return * this; };
     
-    ofTexture& getTextureReference(){ return textures[3].getTextureReference(); };
+    ofTexture&  getTextureReference(){ return textures[2].getTextureReference(); };
     
     void begin();
 	void end();

@@ -99,12 +99,20 @@ ofxWater& ofxWater::loadBackground(string file){
     return * this;
 }
 
-ofxWater& ofxWater::linkBackground(ofTexture * _backText){
+ofxWater& ofxWater::linkBackground(ofTexture & _backText){
     textures[0].begin();
-    _backText->draw(0,0);
+    _backText.draw(0,0);
     textures[0].end();
     
     return * this;
+}
+
+void ofxWater::backgroundBegin(){
+    textures[0].begin();
+}
+
+void ofxWater::backgroundEnd(){
+    textures[0].end();
 }
 
 void ofxWater::begin() {
