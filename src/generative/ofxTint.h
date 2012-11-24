@@ -1,9 +1,8 @@
 //
-//  ofxNoise.h
-//  animatedText
+//  ofxTint.h
 //
-//  Created by Patricio González Vivo on 4/12/12.
-//  Copyright (c) 2012 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 4/12/12.
+//  Copyright (c) 2012 http://www.PatricioGonzalezVivo.com. All rights reserved.
 //
 
 #ifndef OFXTINT
@@ -88,8 +87,8 @@ public:
                                                               fade),
                                                           prev.r);
                                        
-                                       gl_FragColor =  vec4( vec3( mix(1.0, darker, text.r )), 1.0);
-                                   } 
+                                       gl_FragColor = vec4( vec3( mix(1.0, darker, text.r )), 1.0);
+                                   }
                                    );
     };
     

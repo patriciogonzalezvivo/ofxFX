@@ -51,44 +51,46 @@ public:
     ofxFXObject(ofxFXObject& parent);
     ~ofxFXObject();
 
-    ofxFXObject& operator =(ofxFXObject& parent);
-    ofxFXObject& operator >>(ofxFXObject& parent) { parent.setTexture( getTextureReference() ); return * this;};
-    ofxFXObject& operator <<(ofxFXObject& parent){ setTexture( parent.getTextureReference() ); return * this;};
-    ofTexture& operator[](int _nText){ if ((_nText < nTextures) && (_nText >= 0) ) return textures[_nText].getTextureReference(); };
+    ofxFXObject&    operator =(ofxFXObject& parent);
+    ofxFXObject&    operator >>(ofxFXObject& parent) { parent.setTexture( getTextureReference() ); return * this;};
+    ofxFXObject&    operator <<(ofxFXObject& parent){ setTexture( parent.getTextureReference() ); return * this;};
+    ofTexture&      operator[](int _nText){ if ((_nText < nTextures) && (_nText >= 0) ) return textures[_nText].getTextureReference(); };
 
-    virtual void allocate(int _width, int _height, int _internalFormat);;
-    virtual void allocate(int _width, int _height);
+    virtual void    allocate(int _width, int _height, int _internalFormat);;
+    virtual void    allocate(int _width, int _height);
     
-    virtual void set(ofRectangle const & _rect){ ofRectangle::set(_rect); allocate(width,height); };
-    virtual bool setCode(string fragShader);
-    virtual bool compileCode();
+    virtual void    set(ofRectangle const & _rect){ ofRectangle::set(_rect); allocate(width,height); };
+    virtual bool    setCode(string fragShader);
+    virtual bool    compileCode();
     
-    void setPasses(int _passes) { passes = _passes; };
-    void setInternalFormat(int _internalFormat) { internalFormat = _internalFormat; compileCode(); };
-    virtual void setTexture(ofTexture& tex, int _texNum = 0);
+    void            setPasses(int _passes) { passes = _passes; };
+    void            setInternalFormat(int _internalFormat) { internalFormat = _internalFormat; compileCode(); };
+    virtual void    setTexture(ofTexture& tex, int _texNum = 0);
     
-    virtual void begin(int _texNum = 0);
-	virtual void end(int _texNum = 0);
+    virtual void    begin(int _texNum = 0);
+	virtual void    end(int _texNum = 0);
     
-    bool        compiled() const{ return bFine; };
-    string      getCode() const { return fragmentShader; };
-    float       getWidth() const { return width;};
-    float       getHeight() const { return height;};
-    int         getPasses() const { return passes; };
-    int         getInternalFormat() const { return internalFormat; };
-    int         getNumberOfCalledTextures() const { return nTextures; };
-    ofVec2f     getResolution() const { return ofVec2f(width,height);};
-    ofTexture&  getTextureReference() const { return pingPong.dst->getTextureReference(); };
+    bool            compiled() const{ return bFine; };
+    string          getCode() const { return fragmentShader; };
+    float           getWidth() const { return width;};
+    float           getHeight() const { return height;};
+    int             getPasses() const { return passes; };
+    ofVec2f         getResolution() const { return ofVec2f(width,height);};
+    int             getInternalFormat() const { return internalFormat; };
+    int             getNumberOfCalledTextures() const { return nTextures; };
     
-    void clear(int alpha = 255){ pingPong.clear(alpha); } 
+    ofFbo*          getBackBuffer() const { return pingPong.src; };
+    ofTexture&      getTextureReference() const { return pingPong.dst->getTextureReference(); };
     
-    virtual void update();
-    void draw(ofRectangle &_rect){ draw(_rect.x,_rect.y,_rect.width,_rect.height);};
-    void draw(int _x = -1, int _y = -1, float _width = -1, float _height = -1);
+    void            clear(int alpha = 255){ pingPong.clear(alpha); } 
+    
+    virtual void    update();
+    void            draw(ofRectangle &_rect){ draw(_rect.x,_rect.y,_rect.width,_rect.height);};
+    void            draw(int _x = -1, int _y = -1, float _width = -1, float _height = -1);
     
 protected:
-    virtual void initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat = GL_RGBA );
-    virtual void renderFrame(float _width = -1, float _height = -1);
+    virtual void    initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat = GL_RGBA );
+    virtual void    renderFrame(float _width = -1, float _height = -1);
     
     ofxSwapBuffer   pingPong;
     ofFbo           *textures;

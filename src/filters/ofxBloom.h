@@ -2,8 +2,8 @@
 //  ofxBloom.h
 //  emptyExample
 //
-//  Created by Patricio González Vivo on 25/11/11.
-//  Copyright (c) 2011 PatricioGonzalezVivo.com. All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 25/11/11.
+//  Copyright (c) 2011 http://PatricioGonzalezVivo.com. All rights reserved.
 //
 
 #ifndef OFXBLOOM

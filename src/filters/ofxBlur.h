@@ -1,7 +1,7 @@
 /*
  *  ofxBlurFast.h
  *
- *  Created by Patricio González Vivo on 25/11/11.
+ *  Created by Patricio Gonzalez Vivo on 25/11/11.
  *  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without

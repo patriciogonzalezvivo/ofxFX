@@ -1,7 +1,7 @@
 /*
  *  ofxGlow.h
  *
- *  Created by Patricio González Vivo on 03/07/11.
+ *  Created by Patricio Gonzalez Vivo on 03/07/11.
  *  Copyright 2011 http://www.PatricioGonzalezVivo.com All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without

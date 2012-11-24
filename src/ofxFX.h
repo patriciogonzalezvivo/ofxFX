@@ -52,9 +52,12 @@
 
 #include "operations/ofxThreshold.h"
 #include "operations/ofxNormals.h"
+#include "operations/ofxDisplacePixels.h"
 
 #include "generative/ofxGrayScott.h"
 #include "generative/ofxTint.h"
+#include "generative/ofxNoise.h"
+#include "generative/ofxFire.h"
 
 #include "interactive/ofxWater.h"
 #include "interactive/ofxFluid.h"

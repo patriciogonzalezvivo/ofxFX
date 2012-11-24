@@ -266,7 +266,7 @@ void ofxFXObject::update(){
         }
         
         // Also there are some standar variables that are passes to the shaders
-        // this ones follows the standar used by Ricardo Caballero´s webGL Sandbox
+        // this ones follows the standar used by Ricardo Caballero's webGL Sandbox
         // http://mrdoob.com/projects/glsl_sandbox/ and ShaderToy by Inigo Quilez http://www.iquilezles.org/apps/shadertoy/
         // webGL interactive GLSL editors
         //
@@ -275,7 +275,7 @@ void ofxFXObject::update(){
         shader.setUniform2f("resolution", (float)width, (float)height);
         shader.setUniform2f("mouse", (float)(ofGetMouseX()/width), (float)(ofGetMouseY()/height));
         
-        // renderFrame() it´s a built-in funtion of ofxFXObject that only draw a white box in order to 
+        // renderFrame() is a built-in funtion of ofxFXObject that only draw a white box in order to 
         // funtion as a frame here the textures could rest.
         // If you want to distort the points of a textures, probably you want to re-define the renderFrame funtion.
         renderFrame();
@@ -284,11 +284,11 @@ void ofxFXObject::update(){
         
         pingPong.dst->end();
         
-        pingPong.swap();    // Swap the ofFbo´s. Now dst it´s src and src it´s dst
+        pingPong.swap();    // Swap the ofFbo's. Now dst is src and src is dst
     }
     
     pingPong.swap();        // After the loop the render information will be at the src ofFbo of the ofxSwapBuffer 
-    // this extra swap() call will put it on the dst one. Witch sounds more reasonable... isn´t?
+    // this extra swap() call will put it on the dst one. Witch sounds more reasonable...
 };
 
 // DRAW

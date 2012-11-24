@@ -2,7 +2,6 @@
 //  ofxBlend.h
 //
 //  Created by Akira Hayasaka on 5/14/12.
-//  Copyright (c) 2012 ﾟ･:,｡ﾟ･:,｡★ﾟ･:,｡ﾟ･:,｡☆ﾟ･:,｡ﾟ･:,｡★ﾟ･:,｡ﾟ･:,｡☆. All rights reserved.
 //
 
 #ifndef OFXBLEND

@@ -1,7 +1,7 @@
 /*
  *  ofxMask.h
  *
- *  Created by Patricio González Vivo on 10/1/11.
+ *  Created by Patricio Gonzalez Vivo on 10/1/11.
  *  Copyright 2011 http://PatricioGonzalezVivo.com All rights reserved.
  *
  *  ******************************************************************
@@ -14,6 +14,8 @@
 #ifndef OFXLUT
 #define OFXLUT
 
+#define STRINGIFY(A) #A
+
 #include "ofMain.h"
 #include "ofxFXObject.h"
 
@@ -23,28 +25,23 @@ public:
         passes = 1;
         internalFormat = GL_RGB32F;
         
-        fragmentShader = "#version 120\n\
-#extension GL_ARB_texture_rectangle : enable\n\
-\n\
-uniform sampler2DRect tex0;\n\
-uniform sampler2DRect tex1;\n\
-\n\
-float size = 32.0;\n\
-\n\
-void main(void){\n\
-    vec2 st = gl_TexCoord[0].st;\n\
-    \n\
-    vec4 srcColor = texture2DRect(tex0, st);\n\
-    \n\
-    float x = srcColor.r * (size-1.0);\n\
-    float y = srcColor.g * (size-1.0);\n\
-    float z = srcColor.b * (size-1.0);\n\
-    \n\
-    vec3 color = texture2DRect(tex1, vec2(floor(x)+1.0 +(floor(y)+1.0)*size, floor(z)+1.0)).rgb;\n\
-    \n\
-    gl_FragColor = vec4( color , 1.0);\n\
-}\n\
-\n";
+        fragmentShader = STRINGIFY(uniform sampler2DRect tex0;
+                                   uniform sampler2DRect tex1;
+                                   
+                                   float size = 32.0;
+
+                                   void main(void){
+                                       vec2 st = gl_TexCoord[0].st;
+                                       vec4 srcColor = texture2DRect(tex0, st);
+                                       
+                                       float x = srcColor.r * (size-1.0);\n\
+                                       float y = srcColor.g * (size-1.0);
+                                       float z = srcColor.b * (size-1.0);
+                                       
+                                       vec3 color = texture2DRect(tex1, vec2(floor(x)+1.0 +(floor(y)+1.0)*size, floor(z)+1.0)).rgb;
+                                       
+                                       gl_FragColor = vec4( color , 1.0);
+                                   });
     }
     
     bool loadLUT(string lutFile){

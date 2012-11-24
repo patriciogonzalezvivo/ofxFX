@@ -1,9 +1,8 @@
 //
 //  ofxSubstract.h
-//  week5_GLSL_vectorFields
 //
-//  Created by Patricio González Vivo on 25/11/11.
-//  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
+//  Created by Patricio Gonzalez Vivo on 25/10/12.
+//  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
 #ifndef OFXSUBSTRACT

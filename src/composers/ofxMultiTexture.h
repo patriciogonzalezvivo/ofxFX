@@ -1,7 +1,7 @@
 /*
  *  ofxMask.h
  *
- *  Created by Patricio González Vivo on 10/1/11.
+ *  Created by Patricio Gonzalez Vivo on 10/1/11.
  *  Copyright 2011 http://PatricioGonzalezVivo.com All rights reserved.
  *
  *  Based on ofxAlphaMaskShader
