@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxWater.h"
+#include "ofxFX.h"
 
 class testApp : public ofBaseApp{
 public:
@@ -19,5 +19,6 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    ofxWater water;
+    ofxRipples  rip;
+    ofxBounce   bounce;
 };

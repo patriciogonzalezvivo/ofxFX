@@ -8,6 +8,7 @@ void testApp::setup(){
     
     width = 640;
     height = 480;
+    ofSetWindowShape(width, height);
     video.initGrabber(width, height);
     
     grayscale.allocate(width, height);

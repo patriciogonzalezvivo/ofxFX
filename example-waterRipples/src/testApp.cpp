@@ -4,22 +4,30 @@
 void testApp::setup(){
     ofSetFrameRate(60);
     ofEnableAlphaBlending();
-    ofSetWindowShape(640, 480);
+    ofSetWindowShape(640*2, 480);
     
-    water.loadBackground("fondo.jpg");
+    rip.allocate(640,480);
+    bounce.allocate(640,480);
+    
+    ofImage background;
+    background.loadImage("fondo.jpg");
+    
+    bounce.setTexture(background.getTextureReference(), 1);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
     
-    water.begin();
+    rip.begin();
     ofFill();
     ofSetColor(ofNoise( ofGetFrameNum() ) * 255 * 5, 255);
     ofEllipse(mouseX,mouseY, 10,10);
-    water.end();
+    rip.end();
+    rip.update();
     
-    water.update();
+    bounce << rip;
+    bounce.update();
 }
 
 //--------------------------------------------------------------
@@ -27,15 +35,11 @@ void testApp::draw(){
     ofBackground(0);
     ofSetColor(255,255);
     
-    if ( ofGetKeyPressed() ) {
-        water[1].draw(0,0);
-        ofDrawBitmapString("Release the key to view the mapped background ussing the bouncemap", 15,15);
-    } else {
-        water.draw();
-        ofDrawBitmapString("Press any key to view the bouncemap", 15,15);
-    }
+    rip.draw(0,0);
+    ofDrawBitmapString("ofxRipples ( damping = " + ofToString(rip.damping) + " )", 15,15);
     
-    
+    bounce.draw(640,0);
+    ofDrawBitmapString("ofxBounce", 640+15,15);
 }
 
 //--------------------------------------------------------------
@@ -50,12 +54,11 @@ void testApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-
 }
 
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
-
+    rip.damping = ofMap(y, 0, ofGetHeight(), 0.9, 1.0, true);
 }
 
 //--------------------------------------------------------------

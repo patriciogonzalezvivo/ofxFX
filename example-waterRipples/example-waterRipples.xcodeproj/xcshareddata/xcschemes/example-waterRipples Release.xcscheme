@@ -14,9 +14,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "example-water.app"
-               BlueprintName = "example-water"
-               ReferencedContainer = "container:example-water.xcodeproj">
+               BuildableName = "example-waterRipples.app"
+               BlueprintName = "example-waterRipples"
+               ReferencedContainer = "container:example-waterRipples.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -25,16 +25,16 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.GDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
       <Testables>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-water.app"
-            BlueprintName = "example-water"
-            ReferencedContainer = "container:example-water.xcodeproj">
+            BuildableName = "example-waterRipples.app"
+            BlueprintName = "example-waterRipples"
+            ReferencedContainer = "container:example-waterRipples.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -43,16 +43,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-water.app"
-            BlueprintName = "example-water"
-            ReferencedContainer = "container:example-water.xcodeproj">
+            BuildableName = "example-waterRipples.app"
+            BlueprintName = "example-waterRipples"
+            ReferencedContainer = "container:example-waterRipples.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -62,23 +62,23 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "example-water.app"
-            BlueprintName = "example-water"
-            ReferencedContainer = "container:example-water.xcodeproj">
+            BuildableName = "example-waterRipples.app"
+            BlueprintName = "example-waterRipples"
+            ReferencedContainer = "container:example-waterRipples.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

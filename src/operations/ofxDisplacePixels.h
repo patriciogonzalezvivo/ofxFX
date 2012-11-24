@@ -22,7 +22,7 @@ public:
         internalFormat = GL_RGBA;
         
         fragmentShader = STRINGIFY(uniform sampler2DRect backbuffer;
-                                   uniform sampler2DRect tex0;
+                                   uniform sampler2DRect tex0;          // normalMap that tell the direction where to move the pixels
                                    
                                    vec2 offset[9];
                                    
