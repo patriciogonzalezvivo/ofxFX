@@ -48,183 +48,176 @@ ofxFlocking::ofxFlocking(){
     alineation = 1.0f;
     cohesion = 1.0f;
 
-    fragmentShader = "#version 120\n\
-#extension GL_ARB_texture_rectangle : enable\n\
-#define KERNEL_SIZE 9\n\
-\n\
-uniform sampler2DRect backbuffer;\n\
-uniform sampler2DRect tex0;\n\
-uniform sampler2DRect posData;\n\
-\n\
-uniform vec2  screen;\n\
-uniform int   resolution;\n\
-\n\
-uniform float timestep;\n\
-uniform float minDist;\n\
-uniform float maxDist;\n\
-uniform float maxSpeed;\n\
-uniform float maxForce;\n\
-\n\
-uniform float separation;\n\
-uniform float alineation;\n\
-uniform float cohesion;\n\
-\n\
-vec2 limit(vec2 vector, float max) {\n\
-    float lengthSquared = dot(vector,vector);\n\
-    if( lengthSquared > max*max && lengthSquared > 0.0 ) {\n\
-        float ratio = max/sqrt(lengthSquared);\n\
-        vector.x *= ratio;\n\
-        vector.y *= ratio;\n\
-    }\n\
-    return vector;\n\
-}\n\
-\n\
-vec2 avoid(vec2 pos, vec2 target, bool weight){\n\
-    vec2 steer = target - pos;\n\
-    \n\
-    if(weight)\n\
-        steer *= 1.0/sqrt(distance(pos,target));\n\
-    \n\
-    return steer;\n\
-}\n\
-\n\
-void main(void){\n\
-    vec2 st = gl_TexCoord[0].st;\n\
-    vec2 pos = texture2DRect( posData, st).xy;\n\
-    vec2 vel = texture2DRect( backbuffer, st ).xy;\n\
-    vec2 acc = vec2(0.0,0.0);\n\
-    \n\
-    vec2  oSt;\n\
-    oSt.x = pos.x * screen.x;\n\
-    oSt.y = pos.y * screen.y;\n\
-    float obst = texture2DRect( tex0, oSt).r;\n\
-    \n\
-    if (obst > 0.0){\n\
-        vec2 offset[KERNEL_SIZE];\n\
-        offset[0] = vec2(-1.0, -1.0);\n\
-        offset[1] = vec2(0.0, -1.0);\n\
-        offset[2] = vec2(1.0, -1.0);\n\
-        \n\
-        offset[3] = vec2(-1.0, 0.0);\n\
-        offset[4] = vec2(0.0, 0.0);\n\
-        offset[5] = vec2(1.0, 0.0);\n\
-        \n\
-        offset[6] = vec2(-1.0, 1.0);\n\
-        offset[7] = vec2(0.0, 1.0);\n\
-        offset[8] = vec2(1.0, 1.0);\n\
-        \n\
-        float lessDense = 2.0;\n\
-        int lessDenseOffset = 4;\n\
-        for (int i = 0; i < KERNEL_SIZE; i++){\n\
-            if (i != 4){\n\
-                float nearby = texture2DRect(tex0, oSt + offset[i] ).r;\n\
-                if ( nearby < lessDense){\n\
-                    lessDense = nearby;\n\
-                    lessDenseOffset = i;\n\
-                }\n\
-            }\n\
-        }\n\
-        acc += offset[lessDenseOffset] * 0.5;\n\
-    } else {\n\
-        vec2 sep = vec2(0.0,0.0);\n\
-        vec2 ali = vec2(0.0,0.0);\n\
-        vec2 coh = vec2(0.0,0.0);\n\
-        \n\
-        float near = 0.0;\n\
-        float toNear = 0.0;\n\
-        \n\
-        for (int x = 0; x < resolution; x++){\n\
-            for ( int y = 0; y < resolution; y++){\n\
-                \n\
-                if(st != vec2(x,y)){\n\
-                    vec2 tPos = texture2DRect( posData, vec2(x,y) ).xy;\n\
-                    vec2 tVel = texture2DRect( backbuffer, vec2(x,y) ).xy;\n\
-                    \n\
-                    vec2 diff = pos - tPos;\n\
-                    float d = length(diff);\n\
-                    \n\
-                    if ( d < maxDist){\n\
-                        ali += tVel;\n\
-                        coh += tPos;\n\
-                        near++;\n\
-                        \n\
-                        if ( d < minDist){\n\
-                            sep += (normalize(diff) / d);\n\
-                            toNear++;\n\
-                        }\n\
-                    }\n\
-                }\n\
-            }\n\
-        }\n\
-        \n\
-        if (toNear > 0.0){\n\
-            sep /= toNear;\n\
-            sep = normalize(sep);\n\
-            sep *= maxSpeed;\n\
-            sep -= vel;\n\
-            sep = limit(sep,maxForce);\n\
-        }\n\
-        \n\
-        if (near > 0.0){\n\
-            ali /= near;\n\
-            ali = normalize(ali);\n\
-            ali *= maxSpeed;\n\
-            ali -= vel;\n\
-            ali = limit(ali,maxForce);\n\
-            \n\
-            coh /= near;\n\
-            coh -= pos;\n\
-            coh = normalize(coh);\n\
-            coh *= maxSpeed;\n\
-            coh -= vel;\n\
-            coh = limit(coh,maxForce);\n\
-        }\n\
-        \n\
-        acc += sep * separation;\n\
-        acc += ali * alineation;\n\
-        acc += coh * cohesion;\n\
-    }\n\
-    \n\
-    vel += acc;\n\
-    vel = limit(vel,maxSpeed);\n\
-    \n\
-    vec2 nextPos = pos;\n\
-    nextPos += vel * timestep;\n\
-    \n\
-    if ( nextPos.x < 0.0)\n\
-        vel.x = 0.5 * abs(vel.x);\n\
-    \n\
-    if ( nextPos.x > 1.0)\n\
-        vel.x = -0.5 * abs(vel.x);\n\
-    \n\
-    if (nextPos.y < 0.0)\n\
-        vel.y = 0.5 * abs(vel.y);\n\
-    \n\
-    if ( nextPos.y > 1.0)\n\
-        vel.y = -0.5 * abs(vel.y);\n\
-    \n\
-    gl_FragColor = vec4(vel.x,vel.y,0.0,1.0);\n\
-}\n\
-\n";
+    fragmentShader = STRINGIFY(uniform sampler2DRect backbuffer;
+                               uniform sampler2DRect tex0;
+                               uniform sampler2DRect posData;
+                               
+                               uniform vec2  screen;
+                               uniform int   resolution;
+                               
+                               uniform float timestep;
+                               uniform float minDist;
+                               uniform float maxDist;
+                               uniform float maxSpeed;
+                               uniform float maxForce;
+                               
+                               uniform float separation;
+                               uniform float alineation;
+                               uniform float cohesion;
+                               
+                               vec2 limit(vec2 vector, float max) {
+                                   float lengthSquared = dot(vector,vector);
+                                   if( lengthSquared > max*max && lengthSquared > 0.0 ) {
+                                       float ratio = max/sqrt(lengthSquared);
+                                       vector.x *= ratio;
+                                       vector.y *= ratio;
+                                   }
+                                   return vector;
+                               }
+                               
+                               vec2 avoid(vec2 pos, vec2 target, bool weight){
+                                   vec2 steer = target - pos;
+                                   
+                                   if(weight)
+                                       steer *= 1.0/sqrt(distance(pos,target));
+                                   
+                                   return steer;
+                               }
+                               
+                               void main(void){
+                                   vec2 st = gl_TexCoord[0].st;
+                                   vec2 pos = texture2DRect( posData, st).xy;
+                                   vec2 vel = texture2DRect( backbuffer, st ).xy;
+                                   vec2 acc = vec2(0.0,0.0);
+                                   
+                                   vec2  oSt;
+                                   oSt.x = pos.x * screen.x;
+                                   oSt.y = pos.y * screen.y;
+                                   float obst = texture2DRect( tex0, oSt).r;
+                                   
+                                   if (obst > 0.0){
+                                       vec2 offset[9];
+                                       offset[0] = vec2(-1.0, -1.0);
+                                       offset[1] = vec2(0.0, -1.0);
+                                       offset[2] = vec2(1.0, -1.0);
+                                       
+                                       offset[3] = vec2(-1.0, 0.0);
+                                       offset[4] = vec2(0.0, 0.0);
+                                       offset[5] = vec2(1.0, 0.0);
+                                       
+                                       offset[6] = vec2(-1.0, 1.0);
+                                       offset[7] = vec2(0.0, 1.0);
+                                       offset[8] = vec2(1.0, 1.0);
+                                       
+                                       float lessDense = 2.0;
+                                       int lessDenseOffset = 4;
+                                       for (int i = 0; i < 9; i++){
+                                           if (i != 4){
+                                               float nearby = texture2DRect(tex0, oSt + offset[i] ).r;
+                                               if ( nearby < lessDense){
+                                                   lessDense = nearby;
+                                                   lessDenseOffset = i;
+                                               }
+                                           }
+                                       }
+                                       acc += offset[lessDenseOffset] * 0.5;
+                                   } else {
+                                       vec2 sep = vec2(0.0,0.0);
+                                       vec2 ali = vec2(0.0,0.0);
+                                       vec2 coh = vec2(0.0,0.0);
+                                       
+                                       float near = 0.0;
+                                       float toNear = 0.0;
+                                       
+                                       for (int x = 0; x < resolution; x++){
+                                           for ( int y = 0; y < resolution; y++){
+                                               
+                                               if(st != vec2(x,y)){
+                                                   vec2 tPos = texture2DRect( posData, vec2(x,y) ).xy;
+                                                   vec2 tVel = texture2DRect( backbuffer, vec2(x,y) ).xy;
+                                                   
+                                                   vec2 diff = pos - tPos;
+                                                   float d = length(diff);
+                                                   
+                                                   if ( d < maxDist){
+                                                       ali += tVel;
+                                                       coh += tPos;
+                                                       near++;
+                                                       
+                                                       if ( d < minDist){
+                                                           sep += (normalize(diff) / d);
+                                                           toNear++;
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                       
+                                       if (toNear > 0.0){
+                                           sep /= toNear;
+                                           sep = normalize(sep);
+                                           sep *= maxSpeed;
+                                           sep -= vel;
+                                           sep = limit(sep,maxForce);
+                                       }
+                                       
+                                       if (near > 0.0){
+                                           ali /= near;
+                                           ali = normalize(ali);
+                                           ali *= maxSpeed;
+                                           ali -= vel;
+                                           ali = limit(ali,maxForce);
+                                           
+                                           coh /= near;
+                                           coh -= pos;
+                                           coh = normalize(coh);
+                                           coh *= maxSpeed;
+                                           coh -= vel;
+                                           coh = limit(coh,maxForce);
+                                       }
+                                       
+                                       acc += sep * separation;
+                                       acc += ali * alineation;
+                                       acc += coh * cohesion;
+                                   }
+                                   
+                                   vel += acc;
+                                   vel = limit(vel,maxSpeed);
+                                   
+                                   vec2 nextPos = pos;
+                                   nextPos += vel * timestep;
+                                   
+                                   if ( nextPos.x < 0.0)
+                                       vel.x = 0.5 * abs(vel.x);
+                                   
+                                   if ( nextPos.x > 1.0)
+                                       vel.x = -0.5 * abs(vel.x);
+                                   
+                                   if (nextPos.y < 0.0)
+                                       vel.y = 0.5 * abs(vel.y);
+                                   
+                                   if ( nextPos.y > 1.0)
+                                       vel.y = -0.5 * abs(vel.y);
+                                   
+                                   gl_FragColor = vec4(vel.x,vel.y,0.0,1.0);
+                               }
+                               );
     
-    string fragmentPosUpdateShader = "#version 120\n \
-    #extension GL_ARB_texture_rectangle : enable \n \
-    \
-    uniform sampler2DRect prevPosData;\
-    uniform sampler2DRect velData;\
-    \
-    uniform float timestep;\
-    \
-    void main(void){\
-        vec2 st = gl_TexCoord[0].st;\
-        \
-        vec2 pos = texture2DRect( prevPosData, st ).xy;\
-        vec2 vel = texture2DRect( velData, st ).xy;\
-        \
-        pos += vel * timestep;\
-        \
-        gl_FragColor.rgba = vec4(pos.x,pos.y,1.0,1.0);\
-    }";
+    string fragmentPosUpdateShader = STRINGIFY(uniform sampler2DRect prevPosData;
+                                               uniform sampler2DRect velData;
+                                               
+                                               uniform float timestep;
+                                               
+                                               void main(void){
+                                                   vec2 st = gl_TexCoord[0].st;
+                                                   
+                                                   vec2 pos = texture2DRect( prevPosData, st ).xy;
+                                                   vec2 vel = texture2DRect( velData, st ).xy;
+                                                   
+                                                   pos += vel * timestep;
+                                                   
+                                                   gl_FragColor.rgba = vec4(pos.x,pos.y,1.0,1.0);
+                                               });
     posUpdateShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentPosUpdateShader);
     posUpdateShader.linkProgram();
     
@@ -233,14 +226,12 @@ void main(void){\n\
 	renderShader.setGeometryOutputType(GL_TRIANGLE_STRIP);
 	renderShader.setGeometryOutputCount(6);
     
-    string fragmentRenderShader = "#version 120\n \
-    #extension GL_ARB_texture_rectangle : enable \n \
-    \
-    uniform sampler2DRect sparkTex;\
-    void main() {\
-        vec2 st = gl_TexCoord[0].st;\
-        gl_FragColor = texture2DRect(sparkTex, st);\
-    }";
+    string fragmentRenderShader = STRINGIFY(uniform sampler2DRect sparkTex;
+                                            void main() {
+                                                vec2 st = gl_TexCoord[0].st;
+                                                gl_FragColor = texture2DRect(sparkTex, st);
+                                            }
+                                            );
     renderShader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentRenderShader);
     
     string vertexRenderShader = "#version 120 \n \
@@ -368,7 +359,7 @@ void ofxFlocking::update(){
     pingPong.dst->begin();
     ofClear(0);
     shader.begin();
-    shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0);
+    
     shader.setUniformTexture("tex0", textures[0].getTextureReference(), 1);
     shader.setUniformTexture("posData", posBuffer.src->getTextureReference(), 2);
     shader.setUniform1i("resolution", (int)resolution); 
@@ -381,7 +372,9 @@ void ofxFlocking::update(){
     shader.setUniform1f("separation",(float) separation );
     shader.setUniform1f("alineation",(float) alineation );
     shader.setUniform1f("cohesion",(float) cohesion );
-    renderFrame(resolution,resolution);
+    
+    pingPong.src->draw(0, 0);
+    
     shader.end();
     pingPong.dst->end();
     
@@ -419,6 +412,7 @@ void ofxFlocking::update(){
     for(int x = 0; x < resolution; x++){
         for(int y = 0; y < resolution; y++){
             glVertex2d(x,y);
+            glTexCoord2d(x,y); 
         }
     }
     ofDisableBlendMode();

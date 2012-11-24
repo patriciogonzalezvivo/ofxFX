@@ -3,34 +3,35 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     ofEnableAlphaBlending();
-	ofSetWindowShape(640, 480);
+    ofSetCircleResolution(100);
     
+    width = 300;
+    height = 600;
+
     // Initial Allocation
     //
-    fluid.allocate(640, 480, 0.5);
+    fluid.allocate(width, height, 0.5);
     
     // Seting the gravity set up & injecting the background image
     //
-    fluid.setGravity(ofVec2f(0.0,-0.098));
-    fluid.setDissipation(0.99);
-    fluid.setVelocityDissipation(0.99);
+    fluid.dissipation = 0.99;
+    fluid.velocityDissipation = 0.99;
+    
+    fluid.setGravity(ofVec2f(0.0,0.0));
+//    fluid.setGravity(ofVec2f(0.0,0.0098));
     
     //  Set obstacle
     //
     fluid.begin();
     ofSetColor(255);
-    ofCircle(640*0.5, 480*0.7, 10);
-    ofCircle(640*0.5-30, 480*0.7-60, 5);
-    ofCircle(640*0.5+30, 480*0.7-60, 5);
-    ofCircle(640*0.5+50, 480*0.7-120, 2);
-    ofCircle(640*0.5-50, 480*0.7-120, 2);
+    ofCircle(width*0.5, height*0.35, 40);
     fluid.end();
     
     // Adding constant forces
     //
-    fluid.addConstantForce(ofPoint(640*0.5,480*0.85), ofPoint(0,-3.), ofFloatColor(0.5,0.1,0.0), 5.f);
-    //fluid.addConstantForce(ofPoint(640*0.5,480*0.85), ofPoint(0,-1), ofFloatColor(0.0,0.3,0.0), 3.f);
+    fluid.addConstantForce(ofPoint(width*0.5,height*0.85), ofPoint(0,-2), ofFloatColor(0.5,0.1,0.0), 10.f);
     
+    ofSetWindowShape(width, height);
 }
 
 //--------------------------------------------------------------

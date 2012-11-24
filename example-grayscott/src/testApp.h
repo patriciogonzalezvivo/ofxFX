@@ -20,4 +20,6 @@ public:
     void gotMessage(ofMessage msg);
     
     ofxGrayScott    gray;
+    
+    ofxNormals      normals;
 };

@@ -23,8 +23,9 @@ void testApp::draw(){
                                  abs(sin(ofGetElapsedTimef()*0.09)*255)),
                          ofColor(0));
     ofSetColor(255, 200);
-    kal.draw(0,0);
     
+    
+    kal.draw(0,0);
 }
 
 //--------------------------------------------------------------

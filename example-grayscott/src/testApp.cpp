@@ -6,16 +6,17 @@ void testApp::setup(){
     ofEnableSmoothing();
     
     gray.allocate(640, 480);
+    normals.allocate(640, 480);
     
-    ofSetWindowShape(640, 480);
+    ofSetWindowShape(640*2, 480);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
     gray.update();
-    
-    gray.setK( ofMap(mouseX,0,ofGetWidth(),0.005,0.095) );
-    gray.setF( ofMap(mouseY,0,ofGetHeight(),0.01,0.028) );
+
+    normals << gray;
+    normals.update();
 }
 
 //--------------------------------------------------------------
@@ -24,9 +25,12 @@ void testApp::draw(){
     ofSetColor(255);
     
     gray.draw();
+    ofDrawBitmapString("GrayScott Reaction Diffusion", 15,15);
+    ofDrawBitmapString("K ( mouseX ): " + ofToString(gray.getK()) , 15,35);
+    ofDrawBitmapString("F ( mouseY ): " + ofToString(gray.getF()) , 15,55);
     
-    ofDrawBitmapString("K ( mouseX ): " + ofToString(gray.getK()) , 15,15);
-    ofDrawBitmapString("F ( mouseY ): " + ofToString(gray.getF()) , 15,35);
+    normals.draw(640,0);
+    ofDrawBitmapString("NormalMap of the GrayScott", 640+15,15);
 }
 
 //--------------------------------------------------------------
@@ -41,7 +45,8 @@ void testApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-
+    gray.setK( ofMap(mouseX,0,640,0.005,0.095,true) );
+    gray.setF( ofMap(mouseY,0,480,0.01,0.028,true) );
 }
 
 //--------------------------------------------------------------

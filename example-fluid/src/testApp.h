@@ -22,5 +22,6 @@ public:
     ofxFluid fluid;
     
     ofVec2f oldM;
+    int     width,height;
     bool    bPaint, bObstacle, bBounding, bClear;
 };

@@ -43,6 +43,8 @@
 #ifndef OFXFLOCKING
 #define OFXFLOCKING
 
+#define STRINGIFY(A) #A
+
 #include "ofMain.h"
 #include "ofxFXObject.h"
 

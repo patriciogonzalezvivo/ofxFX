@@ -63,15 +63,10 @@ public:
     
     void allocate(int _width, int _height, float _scale = 0.5);
     
-    //ofxFluid&   setDensity(ofTexture & _tex){setTextureToBuffer(_tex, densityBuffer); return * this; };
-    ofxFluid&   setTexture(ofTexture & _tex){setTextureToBuffer(_tex, pingPong); return * this; };
-    ofxFluid&   setVelocity(ofTexture & _tex){setTextureToBuffer(_tex, velocityBuffer); return * this; };
-    ofxFluid&   setTemperature(ofTexture & _tex){setTextureToBuffer(_tex, temperatureBuffer); return * this; };
-    ofxFluid&   setGravity(ofPoint _force){ gForce = _force; return * this;};
-    
-    ofxFluid&   setDissipation(float _diss){pingPong.diss = _diss; return * this;};
-    ofxFluid&   setVelocityDissipation(float _diss){velocityBuffer.diss = _diss; return * this;};
-    ofxFluid&   setTemperatureDissipation(float _diss){temperatureBuffer.diss = _diss; return * this;};
+    void    setTexture(ofTexture & _tex){setTextureToBuffer(_tex, pingPong); };
+    void    setVelocity(ofTexture & _tex){setTextureToBuffer(_tex, velocityBuffer); };
+    void    setTemperature(ofTexture & _tex){setTextureToBuffer(_tex, temperatureBuffer); };
+    void    setGravity(ofPoint _force){ gForce = _force; };
     
     void    addTemporalForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
     void    addConstantForce(ofPoint _pos, ofPoint _dir, ofFloatColor _col, float _rad = 1.0f, float _temp = 10.f, float _den = 1.f );
@@ -79,10 +74,15 @@ public:
     void    update();
     void    draw(int x = 0, int y = 0, float _width = -1, float _height = -1);
     
+    float   dissipation;
+    float   velocityDissipation;
+    float   temperatureDissipation;
+    float   pressureDissipation;
+    
 private:
     void    setTextureToBuffer(ofTexture & _tex, ofxSwapBuffer & _buffer);
     
-    void    advect(ofxSwapBuffer& _buffer);
+    void    advect(ofxSwapBuffer& _buffer, float _dissipation);
     void    jacobi();
     void    subtractGradient();
     void    computeDivergence();
