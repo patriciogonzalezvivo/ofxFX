@@ -1,27 +1,72 @@
+# Some general ignore patterns
+build/
+obj/
+*.o
+Debug*/
+Release*/
+*.mode*
+*.app/
+*.pyc
+.svn/
+
+
+#XCode
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+#XCode 4
+xcuserdata
+*.xcworkspace
+
+#Code::Blocks
+*.depend
+*.layout
+
+#Visual Studio
+*.sdf
+*.opensdf
+*.suo
+ipch/
+
+#Eclipse
+.metadata
+local.properties
+.externalToolBuilders
+
+
+# OS-specific ignore patterns
+
+#Linux
+*~
+# KDE
+.directory
+
+#OSX
 .DS_Store
-example-conway/.DS_Store
-example-conway/bin/.DS_Store
-example-filters/.DS_Store
-example-fluid/.DS_Store
-example-grayscott/.DS_Store
-example-water/.DS_Store
-example-water/bin/.DS_Store
-example-water/bin/data/.DS_Store
-src/.DS_Store
-/example-water/Project.xcconfig
-/example-water/openFrameworks-Info.plist
-/example-water/example-water.xcodeproj/
-/example-water/bin/example-waterDebug.app/
-/example-sandbox/Project.xcconfig
-/example-sandbox/openFrameworks-Info.plist
-/example-sandbox/example-sandbox.xcodeproj/
-/example-grayscott/Project.xcconfig
-/example-grayscott/openFrameworks-Info.plist
-/example-grayscott/example-grayscott.xcodeproj/
-/example-grayscott/bin/
-/example-flocking/bin/example-flockingDebug.app/
-/example-flocking/addons.make
-/example-filters/Project.xcconfig
-/example-filters/openFrameworks-Info.plist
-/example-filters/example-filters.xcodeproj/
-/example-filters/bin/example-filtersDebug.app/
+*.swp
+*~.nib
+# Thumbnails
+._*
+
+#Windows
+# Windows image file caches
+Thumbs.db
+# Folder config file
+Desktop.ini
+
+#Android
+.csettings
+/libs/openFrameworksCompiled/project/android/paths.make
+
+# Miscellaneous
+.mailmap
+
+/week1-movingRec/bin/data/park6/
+/week1-movingRec/bin/data/park5/
+/week1-movingRec/bin/data/park4/
+/week1-movingRec/bin/data/park3/
+/week1-movingRec/bin/data/park2/
+/week1-movingRec/bin/data/park1/
+/week1-movingRec/bin/data/Archive.zip
