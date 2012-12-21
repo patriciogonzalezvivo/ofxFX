@@ -50,7 +50,7 @@ public:
             
         shader.end();
             
-        pingPong.dst->end();\
+        pingPong.dst->end();
     };
     
     float contrast;

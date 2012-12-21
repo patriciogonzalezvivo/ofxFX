@@ -13,8 +13,10 @@ class ofxSwapBuffer {
 public:
     virtual void allocate( int _width, int _height, int _internalformat = GL_RGBA){
 
-        for(int i = 0; i < 2; i++)
+        for(int i = 0; i < 2; i++){
             FBOs[i].allocate(_width,_height, _internalformat );
+        }
+        
         
         clear();
         

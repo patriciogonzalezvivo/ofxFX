@@ -18,6 +18,8 @@
 #ifndef OFXMASK
 #define OFXMASK
 
+#define STRINGIFY(A) #A
+
 #include "ofMain.h"
 #include "ofxFXObject.h"
 
@@ -27,20 +29,16 @@ public:
         passes = 1;
         internalFormat = GL_RGBA;
         
-        fragmentShader = "#version 120\n\
-#extension GL_ARB_texture_rectangle : enable\n\
-\n\
-uniform sampler2DRect tex0;\n\
-uniform sampler2DRect tex1;\n\
-\n\
-void main (void){\n\
-    vec2 st = gl_TexCoord[0].st;\n\
-    vec4 mask = texture2DRect(tex0, st);\n\
-    vec4 image = texture2DRect(tex1, st);\n\
-    \n\
-    gl_FragColor = vec4(image.rgb,max(mask.r,max(mask.g,mask.b))*image.a );\n\
-}\n\
-\n";
+        fragmentShader = STRINGIFY(uniform sampler2DRect tex0;
+                                   uniform sampler2DRect tex1;
+
+                                   void main (void){
+                                       vec2 st = gl_TexCoord[0].st;
+                                       vec4 mask = texture2DRect(tex0, st);
+                                       vec4 image = texture2DRect(tex1, st);
+                                       
+                                       gl_FragColor = vec4(image.rgb,max(mask.r,max(mask.g,mask.b))*image.a );\n\
+                                   });
     }
     
     void    begin(int _texNum = 0 ) {

@@ -393,6 +393,21 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
+			<key>6c3bf497c4422fa343f951a29d3d77a0</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxMedian.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxFX/src/filters/ofxMedian.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>d432a39ea2a57d3781e8eb06b37dd3a9</key>
 			<dict>
 				<key>explicitFileType</key>
@@ -526,6 +541,7 @@
 					<string>58cde3be1c014bd0dc3cb32ec6b9910b</string>
 					<string>1a2ed38d79eb9cc8b3e113e4e2912496</string>
 					<string>d432a39ea2a57d3781e8eb06b37dd3a9</string>
+					<string>6c3bf497c4422fa343f951a29d3d77a0</string>
 					<string>5e5ead88df0323d1c610940882003743</string>
 				</array>
 				<key>isa</key>

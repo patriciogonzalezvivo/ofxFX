@@ -11,6 +11,8 @@
 #ifndef OFXBOKEH 
 #define OFXBOKEH
 
+#define STRINGIFY(A) #A
+
 #include "ofxFXObject.h"
 #include "ofxBlur.h"
 
@@ -25,34 +27,30 @@ public:
         
         // In this example the tex0 it´s more like a backbuffer
         // The doble loop demands lot´s of resources to the GPU
-        fragmentShader = "#version 120\n\
-#extension GL_ARB_texture_rectangle : enable\n\
-\n\
-uniform sampler2DRect tex0;\n\
-uniform float value0;\n\
-\n\
-void main(void) {\n\
-    vec4 finalColor = vec4(0.0,0.0,0.0,1.0);\n\
-    float weight = 0.;\n\
-    int radius = int(value0);\n\
-    \n\
-    for(int x = radius * -1 ; x < radius; x++) {\n\
-        for(int y = radius * -1; y < radius; y++){\n\
-            \n\
-            vec2 coord = gl_TexCoord[0].xy + vec2(x,y);\n\
-            \n\
-            if(distance(coord, gl_TexCoord[0].xy) < float(radius)){\n\
-                vec4 texel = texture2DRect(tex0, coord);\n\
-                float w = length(texel.rgb)+ 0.1;\n\
-                weight += w;\n\
-                finalColor += texel * w;\n\
-            }\n\
-        }\n\
-    }\n\
-    \n\
-    gl_FragColor = finalColor/weight;\n\
-}\n\
-\n";  
+        fragmentShader = STRINGIFY(uniform sampler2DRect tex0;
+                                   uniform float value0;
+                                   
+                                   void main(void) {
+                                       vec4 finalColor = vec4(0.0,0.0,0.0,1.0);
+                                       float weight = 0.;
+                                       int radius = int(value0);
+                                       
+                                       for(int x = radius * -1 ; x < radius; x++) {
+                                           for(int y = radius * -1; y < radius; y++){
+                                               
+                                               vec2 coord = gl_TexCoord[0].xy + vec2(x,y);
+                                               
+                                               if(distance(coord, gl_TexCoord[0].xy) < float(radius)){
+                                                   vec4 texel = texture2DRect(tex0, coord);
+                                                   float w = length(texel.rgb)+ 0.1;
+                                                   weight += w;
+                                                   finalColor += texel * w;
+                                               }
+                                           }
+                                       }
+                                       
+                                       gl_FragColor = finalColor/weight;
+                                   });
     };
     
 	void setRadius(float _radius) { if (_radius >= 1) value0 = _radius;};

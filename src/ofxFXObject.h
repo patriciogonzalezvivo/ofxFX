@@ -54,6 +54,7 @@ public:
     ofxFXObject&    operator =(ofxFXObject& parent);
     ofxFXObject&    operator >>(ofxFXObject& parent) { parent.setTexture( getTextureReference() ); return * this;};
     ofxFXObject&    operator <<(ofxFXObject& parent){ setTexture( parent.getTextureReference() ); return * this;};
+    ofxFXObject&    operator <<(ofTexture& _texture){ setTexture( _texture ); return * this;};
     ofTexture&      operator[](int _nText){ if ((_nText < nTextures) && (_nText >= 0) ) return textures[_nText].getTextureReference(); };
 
     virtual void    allocate(int _width, int _height, int _internalFormat);;
