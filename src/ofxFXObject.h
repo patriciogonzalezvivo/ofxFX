@@ -62,6 +62,7 @@ public:
     
     virtual void    set(ofRectangle const & _rect){ ofRectangle::set(_rect); allocate(width,height); };
     virtual bool    setCode(string fragShader);
+    virtual bool    load(string path);
     virtual bool    compileCode();
     
     void            setPasses(int _passes) { passes = _passes; };
