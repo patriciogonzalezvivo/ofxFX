@@ -21,11 +21,15 @@ public:
         passes = 1;
         internalFormat = GL_RGBA;
         
-        fragmentShader = STRINGIFY(uniform float time;
+        brightness = 0.2;
+        rowsSize = 5.0;
+        colorTint.set(0.8,1.0,0.7);
+        
+        fragmentShader = STRINGIFY(uniform float    time;
                                    uniform sampler2DRect tex0;
-                                   
-                                   float brightness = 0.2;
-                                   float rows = 5.0;
+                                   uniform vec3     colorTint;
+                                   uniform float    brightness;
+                                   uniform float    rows;
                                    
                                    void main(void){
                                        vec2 st = gl_TexCoord[0].st;
@@ -41,7 +45,7 @@ public:
                                        
                                        col *= 0.5 + 0.5 * 16.0 * uv.x * uv.y * (1.0-uv.x) * (1.0-uv.y);
                                        
-                                       col *= vec3(0.8,1.0,0.7);
+                                       col *= colorTint;
                                        
                                        col *= 0.9 + 0.1 * sin(10.0 * time + st.y * rows);
                                        
@@ -51,5 +55,28 @@ public:
                                    }
                                    );
     }
+    
+    void update(){
+        pingPong.dst->begin();
+        
+        ofClear(0);
+        shader.begin();
+        
+        shader.setUniformTexture( "tex0" , textures[0].getTextureReference(), 0 );
+        shader.setUniform1f("time", ofGetElapsedTimef());
+        shader.setUniform3f("colorTint", colorTint.r , colorTint.g, colorTint.b);
+        shader.setUniform1f("brightness", brightness );
+        shader.setUniform1f("rows", rowsSize );
+        
+        renderFrame();
+        
+        shader.end();
+        
+        pingPong.dst->end();
+    };
+    
+    float brightness;
+    float rowsSize;
+    ofFloatColor colorTint;
 };
 #endif

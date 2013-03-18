@@ -50,6 +50,7 @@
 #include "filters/ofxContrast.h"
 #include "filters/ofxInverse.h"
 #include "filters/ofxMedian.h"
+#include "filters/ofxChromaAb.h"
 
 #include "operations/ofxThreshold.h"
 #include "operations/ofxNormals.h"
