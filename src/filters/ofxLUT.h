@@ -44,10 +44,10 @@ public:
                                    });
     }
     
-    bool loadLUT(string lutFile){
-        int mapSize = 32;
+    bool loadLUT(ofBuffer &buffer) {
+        buffer.resetLineReader();
         
-        ofBuffer buffer = ofBufferFromFile(lutFile);
+        int mapSize = 32;
         
         float * pixels = new float[mapSize * mapSize * mapSize * 3];
         
@@ -59,6 +59,7 @@ public:
             for(int y=0; y<mapSize; y++){
                 for(int x=0; x<mapSize; x++){
                     string content = buffer.getNextLine();
+                    
                     int pos = x + y*mapSize + z*mapSize*mapSize;
                     
                     vector <string> splitString = ofSplitString(content, " ", true, true);
@@ -70,11 +71,17 @@ public:
                     }
                 }
             }
-        }    
+        }
         
         textures[1].getTextureReference().loadData( pixels, mapSize * mapSize, mapSize, GL_RGB);
-
-        return true;        
+        
+        return true;
+    }
+    
+    bool loadLUT(string lutFile){
+        ofBuffer buffer = ofBufferFromFile(lutFile);
+        
+        return loadLUT(buffer);
     }
     
 };
