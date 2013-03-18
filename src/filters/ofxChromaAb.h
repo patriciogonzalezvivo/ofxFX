@@ -29,7 +29,7 @@ public:
                                        vec2 offset      = ( gl_FragCoord.xy/windowSize ) * offsetALL;
                                        
                                        float rChannel   = texture2DRect( tex0, st - offset ).r;
-                                       float gChannel   = texture2DRect( tex0, st  ).g;
+                                       float gChannel   = texture2DRect( tex0, st ).g;
                                        float bChannel   = texture2DRect( tex0, st + offset ).b;
                                        
                                        vec3 finalCol	= vec3( rChannel, gChannel, bChannel );
