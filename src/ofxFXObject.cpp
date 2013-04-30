@@ -224,7 +224,7 @@ bool ofxFXObject::compileCode(){
 void ofxFXObject::setTexture(ofTexture& tex, int _texNum){ 
     if ((_texNum < nTextures) && ( _texNum >= 0)){
         textures[_texNum].begin(); 
-        ofClear(0,255);
+        ofClear(0,0);
         ofSetColor(255);
         tex.draw(0,0); 
         textures[_texNum].end();
@@ -237,7 +237,7 @@ void ofxFXObject::begin(int _texNum ) {
         ofPushStyle();
         ofPushMatrix();
         textures[_texNum].begin();
-        ofClear(0,255);
+        ofClear(0,0);
     }
 }
 
@@ -327,7 +327,7 @@ void ofxFXObject::draw(int _x, int _y, float _width, float _height){
 void ofxFXObject::initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat) {
     _fbo.allocate(_width, _height, _internalformat);
     _fbo.begin();
-    ofClear(0,255);
+    ofClear(0,0);
     _fbo.end();
 }
 
