@@ -11,7 +11,7 @@ void testApp::setup(){
 void testApp::update(){
     video.update();
     
-    kal.setTexture(video.getTextureReference());
+    kal.setTexture(video);
     kal.setRotation(ofGetElapsedTimef()*0.1);
     kal.update();
 }
