@@ -43,7 +43,7 @@ class ofxGrayScott : public ofxFXObject {
 public:
     
     ofxGrayScott(){
-        passes = 10;
+        passes = 2;
         internalFormat = GL_RGB;
         
         diffU = 0.25f;

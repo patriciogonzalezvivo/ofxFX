@@ -32,42 +32,7 @@
 #ifndef OFXFX
 #define OFXFX
 
-#include "composers/ofxMask.h"
-#include "composers/ofxClone.h"
-#include "composers/ofxMultiTexture.h"
-#include "composers/ofxBlend.h"
-#include "composers/ofxSubstract.h"
-#include "composers/ofxAbsDiff.h"
-
-#include "filters/ofxBloom.h"
-#include "filters/ofxBlur.h"
-#include "filters/ofxBokeh.h"
-#include "filters/ofxGlow.h"
-#include "filters/ofxOldTv.h"
-#include "filters/ofxGaussianBlur.h"
-#include "filters/ofxLUT.h"
-#include "filters/ofxGrayscale.h"
-#include "filters/ofxContrast.h"
-#include "filters/ofxInverse.h"
-#include "filters/ofxMedian.h"
-#include "filters/ofxChromaAb.h"
-
-#include "operations/ofxThreshold.h"
-#include "operations/ofxNormals.h"
-#include "operations/ofxDisplacePixels.h"
-#include "operations/ofxRipples.h"
-#include "operations/ofxBounce.h"
-
-#include "generative/ofxGrayScott.h"
-#include "generative/ofxTint.h"
-#include "generative/ofxNoise.h"
-#include "generative/ofxFire.h"
-
-#include "interactive/ofxFluid.h"
-#include "interactive/ofxFlocking.h"
-
-#include "transformers/ofxRotate.h"
-#include "transformers/ofxKaleidoscope.h"
+#include "ofxFXObject.h"
 
 #endif
 

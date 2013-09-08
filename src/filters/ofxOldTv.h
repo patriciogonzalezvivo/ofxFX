@@ -42,13 +42,9 @@ public:
                                        col.b = texture2DRect(tex0, vec2(st.x-0.003,st.y)).b;
                                        
                                        col = clamp(col * 0.5 + 0.5 * col * col * 1.2,0.0,1.0);
-                                       
                                        col *= 0.5 + 0.5 * 16.0 * uv.x * uv.y * (1.0-uv.x) * (1.0-uv.y);
-                                       
                                        col *= colorTint;
-                                       
                                        col *= 0.9 + 0.1 * sin(10.0 * time + st.y * rows);
-                                       
                                        col *= 0.97 + 0.03 * sin(110.0 * time);
                                        
                                        gl_FragColor = vec4(col,1.0);

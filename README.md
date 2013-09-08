@@ -144,10 +144,6 @@ First case, the ones that in some point breaks the  structure of ofxFXObject wit
 
 * ofxFlocking: a GPU flocking system that implement two different types of fragment shaders, plus one vertex and geometry shader [Look at the video example](http://patriciogonzalezvivo.com/2011/ofxfx/). If you are interested in this technique you can explore the openFrameworks core example that I made at: https://github.com/openframeworks/openFrameworks/tree/master/examples/gl/GPUparticleSystemExample
 
-* ofxFluid: fluid simulation based on [this article of Mark Harris](http://http.developer.nvidia.com/GPUGems/gpugems_ch38.html). [Look at the video example](http://patriciogonzalezvivo.com/2011/ofxfx/) that use a lot of shader on a very complex and crazy way
-
-![fluid](http://patriciogonzalezvivo.com/2011/ofxfx/fluid01.png)
-
 * ofxWater: water ripples waves effect. Take a look to the documentation [on this article on my blog](http://www.patriciogonzalezvivo.com/blog/?p=657)
 
 
@@ -189,15 +185,6 @@ The second case, are the ones could be use as filters. That means, they could be
 ![tint](http://patriciogonzalezvivo.com/2011/ofxfx/tint.png)
  
 * ofxGrayScott: based on ones [Cinder´s Reaction Diffusion example](http://libcinder.org/) that it´s based on [Gray-Scott model](http://mrob.com/pub/comp/xmorphia/). [VIDEO](http://www.patriciogonzalezvivo.com/blog/?p=488)
-
-
-### Transformers:
-	
-* ofxRotation: let you rotate a texture through GPU
-
-* ofxKaleidoscope: kaleidoscope effect
-
-![kaleido](http://patriciogonzalezvivo.com/2011/ofxfx/kaleido.png)
 
 
 ## Other Examples 

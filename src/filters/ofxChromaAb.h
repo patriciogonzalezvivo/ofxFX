@@ -1,6 +1,5 @@
 //
 //  ofxChromaAb.h
-//  06_Sound_Visualizer
 //
 //  Created by Patricio Gonzalez Vivo on 3/18/13.
 //

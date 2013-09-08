@@ -57,9 +57,9 @@ public:
         internalFormat = GL_RGBA;
         
         // Fade constant
-        value0 = 0.0003f;
+        fade = 0.03f;
         
-        // In this example the tex0 it´s more like a backbuffer 
+        // In this example the tex0 it's more like a backbuffer 
         fragmentShader = STRINGIFY(
                                    uniform sampler2DRect tex0;
                                    uniform float fade;
@@ -100,19 +100,24 @@ public:
          
     };
     
-	void setFade(float _fade) { value0 = _fade;};
+	void setFade(float _fade) { fade = _fade;};
     
 	void update(){
+        ofPushStyle();
+        
+        ofSetColor(255);
         pingPong.src->begin();
+        ofClear(0,0);
         textures[0].draw(0,0);
         pingPong.src->end();
         
         for(int i = 0; i < passes; i++) {
             pingPong.dst->begin();
+            ofClear(0,0);
             shader.begin();
             // In this example the tex0 it's more like a backbuffer 
             shader.setUniformTexture("tex0", pingPong.src->getTextureReference(), 0 );
-            shader.setUniform1f("value0", value0);
+            shader.setUniform1f("fade", fade);
             renderFrame();
             shader.end();
             pingPong.dst->end();
@@ -121,9 +126,11 @@ public:
         }
         
         pingPong.swap();
+        
+        ofPopStyle();
 	}
 	
 protected:
-	float       value0;
+	float       fade;
 };
 #endif

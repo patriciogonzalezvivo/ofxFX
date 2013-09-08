@@ -255,6 +255,8 @@ void ofxFXObject::end(int _texNum) {
 
 // As most objects on openFrameworks, ofxFXObject have to be updated() in order to process the information on the GPU
 void ofxFXObject::update(){
+    ofPushStyle();
+    ofSetColor(255,255);
     
     // This process is going to be repited as many times as passes variable said
     for(int i = 0; i < passes; i++) {
@@ -300,6 +302,8 @@ void ofxFXObject::update(){
     
     pingPong.swap();        // After the loop the render information will be at the src ofFbo of the ofxSwapBuffer 
     // this extra swap() call will put it on the dst one. Witch sounds more reasonable...
+    
+    ofPopStyle();
 };
 
 // DRAW
