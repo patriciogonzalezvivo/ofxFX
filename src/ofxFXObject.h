@@ -43,25 +43,23 @@
 
 #define STRINGIFY(A) #A
 
-class ofxFXObject: public ofRectangle {
+class ofxFXObject: public ofBaseHasTexture {
 public:
     
     ofxFXObject();
-    ofxFXObject(ofRectangle const & _rect){ set(_rect); };
     ofxFXObject(ofxFXObject& parent);
-    ~ofxFXObject();
+    virtual ~ofxFXObject();
 
     ofxFXObject&    operator =(ofxFXObject& parent);
-    ofxFXObject&    operator >>(ofxFXObject& parent) { parent.setTexture( getTextureReference() ); return * this;};
-    ofxFXObject&    operator <<(ofxFXObject& parent){ setTexture( parent.getTextureReference() ); return * this;};
-    ofxFXObject&    operator <<(ofTexture& _texture){ setTexture( _texture ); return * this;};
+    ofxFXObject&    operator <<(ofTexture& _texture){ setTexture( _texture ); update(); return * this;};
+    ofxFXObject&    operator <<(ofBaseHasTexture& _texture){ setTexture( _texture.getTextureReference() ); update(); return * this;};
     ofTexture&      operator[](int _nText){ if ((_nText < nTextures) && (_nText >= 0) ) return textures[_nText].getTextureReference(); };
 
     virtual void    allocate(int _width, int _height, int _internalFormat);;
     virtual void    allocate(int _width, int _height);
     
-    virtual void    set(ofRectangle const & _rect){ ofRectangle::set(_rect); allocate(width,height); };
     virtual bool    setCode(string fragShader);
+    virtual void    setUseTexture(bool bUseTex){ };
     virtual bool    load(string path);
     virtual bool    compileCode();
     
@@ -82,13 +80,13 @@ public:
     int             getNumberOfCalledTextures() const { return nTextures; };
     
     ofFbo*          getBackBuffer() const { return pingPong.src; };
-    ofTexture&      getTextureReference() const { return pingPong.dst->getTextureReference(); };
+    virtual ofTexture & getTextureReference() { return pingPong.dst->getTextureReference(); };
     
     void            clear(int alpha = 255){ pingPong.clear(alpha); } 
     
     virtual void    update();
     void            draw(ofRectangle &_rect){ draw(_rect.x,_rect.y,_rect.width,_rect.height);};
-    void            draw(int _x = -1, int _y = -1, float _width = -1, float _height = -1);
+    void            draw(int _x = 0, int _y = 0, float _width = -1, float _height = -1);
     
 protected:
     virtual void    initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat = GL_RGBA );
@@ -98,7 +96,7 @@ protected:
     ofFbo           *textures;
     ofShader        shader;
     string          fragmentShader;
-    int             nTextures, passes, internalFormat;
+    int             nTextures, passes, internalFormat, width, height;
     bool            bFine;
 };
 

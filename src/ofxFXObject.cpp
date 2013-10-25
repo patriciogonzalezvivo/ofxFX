@@ -37,7 +37,7 @@
 
 #include "ofxFXObject.h"
 
-ofxFXObject::ofxFXObject():nTextures(0){
+ofxFXObject::ofxFXObject():nTextures(0),width(0),height(0){
     // Simple effect just need this three variables
     // For something more complex that require another structure, logic or more shaders working together
     // think on making a new stand-alone class as the ofxBlur, ofxFluid, ofxGlow, etc ...
@@ -103,8 +103,7 @@ ofxFXObject::ofxFXObject():nTextures(0){
                                    c += digit( p, vec4( 0.52, 0.5, 0.09, 0.1 ), time*10.0 );
                                    
                                    gl_FragColor = vec4( 0.0, c * 0.5, c, 1.0 )*(abs(sin(time*0.5))+0.5);
-                               }
-                               );
+                               });
 }
 
 ofxFXObject::ofxFXObject(ofxFXObject& parent){
@@ -221,7 +220,11 @@ bool ofxFXObject::compileCode(){
 }
 
 // A simplified way of filling the insides texture
-void ofxFXObject::setTexture(ofBaseDraws& tex, int _texNum){ 
+void ofxFXObject::setTexture(ofBaseDraws& tex, int _texNum){
+    if ( tex.getWidth() > width || tex.getHeight() > height ) {
+        allocate(tex.getWidth(), tex.getHeight());
+    }
+    
     if ((_texNum < nTextures) && ( _texNum >= 0)){
         textures[_texNum].begin(); 
         ofClear(0,0);
@@ -311,8 +314,6 @@ void ofxFXObject::update(){
 
 // Finaly the drawing funtion. It can be use with or with-out arguments in order to make it more flexible
 void ofxFXObject::draw(int _x, int _y, float _width, float _height){
-    if (_x == -1) _x = x;
-    if (_y == -1) _y = y;
     
     if (_width == -1) _width = width;
     if (_height == -1) _height = height;
