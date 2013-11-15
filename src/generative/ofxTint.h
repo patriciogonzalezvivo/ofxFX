@@ -128,9 +128,7 @@ public:
         pingPong.swap();
     };
     
-    void draw(int _x = -1, int _y = -1, float _width = -1, float _height = -1){
-        if (_x == -1) _x = x;
-        if (_y == -1) _y = y;
+    void draw(int _x = 0, int _y = 0, float _width = -1, float _height = -1){
         
         if (_width == -1) _width = width;
         if (_height == -1) _height = height;
