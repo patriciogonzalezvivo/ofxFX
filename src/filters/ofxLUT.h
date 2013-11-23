@@ -25,26 +25,61 @@ public:
         passes = 1;
         internalFormat = GL_RGB32F;
         
-        fragmentShader = STRINGIFY(uniform sampler2DRect tex0;
-                                   uniform sampler2DRect tex1;
+#ifdef TARGET_OPENGLES
+        //  OpenGL ES
+        fragmentShader = STRINGIFY(precision highp float;
+                                   
+                                   uniform sampler2D tex0;
+                                   uniform sampler2D tex1;
                                    
                                    float size = 32.0;
-
+                                   
                                    void main(void){
                                        vec2 st = gl_TexCoord[0].st;
                                        vec4 srcColor = texture2DRect(tex0, st);
                                        
-                                       float x = srcColor.r * (size-1.0);\n\
-                                       float y = srcColor.g * (size-1.0);
-                                       float z = srcColor.b * (size-1.0);
+                                       float x = (srcColor.r/size)/size;
+                                       float y = srcColor.g/size;
+                                       float z = srcColor.b;
                                        
-                                       vec3 color = texture2DRect(tex1, vec2(floor(x)+1.0 +(floor(y)+1.0)*size, floor(z)+1.0)).rgb;
+                                       vec3 color = texture2D(tex1, vec2(x+y,z) ).rgb;
                                        
                                        gl_FragColor = vec4( color , 1.0);
                                    });
+#else
+        if( ofIsGLProgrammableRenderer() ){
+            
+            //  TODO:
+            //          - Implement OpenGL 3.0 shader
+            //
+            //  OpenGL 3.0
+            fragmentShader = STRINGIFY( );
+            
+        } else {
+            //  OpenGL 2.0
+            fragmentShader = STRINGIFY(uniform sampler2DRect tex0;
+                                       uniform sampler2DRect tex1;
+                                       
+                                       float size = 32.0;
+                                       
+                                       void main(void){
+                                           vec2 st = gl_TexCoord[0].st;
+                                           vec4 srcColor = texture2DRect(tex0, st);
+                                           
+                                           float x = srcColor.r * (size-1.0);
+                                           float y = srcColor.g * (size-1.0);
+                                           float z = srcColor.b * (size-1.0);
+                                           
+                                           vec3 color = texture2DRect(tex1, vec2(floor(x)+0.5 +(floor(y)*size+0.5),
+                                                                                 floor(z)+0.5) ).rgb;
+                                           
+                                           gl_FragColor = vec4( color , 1.0);
+                                       });
+        }
+#endif
     }
     
-    bool loadLUT(ofBuffer &buffer) {
+    bool loadLUT(ofBuffer &buffer){
         buffer.resetLineReader();
         
         int mapSize = 32;
