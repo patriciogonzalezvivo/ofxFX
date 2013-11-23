@@ -36,7 +36,7 @@ public:
                                    
                                    void main(void){
                                        vec2 st = gl_TexCoord[0].st;
-                                       vec4 srcColor = texture2DRect(tex0, st);
+                                       vec4 srcColor = texture2D(tex0, st);
                                        
                                        float x = (srcColor.r/size)/size;
                                        float y = srcColor.g/size;
