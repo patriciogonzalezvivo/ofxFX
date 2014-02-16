@@ -111,6 +111,7 @@ void main() {\n\
         pingPong.dst->end();
     }
 	
+    int strength;
 protected:
     void maskedBlur(ofTexture& tex, ofTexture& mask, ofFbo& result){
         int k = strength;
@@ -138,6 +139,5 @@ protected:
     
 	ofFbo       buffer, srcBlur, dstBlur;
 	ofShader    maskBlurShader;
-	int         strength;
 };
 #endif

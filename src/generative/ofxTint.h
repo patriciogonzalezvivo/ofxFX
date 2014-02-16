@@ -136,7 +136,6 @@ public:
         getTextureReference().draw(_x, _y, _width, _height);
     }
     
-private:
     float   zoom, fade, speed;
 };
 

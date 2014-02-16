@@ -338,7 +338,7 @@ public:
     void    draw(int _x, int _y){
         pingPong.dst->draw(_x,_y);
     }
-private:
+    
     int blendMode;
 };
 

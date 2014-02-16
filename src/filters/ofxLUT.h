@@ -34,7 +34,7 @@ public:
                                    
                                    float size = 32.0;
                                    
-                                   void main(void){
+                                   void main(){
                                        vec2 st = gl_TexCoord[0].st;
                                        vec4 srcColor = texture2D(tex0, st);
                                        
@@ -49,16 +49,57 @@ public:
 #else
         if( ofIsGLProgrammableRenderer() ){
             
-            //  TODO:
-            //          - Implement OpenGL 3.0 shader
-            //
             //  OpenGL 3.0
-            fragmentShader = STRINGIFY( );
+            string  vertexShader = "#version 150\n";
+            vertexShader += STRINGIFY(
+                                      uniform mat4 modelViewProjectionMatrix;
+                                      uniform mat4 textureMatrix;
+                                      
+                                      in vec4 position;
+                                      in vec2 texcoord;
+//                                      in vec4 normal;
+//                                      in vec4 color;
+                                      
+                                      out vec2 texCoordVarying;
+                                      
+                                      void main(){
+                                          
+//                                          color = vec4(1.0);
+//                                          normal = vec4(1.0);
+                                          
+                                          texCoordVarying = texcoord;
+                                          gl_Position = modelViewProjectionMatrix * position;
+                                      });
+            
+            shader.setupShaderFromSource(GL_VERTEX_SHADER, vertexShader);
+            
+            fragmentShader = "#version 150\n";
+            fragmentShader += STRINGIFY(
+                                        uniform sampler2DRect tex0;
+                                        uniform sampler2DRect tex1;
+                                        
+                                        in vec2 texCoordVarying;
+                                        out vec4 outputColor;
+                                        
+                                        void main(){
+                                            float size = 32.0;
+                                            vec4 srcColor = texture(tex0, texCoordVarying);
+                                           
+//                                            float x = (srcColor.r/size)/size;
+//                                            float y = srcColor.g/size;
+//                                            float z = srcColor.b;
+//                                           
+//                                            vec3 color = texture(tex1, vec2(x+y,z) ).rgb;
+                                           
+                                            outputColor = vec4(1.0);
+                                       } );
             
         } else {
             //  OpenGL 2.0
-            fragmentShader = STRINGIFY(uniform sampler2DRect tex0;
-                                       uniform sampler2DRect tex1;
+            fragmentShader = "#version 120\n";
+            fragmentShader += STRINGIFY(
+                                        uniform sampler2DRect tex0;
+                                        uniform sampler2DRect tex1;
                                        
                                        float size = 32.0;
                                        

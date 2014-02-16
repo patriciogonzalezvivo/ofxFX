@@ -130,7 +130,6 @@ public:
         ofPopStyle();
 	}
 	
-protected:
-	float       fade;
+    float       fade;
 };
 #endif

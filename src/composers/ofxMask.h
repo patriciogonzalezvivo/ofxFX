@@ -41,7 +41,7 @@ public:
                                    });
     }
     
-    void    begin(int _texNum = 0 ) {
+    void begin(int _texNum = 0 ) {
         if ((_texNum < nTextures) && ( _texNum >= 0)){
             ofPushStyle();
             ofPushMatrix();
@@ -50,7 +50,7 @@ public:
         }
     }
     
-    void    end(int _texNum = 0) {
+    void end(int _texNum = 0) {
         if ((_texNum < nTextures) && ( _texNum >= 0)){
             textures[_texNum].end();
             ofPopMatrix();

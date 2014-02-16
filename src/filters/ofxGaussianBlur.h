@@ -51,6 +51,9 @@ public:
         ofPopStyle();
 	}
     
+    float   radius;
+    int     passes;
+    
 protected:
     bool compileCode(){
         nTextures = 1;
@@ -83,6 +86,7 @@ protected:
                                                             color += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(1. / 4., 0.));
                                                             
                                                             gl_FragColor = color;
+//                                                            gl_FragColor.a = 1.0;
                                                         }
                                                         );
         blurShader[0].unload();
@@ -112,7 +116,8 @@ protected:
                                                           color += (56. / total)  * texture2DRect(backbuffer, st + radius * vec2(0., 1. / 4.));
                                                           
                                                           gl_FragColor = color;
-                                                      } 
+//                                                          gl_FragColor.a = 1.0;
+                                                      }
                                                       );
         blurShader[1].unload();
         blurShader[1].setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentVerticalBlurShader);
@@ -122,9 +127,5 @@ protected:
     }
     
     ofShader    blurShader[2];
-    
-    float   radius;
-    int     passes;
- 
 };
 #endif

@@ -79,6 +79,7 @@ public:
     int             getInternalFormat() const { return internalFormat; };
     int             getNumberOfCalledTextures() const { return nTextures; };
     
+    ofxSwapBuffer&  getSwapBuffer() { return pingPong; };
     ofFbo*          getBackBuffer() const { return pingPong.src; };
     virtual ofTexture & getTextureReference() { return pingPong.dst->getTextureReference(); };
     
@@ -88,6 +89,8 @@ public:
     void            draw(ofRectangle &_rect){ draw(_rect.x,_rect.y,_rect.width,_rect.height);};
     void            draw(int _x = 0, int _y = 0, float _width = -1, float _height = -1);
     
+    int             passes;
+    
 protected:
     virtual void    initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat = GL_RGBA );
     virtual void    renderFrame(float _width = -1, float _height = -1);
@@ -96,7 +99,7 @@ protected:
     ofFbo           *textures;
     ofShader        shader;
     string          fragmentShader;
-    int             nTextures, passes, internalFormat, width, height;
+    int             nTextures, internalFormat, width, height;
     bool            bFine;
 };
 

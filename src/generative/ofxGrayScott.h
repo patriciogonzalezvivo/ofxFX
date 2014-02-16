@@ -149,7 +149,6 @@ public:
         pingPong.swap();
     };
     
-private:
     float		diffU, diffV, k, f;
 };
 #endif
