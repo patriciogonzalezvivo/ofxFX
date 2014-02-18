@@ -17,9 +17,11 @@ class ofxEdgeDetect : public ofxFXObject {
 public:
     ofxEdgeDetect(){
         passes = 1;
+        radius = 0.25;
         internalFormat = GL_RGBA;
         
         fragmentShader = STRINGIFY(uniform sampler2DRect tex0;
+                                   uniform float radius;
                                    
                                    float getIntensity(vec2 u){
                                        vec3 a = texture2DRect(tex0,u).xyz;
@@ -28,7 +30,7 @@ public:
                                    
                                    void main(void){
                                        vec2 uv = gl_FragCoord.xy;
-                                       vec2 p = vec2(1.0);
+                                       vec2 p = vec2(0.5+radius*2.0);
                                        
                                        float avg = 0.0;
                                        avg += getIntensity(uv+vec2(p.x,0.0));
@@ -48,5 +50,23 @@ public:
                                    }
                                    );
     }
+    
+    void update(){
+        pingPong.dst->begin();
+        
+        ofClear(0);
+        shader.begin();
+        
+        shader.setUniformTexture( "tex0" , textures[0].getTextureReference(), 0 );
+        shader.setUniform1f("radius", radius );
+        
+        renderFrame();
+        
+        shader.end();
+        
+        pingPong.dst->end();
+    };
+    
+    float radius;
 };
 #endif
