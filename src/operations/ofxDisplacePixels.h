@@ -7,8 +7,7 @@
 //  Use a normalMap (tex0) to displace pixels
 //
 
-#ifndef OFXDISPLACEPIXELS
-#define OFXDISPLACEPIXELS
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -101,5 +100,3 @@ public:
         pingPong.swap();
     };
 };
-
-#endif

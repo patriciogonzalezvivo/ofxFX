@@ -241,6 +241,8 @@ void ofxFXObject::begin(int _texNum ) {
         ofPushMatrix();
         textures[_texNum].begin();
         ofClear(0,0);
+        
+        bUpdate = true;
     }
 }
 
@@ -307,6 +309,8 @@ void ofxFXObject::update(){
     // this extra swap() call will put it on the dst one. Witch sounds more reasonable...
     
     ofPopStyle();
+    
+    bUpdate = false;
 };
 
 // DRAW

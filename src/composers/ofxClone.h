@@ -11,8 +11,7 @@
 //  dst ->  tex2
 //
 
-#ifndef OFXCLONE
-#define OFXCLONE
+#pragma once
 
 #include "ofMain.h"
 #include "ofxFXObject.h"
@@ -140,4 +139,3 @@ protected:
 	ofFbo       buffer, srcBlur, dstBlur;
 	ofShader    maskBlurShader;
 };
-#endif

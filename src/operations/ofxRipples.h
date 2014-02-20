@@ -6,8 +6,7 @@
 //
 //
 
-#ifndef OFXRIPPLES
-#define OFXRIPPLES
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -93,5 +92,3 @@ public:
     
     float   damping;
 };
-
-#endif

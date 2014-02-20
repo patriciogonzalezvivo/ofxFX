@@ -5,8 +5,7 @@
 //  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
-#ifndef OFXTHRESHOLD
-#define OFXTHRESHOLD
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -52,4 +51,3 @@ public:
     float threshold;
     
 };
-#endif

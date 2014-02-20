@@ -7,8 +7,7 @@
 //  Based on http://www.iquilezles.org/apps/shadertoy/ Postprocessing shader
 //
 
-#ifndef OFXOLDTV
-#define OFXOLDTV
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -75,4 +74,3 @@ public:
     float rowsSize;
     ofFloatColor colorTint;
 };
-#endif

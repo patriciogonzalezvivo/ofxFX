@@ -5,8 +5,7 @@
 //  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
-#ifndef OFXBLUR
-#define OFXBLUR
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -128,4 +127,3 @@ protected:
     
     ofShader    blurShader[2];
 };
-#endif

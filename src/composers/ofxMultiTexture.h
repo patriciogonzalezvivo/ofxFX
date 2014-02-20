@@ -16,9 +16,7 @@
  *  tex3 -> BLUE CHANNEL
  *
  */
-
-#ifndef OFXMULTITEXTURE
-#define OFXMULTITEXTURE
+#pragma once
 
 #include "ofMain.h"
 #include "ofxFXObject.h"
@@ -56,5 +54,3 @@ void main (void){\n\
 \n";
     }
 };
-
-#endif

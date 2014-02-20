@@ -8,8 +8,7 @@
 //  http://forum.openframeworks.cc/index.php/topic,8583.msg40032.html#msg40032
 //
 
-#ifndef OFXBOKEH 
-#define OFXBOKEH
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -55,5 +54,3 @@ public:
     
 	void setRadius(float _radius) { if (_radius >= 1) fade = _radius;};
 };
-
-#endif

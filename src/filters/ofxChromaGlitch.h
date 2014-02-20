@@ -5,8 +5,7 @@
 //
 //
 
-#ifndef OFXCHROMAGLITCH
-#define OFXCHROMAGLITCH
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -71,4 +70,3 @@ public:
     float waves;
     float chromaAb;
 };
-#endif

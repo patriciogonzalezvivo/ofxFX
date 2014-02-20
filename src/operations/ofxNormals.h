@@ -5,8 +5,7 @@
 //  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
-#ifndef OFXNORMALS
-#define OFXNORMALS
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -51,4 +50,3 @@ public:
         );
     }
 };
-#endif

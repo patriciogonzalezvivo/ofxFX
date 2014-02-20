@@ -14,9 +14,8 @@
  *  tex1 -> masking Image
  *
  */
- 
-#ifndef OFXMASK
-#define OFXMASK
+
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -68,5 +67,3 @@ public:
         }
     };
 };
-
-#endif

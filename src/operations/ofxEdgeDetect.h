@@ -5,8 +5,7 @@
 //
 //
 
-#ifndef OFXABSDIFF
-#define OFXABSDIFF
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -69,4 +68,3 @@ public:
     
     float radius;
 };
-#endif

@@ -44,8 +44,7 @@
  *
  */
 
-#ifndef OFXUNSHARP
-#define OFXUNSHARP
+#pragma once
 
 #include "ofMain.h"
 #include "ofxFXObject.h"
@@ -132,4 +131,3 @@ public:
 	
     float       fade;
 };
-#endif

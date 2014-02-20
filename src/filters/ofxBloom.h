@@ -6,8 +6,7 @@
 //  Copyright (c) 2011 http://PatricioGonzalezVivo.com. All rights reserved.
 //
 
-#ifndef OFXBLOOM
-#define OFXBLOOM
+#pragma once
 
 #include "ofMain.h"
 #include "ofxFXObject.h"
@@ -44,4 +43,3 @@ public:
                                    }";
     }
 };
-#endif

@@ -4,8 +4,7 @@
 //  Created by Akira Hayasaka on 5/14/12.
 //
 
-#ifndef OFXBLEND
-#define OFXBLEND
+#pragma once
 
 #include "ofMain.h"
 #include "ofxFXObject.h"
@@ -341,5 +340,3 @@ public:
     
     int blendMode;
 };
-
-#endif

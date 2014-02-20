@@ -4,9 +4,7 @@
 //  Created by Patricio Gonzalez Vivo on 25/10/12.
 //  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
-
-#ifndef OFXSUBSTRACT
-#define OFXSUBSTRACT
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -30,4 +28,3 @@ public:
                                    );
     }
 };
-#endif

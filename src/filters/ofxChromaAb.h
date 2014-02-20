@@ -5,8 +5,7 @@
 //
 //
 
-#ifndef OFXCHROMAAB
-#define OFXCHROMAAB
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -59,4 +58,3 @@ public:
     float offset;
 };
 
-#endif

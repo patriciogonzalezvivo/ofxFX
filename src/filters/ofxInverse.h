@@ -5,8 +5,7 @@
 //  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
-#ifndef OFXINVERSE
-#define OFXINVERSE
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -28,4 +27,3 @@ public:
                                    );
     }
 };
-#endif

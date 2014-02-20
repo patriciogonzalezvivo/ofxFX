@@ -5,8 +5,7 @@
 //  Copyright (c) 2011 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
-#ifndef OFXCONTRAST
-#define OFXCONTRAST
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -56,4 +55,4 @@ public:
     float contrast;
     float brightness;
 };
-#endif
+

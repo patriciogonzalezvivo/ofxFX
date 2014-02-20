@@ -6,8 +6,7 @@
 //
 //
 
-#ifndef OFXBOUNCE
-#define OFXBOUNCE
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -41,5 +40,3 @@ public:
                                    } );
     }
 };
-
-#endif

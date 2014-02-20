@@ -11,8 +11,7 @@
  *
  */
 
-#ifndef OFXLUT
-#define OFXLUT
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -161,4 +160,3 @@ public:
     }
     
 };
-#endif

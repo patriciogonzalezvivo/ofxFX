@@ -5,8 +5,7 @@
 //  Copyright (c) 2012 http://www.PatricioGonzalezVivo.com. All rights reserved.
 //
 
-#ifndef OFXFIRE
-#define OFXFIRE
+#pragma once
 
 #include "ofMain.h"
 #include "ofxFXObject.h"
@@ -109,5 +108,3 @@ public:
     
     float   zoom;
 };
-
-#endif

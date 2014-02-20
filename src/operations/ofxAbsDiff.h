@@ -5,8 +5,7 @@
 //  Copyright (c) 2012 http://PatricioGonzalezVivo.com All rights reserved.
 //
 
-#ifndef OFXABSDIFF
-#define OFXABSDIFF
+#pragma once
 
 #define STRINGIFY(A) #A
 
@@ -25,9 +24,9 @@ public:
                                    void main(){
                                        vec4 color0 = texture2DRect(tex0, gl_TexCoord[0].st);
                                        vec4 color1 = texture2DRect(tex1, gl_TexCoord[0].st);
-                                       gl_FragColor = vec4(abs(color0 - color1).rgb,1.0);
+                                       vec3 diff =  abs(color0 - color1).rgb;
+                                       gl_FragColor = vec4(diff,max(diff.r,max(diff.g,diff.b)));
                                    }
                                    );
     }
 };
-#endif

@@ -34,8 +34,7 @@
  *
  */
 
-#ifndef OFXGLOW
-#define OFXGLOW
+#pragma once
 
 #include "ofMain.h"
 
@@ -149,5 +148,3 @@ public:
 //                                   );
 //    }
 //};
-
-#endif

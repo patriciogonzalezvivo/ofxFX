@@ -32,9 +32,7 @@
  *  OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  *  ************************************************************************************ */
-
-#ifndef OFXGRAYSCOTT
-#define OFXGRAYSCOTT
+#pragma once
 
 #include "ofMain.h"
 #include "ofxFXObject.h"
@@ -151,4 +149,3 @@ public:
     
     float		diffU, diffV, k, f;
 };
-#endif

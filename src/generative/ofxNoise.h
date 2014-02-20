@@ -5,8 +5,7 @@
 //  Copyright (c) 2012 http://www.PatricioGonzalezVivo.com. All rights reserved.
 //
 
-#ifndef OFXNOISE
-#define OFXNOISE
+#pragma once
 
 #include "ofMain.h"
 #include "ofxFXObject.h"
@@ -117,5 +116,3 @@ public:
     
     float   zoom, speed;
 };
-
-#endif

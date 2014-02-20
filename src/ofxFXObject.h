@@ -101,6 +101,7 @@ protected:
     string          fragmentShader;
     int             nTextures, internalFormat, width, height;
     bool            bFine;
+    bool            bUpdate;
 };
 
 #endif

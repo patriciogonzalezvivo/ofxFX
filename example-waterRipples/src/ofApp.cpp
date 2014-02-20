@@ -27,7 +27,7 @@ void testApp::update(){
     rip.update();
     
     bounce << rip;
-    bounce.update();
+//    bounce.update();
 }
 
 //--------------------------------------------------------------
