@@ -45,7 +45,7 @@ public:
                                        float result = (1.0-getIntensity(uv)) + avg;
                                        result = (1.0 - result) * 10.0;
                                        
-                                       gl_FragColor = vec4(vec3(result),1.0);
+                                       gl_FragColor = vec4(result);
                                    }
                                    );
     }

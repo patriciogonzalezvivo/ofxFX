@@ -318,7 +318,6 @@ void ofxFXObject::update(){
 
 // Finaly the drawing funtion. It can be use with or with-out arguments in order to make it more flexible
 void ofxFXObject::draw(int _x, int _y, float _width, float _height){
-    
     if (_width == -1) _width = width;
     if (_height == -1) _height = height;
     
