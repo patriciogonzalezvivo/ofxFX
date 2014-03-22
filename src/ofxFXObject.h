@@ -68,7 +68,7 @@ public:
     virtual void    setTexture(ofBaseDraws& tex, int _texNum = 0);
     
     virtual void    begin(int _texNum = 0);
-	virtual void    end(int _texNum = 0);
+    virtual void    end(int _texNum = 0);
     
     bool            compiled() const{ return bFine; };
     string          getCode() const { return fragmentShader; };

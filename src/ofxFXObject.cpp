@@ -147,15 +147,12 @@ void ofxFXObject::allocate(int _width, int _height){
 bool ofxFXObject::load( string path ) 
 {
     ofBuffer buffer = ofBufferFromFile( path );
-	if ( buffer.size() ) 
-    {
-		return setCode( buffer.getText() );
-	} 
-    else 
-    {
-		ofLog( OF_LOG_ERROR, "Could not load shader from file " + path );
-		return false;
-	}
+    if (buffer.size()){
+        return setCode( buffer.getText() );
+    } else{
+        ofLog( OF_LOG_ERROR, "Could not load shader from file " + path );
+        return false;
+    }
 };
 
 bool ofxFXObject::setCode(string _fragShader){
