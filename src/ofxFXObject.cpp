@@ -29,8 +29,8 @@
  *
  *  ************************************************************************************
  *
- *  Definition: Parent class of all the other effect. It also can be use in order to compile single and simple
- *  shaders as the ones you could find at: Ricardo Caballero´s webGL Sandbox http://mrdoob.com/projects/glsl_sandbox/ 
+ *  Definition: Parent class of all other effects. It can be used in order to compile simple shaders such
+ *  as the ones you could find at: Ricardo Caballero´s webGL Sandbox http://mrdoob.com/projects/glsl_sandbox/ 
  *  and ShaderToy by Inigo Quilez http://www.iquilezles.org/apps/shadertoy/
  *  
  */ 
@@ -38,16 +38,16 @@
 #include "ofxFXObject.h"
 
 ofxFXObject::ofxFXObject():nTextures(0),width(0),height(0){
-    // Simple effect just need this three variables
+    // Simple effects just need these three variables
     // For something more complex that require another structure, logic or more shaders working together
-    // think on making a new stand-alone class as the ofxBlur, ofxFluid, ofxGlow, etc ...
+    // consider making a new stand-alone class like ofxBlur, ofxFluid, ofxGlow, etc ...
     // Collaborations are welcome
     
-    passes = 1;                 // Number of itinerations needs. Default it´s 1;
+    passes = 1;                 // Number of iterations needed. Default is 1;
     
-    internalFormat = GL_RGBA;   // Tipe of GL textures 
+    internalFormat = GL_RGBA;   // Type of GL textures 
     
-    // And the fragSahder it self. Note that are defaul variables:
+    // And the fragSahder itself. These are the default variables given in ofxFX:
     //
     // - time
     // - mouse position (normalized)
@@ -56,7 +56,7 @@ ofxFXObject::ofxFXObject():nTextures(0),width(0),height(0){
     // - tex0, tex1, tex2, ... : this are dynamicaly defined and allocated and can be
     //   filled with information by using .begin(0) and .end(0), or .begin(1) and .end(1), etc 
     //
-    // This dafault shader it´s timer made of a mix on Ricardo Caballero´s webGL Sandbox
+    // This default shader is a timer made of a mix of Ricardo Caballero´s webGL Sandbox shaders
     // http://mrdoob.com/projects/glsl_sandbox/
     //
     
@@ -178,7 +178,7 @@ bool ofxFXObject::setCode(string _fragShader){
 
 bool ofxFXObject::compileCode(){
     
-    // Looks how many textures it´s need on the injected fragment shader
+    // Looks how many textures are declared in the injected fragment shader
     int num = 0;
     for (int i = 0; i < 10; i++){
         string searchFor = "tex" + ofToString(i);
@@ -188,15 +188,15 @@ bool ofxFXObject::compileCode(){
             break;
     }
     
-    // Check if it´s the same number of tectures already created and allocated
+    // Check if the same number of tectures have already been created and allocated
     if ( num != nTextures ){
-        // If the number of textures it´s different
+        // If the number of textures is different
         if (textures != NULL ){
             if (nTextures > 0) {
                 delete [] textures;
             }
         }
-            // And initialate the right amount of textures
+        // Initialate the right amount of textures
         nTextures = num;
         if (nTextures > 0){
             textures = new ofFbo[nTextures];
@@ -204,14 +204,14 @@ bool ofxFXObject::compileCode(){
             textures = NULL;
         }
         
-        // In any case it will allocate the total amount of textures with the internalFormat need
+        // In any case it will allocate the total amount of textures with the internalFormat needed
         for( int i = 0; i < nTextures; i++){
             initFbo(textures[i], width, height, internalFormat);
         }
     }
     
     //bool loaded;
-    // Compile the shader and loadit to the GPU
+    // Compile the shader and load it to the GPU
     shader.unload();
     shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
     bFine = shader.linkProgram();
@@ -219,7 +219,7 @@ bool ofxFXObject::compileCode(){
     return bFine;
 }
 
-// A simplified way of filling the insides texture
+// A simplified way of filling the textures
 void ofxFXObject::setTexture(ofBaseDraws& tex, int _texNum){
     if ( tex.getWidth() > width || tex.getHeight() > height ) {
         allocate(tex.getWidth(), tex.getHeight());
@@ -258,24 +258,24 @@ void ofxFXObject::end(int _texNum) {
 // -------------------------------------
 //
 
-// As most objects on openFrameworks, ofxFXObject have to be updated() in order to process the information on the GPU
+// As most objects in openFrameworks, ofxFXObject have to be updated() in order to process the information on the GPU
 void ofxFXObject::update(){
     ofPushStyle();
     ofSetColor(255,255);
     
-    // This process is going to be repited as many times as passes variable said
+    // This process is going to be repeated as many times passes variable specifies
     for(int i = 0; i < passes; i++) {
         
-        // All the process it´s done on the pingPong ofxSwapBuffer ( basicaly two ofFbo that have a swap() funtion )
+        // All the processing is done on the pingPong ofxSwapBuffer (basicaly two ofFbo that have a swap() funtion)
         pingPong.dst->begin();
         
         ofClear(0);
         shader.begin();
         
-        // The other ofFbo of the ofxSwapBuffer can be access by calling the unicode "backbuffer"
+        // The other ofFbo of the ofxSwapBuffer can be accessed by calling the unicode "backbuffer"
         shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
         
-        // All the needed textures are provided to the shader by this loop
+        // All the necessary textures are provided to the shader in this loop
         for( int i = 0; i < nTextures; i++){
             string texName = "tex" + ofToString(i); 
             shader.setUniformTexture(texName.c_str(), textures[i].getTextureReference(), i+1 );
@@ -283,30 +283,30 @@ void ofxFXObject::update(){
             shader.setUniform2f(texRes.c_str() , (float)textures[i].getWidth(), (float)textures[i].getHeight());
         }
         
-        // Also there are some standar variables that are passes to the shaders
-        // this ones follows the standar used by Ricardo Caballero's webGL Sandbox
-        // http://mrdoob.com/projects/glsl_sandbox/ and ShaderToy by Inigo Quilez http://www.iquilezles.org/apps/shadertoy/
-        // webGL interactive GLSL editors
-        //
+        // There are some standard variables that are passes to the shaders. These follow the names used by
+        // Ricardo Caballero's webGL Sandbox http://mrdoob.com/projects/glsl_sandbox/ and
+        // ShaderToy by Inigo Quilez http://www.iquilezles.org/apps/shadertoy/ webGL interactive GLSL editors.
         shader.setUniform1f("time", ofGetElapsedTimef() );
         shader.setUniform2f("size", (float)width, (float)height);
         shader.setUniform2f("resolution", (float)width, (float)height);
         shader.setUniform2f("mouse", (float)(ofGetMouseX()/width), (float)(ofGetMouseY()/height));
         
-        // renderFrame() is a built-in funtion of ofxFXObject that only draw a white box in order to 
-        // funtion as a frame here the textures could rest.
-        // If you want to distort the points of a textures, probably you want to re-define the renderFrame funtion.
+        // renderFrame() is a built-in funtion of ofxFXObject that only draws a white box that
+        // functions as a frame where the textures can rest.
+        // If you want to distort the points of a texture, you probably want to re-define the renderFrame funtion.
         renderFrame();
         
         shader.end();
         
         pingPong.dst->end();
         
-        pingPong.swap();    // Swap the ofFbo's. Now dst is src and src is dst
+        // Swap the ofFbos. Now dst is src and src is dst. Each iteration writes to
+        // dst and uses src as a backbuffer, where the previous frame is kept.
+        pingPong.swap();
     }
     
-    pingPong.swap();        // After the loop the render information will be at the src ofFbo of the ofxSwapBuffer 
-    // this extra swap() call will put it on the dst one. Witch sounds more reasonable...
+    pingPong.swap(); // After the loop the finished render will be at the src ofFbo of the ofxSwapBuffer
+                     // this extra swap() call will put it on the dst one. Which sounds more reasonable...
     
     ofPopStyle();
     
@@ -316,7 +316,7 @@ void ofxFXObject::update(){
 // DRAW
 // --------------------------------------
 
-// Finaly the drawing funtion. It can be use with or with-out arguments in order to make it more flexible
+// Finaly the drawing funtion. It can be used with or without arguments in order to make it more flexible
 void ofxFXObject::draw(int _x, int _y, float _width, float _height){
     if (_width == -1) _width = width;
     if (_height == -1) _height = height;
@@ -331,7 +331,7 @@ void ofxFXObject::draw(int _x, int _y, float _width, float _height){
 // -------------------------------------
 //
 
-// Allocates and cleans an ofFbo´s
+// Allocates and cleans an ofFbo
 void ofxFXObject::initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat) {
     _fbo.allocate(_width, _height, _internalformat);
     _fbo.begin();
@@ -339,14 +339,14 @@ void ofxFXObject::initFbo(ofFbo & _fbo, int _width, int _height, int _internalfo
     _fbo.end();
 }
 
-// Draw a white box in order to let the final texture could be render
-// It acts as a frame where the dst textures could rest.
-// If you want to distort the points of a textures, probably here you want to re-define something
+// Draw a white box in order to render the final texture
+// It acts as a frame where the dst textures can rest.
+// If you want to distort the points of a texture, you probably want to re-define something here.
 void ofxFXObject::renderFrame(float _width, float _height){
     if (_width == -1) _width = width;
     if (_height == -1) _height = height;
     
-    // If it´s not well compiled it will show an image little more gray.
+    // If the shader is not well compiled it will show an image little more gray.
     //
     if (bFine)
         ofSetColor(255,255);  

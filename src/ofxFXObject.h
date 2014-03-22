@@ -29,8 +29,8 @@
  *
  *  ************************************************************************************
  *
- *  Definition: Parent class of all the other effect. It also can be use in order to compile single and simple
- *  shaders as the ones you could find at: Ricardo Caballero´s webGL Sandbox http://mrdoob.com/projects/glsl_sandbox/ 
+ *  Definition: Parent class of all other effects. It can be used in order to compile simple shaders such
+ *  as the ones you could find at: Ricardo Caballero´s webGL Sandbox http://mrdoob.com/projects/glsl_sandbox/ 
  *  and ShaderToy by Inigo Quilez http://www.iquilezles.org/apps/shadertoy/
  *  
  */   
