@@ -287,6 +287,8 @@ void ofxFXObject::update(){
         shader.setUniform2f("size", (float)width, (float)height);
         shader.setUniform2f("resolution", (float)width, (float)height);
         shader.setUniform2f("mouse", (float)(ofGetMouseX()/width), (float)(ofGetMouseY()/height));
+
+        injectUniforms();
         
         // renderFrame() is a built-in funtion of ofxFXObject that only draws a white box that
         // functions as a frame where the textures can rest.
