@@ -18,11 +18,15 @@ The structure it´s easy.
 
 3. ```setCode(string fragContent)```: here is where the shaders are loaded. See the example bellow.
 
-4. ```begin(int texN)``` and ```end(int texN)```: remember nTextures variable? you can passthrough information to it by using this end() and begin() and giving the argument the number of texture you want to open. This texture can be access from the shader by the ```uniform sample2DRect tex0``` or ```tex1``` or ```tex2``` and so on. Also you can access to the previous FBO of the ping pong by calling ```uniform sample2DRect backbuffer```. 
+4. ```begin(int texN)``` and ```end(int texN)```: remember nTextures variable? you can passthrough information to it by using this end() and begin() and giving the argument the number of texture you want to open. This texture can be access from the shader by the ```uniform sample2DRect tex0``` or ```tex1``` or ```tex2``` and so on. 
 
-5. ```update()```: this is the core of the class, where the magic happens. If you check  for the ```ofxFXObject::update()``` you will see how the tex´s, the backbuffer and other default uniforms variables (time, mouse, resolution) are loaded.
+    4.1. ```<<``` and ```setTexture(texture-like, num=0)``` if you have an FBO, a texture, an ofxFXObject, or something similar, you can use this function to write it to ```tex0```, ```tex1```, etc (as indicated by the num argument). ```<<<``` always writes to ```tex0```.
 
-6. ```draw(x,y,w,h)```: after all you definitely want to look at it.
+    4.2. If you're making a multi-pass shader, you can access to the previously rendered frame with ```uniform sample2DRect backbuffer``` in your shader. This will also contain the information from ```tex0``` on the first pass.
+
+5. ```update()```: This is the core of the class, where the magic happens. If you check  for the ```ofxFXObject::update()``` you will see how the tex's, the backbuffer and other default uniforms variables (time, mouse, resolution) are loaded.
+
+6. ```draw(x,y,w,h)```: After all you definitely want to look at it.
 
 An example of an implementation of an ofxFXObject could be:
 
