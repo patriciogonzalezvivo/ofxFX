@@ -177,6 +177,7 @@ bool ofxFXObject::compileCode(){
     
     // Looks how many textures are declared in the injected fragment shader
     int num = 0;
+
     for (int i = 0; i < 10; i++){
         string searchFor = "tex" + ofToString(i);
         if ( fragmentShader.find(searchFor)!= -1)
@@ -185,6 +186,12 @@ bool ofxFXObject::compileCode(){
             break;
     }
     
+    // If we have several passes, the shader might only have backbuffer
+    // declared, but we still want to use tex0 for input.
+    if (num == 0 && fragmentShader.find("backbuffer") != -1){
+        num++;
+    }
+
     // Check if the same number of tectures have already been created and allocated
     if ( num != nTextures ){
         // If the number of textures is different
@@ -259,9 +266,9 @@ void ofxFXObject::end(int _texNum) {
 void ofxFXObject::update(){
     ofPushStyle();
     ofSetColor(255,255);
-    
+
     // This process is going to be repeated as many times passes variable specifies
-    for(int i = 0; i < passes; i++) {
+    for(int pass = 0; pass < passes; pass++) {
         
         // All the processing is done on the pingPong ofxSwapBuffer (basicaly two ofFbo that have a swap() funtion)
         pingPong.dst->begin();
@@ -270,7 +277,12 @@ void ofxFXObject::update(){
         shader.begin();
         
         // The other ofFbo of the ofxSwapBuffer can be accessed by calling the unicode "backbuffer"
-        shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
+        // This is usually used to access "the previous pass", or the original frame for the first pass.
+        if (pass == 0 && nTextures >= 1){
+            shader.setUniformTexture("backbuffer", textures[0].getTextureReference(), 0);
+        } else {
+            shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0);
+        }
         
         // All the necessary textures are provided to the shader in this loop
         for( int i = 0; i < nTextures; i++){
@@ -287,6 +299,8 @@ void ofxFXObject::update(){
         shader.setUniform2f("size", (float)width, (float)height);
         shader.setUniform2f("resolution", (float)width, (float)height);
         shader.setUniform2f("mouse", (float)(ofGetMouseX()/width), (float)(ofGetMouseY()/height));
+
+        injectUniforms();
         
         // renderFrame() is a built-in funtion of ofxFXObject that only draws a white box that
         // functions as a frame where the textures can rest.

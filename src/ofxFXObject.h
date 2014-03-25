@@ -94,6 +94,7 @@ public:
 protected:
     virtual void    initFbo(ofFbo & _fbo, int _width, int _height, int _internalformat = GL_RGBA );
     virtual void    renderFrame(float _width = -1, float _height = -1);
+    virtual void    injectUniforms() {};
     
     ofxSwapBuffer   pingPong;
     ofFbo           *textures;
