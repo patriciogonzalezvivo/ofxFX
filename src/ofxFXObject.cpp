@@ -231,9 +231,14 @@ void ofxFXObject::setTexture(ofBaseDraws& tex, int _texNum){
     
     if ((_texNum < nTextures) && ( _texNum >= 0)){
         textures[_texNum].begin(); 
-        ofClear(0,0);
-        ofSetColor(255);
-        tex.draw(0,0); 
+        ofPushStyle();
+        {
+            ofClear(0,0);
+            ofSetColor(255);
+            ofDisableAlphaBlending(); // Defer alpha blending until .draw() to keep transparencies clean.
+            tex.draw(0,0); 
+        }
+        ofPopStyle();
         textures[_texNum].end();
     }
 };
@@ -273,7 +278,8 @@ void ofxFXObject::update(){
         // All the processing is done on the pingPong ofxSwapBuffer (basicaly two ofFbo that have a swap() funtion)
         pingPong.dst->begin();
         
-        ofClear(0);
+        ofClear(0,0);
+        ofDisableAlphaBlending(); // Defer alpha blending until .draw() to keep transparencies clean.
         shader.begin();
         
         // The other ofFbo of the ofxSwapBuffer can be accessed by calling the unicode "backbuffer"
