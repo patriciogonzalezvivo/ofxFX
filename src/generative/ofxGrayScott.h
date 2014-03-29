@@ -4,8 +4,9 @@
  *  Created by Patricio Gonzalez Vivo on 10/1/11.
  *  Copyright 2011 http://PatricioGonzalezVivo.com All rights reserved.
  *
- *  Based on Reaction Diffusion by Gray-Scott Model
- *  http://mrob.com/pub/comp/xmorphia/ and Gray Scott Frag shader from rdex-fluxus
+ *  Based on Cinder's Reaction Diffusion GLSL Shader 
+ *  https://github.com/cinder/Cinder/blob/master/samples/RDiffusion/resources/gsrd_frag.glsl
+ *  Which is based Gray Scott Frag shader from rdex-fluxus
  *  https://code.google.com/p/rdex-fluxus/source/browse/trunk/reactiondiffusion.frag
  *
  *  Redistribution and use in source and binary forms, with or without
