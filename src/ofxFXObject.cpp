@@ -55,61 +55,16 @@ ofxFXObject::ofxFXObject():nTextures(0),width(0),height(0){
     // - backbuffer texture
     // - tex0, tex1, tex2, ... : this are dynamicaly defined and allocated and can be
     //   filled with information by using .begin(0) and .end(0), or .begin(1) and .end(1), etc 
-    //
-    // This default shader is a timer made of a mix of Ricardo Caballero´s webGL Sandbox shaders
-    // http://mrdoob.com/projects/glsl_sandbox/
-    //
-    
-    fragmentShader = STRINGIFY(uniform float time;
-                               uniform vec2 mouse;
-                               uniform vec2 resolution;
-                               
-                               float box( vec2 p, vec4 rect ){
-                                   float trim = min(rect.z, rect.w) * 0.5;
-                                   float minX = min(p.x - rect.x, rect.x + rect.z - p.x);
-                                   float minY = min(p.y - rect.y, rect.y + rect.w - p.y);
-                                   return ((minX > 0.0) && (minY > 0.0) && ((minX + minY) > trim)) ? 1.0 : 0.0;
-                               }
-                               
-                               float digit( vec2 p, vec4 dim, float d){
-                                   d = (d - mod(d,1.0)) / 10.0;
-                                   d = mod( d, 1.0 );
-                                   
-                                   p.xy -= dim.xy;
-                                   p.xy /= dim.zw;
-                                   
-                                   float c = 0.0;
-                                   
-                                   c += box( p, vec4( 0.05, 0.9, 0.9, 0.1 ) ) * ( cos( (0.85*d+0.1)*30.0) - sin(pow(d,1.0)) < 0.0 ? 1.0 : 0.0 );
-                                   c += box( p, vec4( 0.05, 0.45, 0.9, 0.1 ) ) * ( min( pow(6.0*d,2.0), pow(20.0*(d-0.7),2.0) ) < 1.0 ? 0.0 : 1.0 );
-                                   c += box( p, vec4( 0.05, 0.0, 0.9, 0.1 ) ) * ( max( cos(18.6*pow(d,0.75)), 1.0-pow(40.0*(d-0.8),2.0)) > 0.0 ? 1.0 : 0.0 );
-                                   c += box( p, vec4( 0.0, 0.08, 0.1, 0.39 ) ) * ( cos( d * 30.0 ) * abs(d-0.4) > 0.1 ? 1.0 : 0.0 );
-                                   c += box( p, vec4( 0.9, 0.08, 0.1, 0.39) ) * ( pow( 4.0*d-0.8, 2.0) > 0.1 ? 1.0 : 0.0 );
-                                   c += box( p, vec4( 0.0, 0.52, 0.1, 0.39 ) ) * ( sin((d-0.05)*10.5) - 12.0*sin(pow(d,10.0)) > 0.0 ? 0.0 : 1.0 );
-                                   c += box( p, vec4( 0.9, 0.52, 0.1, 0.39 ) ) * ( pow( d-0.55, 2.0 ) > 0.02 ? 1.0 : 0.0 );
-                                   
-                                   return c;
-                               }
-                               
-                               void main( void ){
-                                   vec2 p = (gl_FragCoord.xy / resolution.xy);
-                                   p.y = 1.0 - p.y;
-                                   
-                                   float c= 0.0;
-                                   c += ( time < 100.0 ) ? 0.0 : digit( p, vec4( 0.2, 0.5, 0.09, 0.1 ), time/100.0 );
-                                   c += ( time < 10.0) ? 0.0 : digit( p, vec4( 0.3, 0.5, 0.09, 0.1 ), time/10.0 );
-                                   c += digit( p, vec4( 0.4, 0.5, 0.09, 0.1 ), time );
-                                   c += box( p, vec4( 0.5, 0.5, 0.01, 0.01 ) );
-                                   c += digit( p, vec4( 0.52, 0.5, 0.09, 0.1 ), time*10.0 );
-                                   
-                                   gl_FragColor = vec4( 0.0, c * 0.5, c, 1.0 )*(abs(sin(time*0.5))+0.5);
-                               });
+
+    fragmentShader = "";   
+    vertexShader = "";
 }
 
 ofxFXObject::ofxFXObject(ofxFXObject& parent){
     passes = parent.getPasses();
     internalFormat = parent.getInternalFormat();
     fragmentShader = parent.getCode();
+    vertexShader = parent.getVertexCode();
 }
 
 ofxFXObject::~ofxFXObject(){
@@ -124,6 +79,7 @@ ofxFXObject& ofxFXObject::operator =(ofxFXObject& parent){
     passes = parent.getPasses();
     internalFormat = parent.getInternalFormat();
     fragmentShader = parent.getCode();
+    vertexShader = parent.getVertexCode();
     ofVec2f resolution = parent.getResolution();
     allocate(resolution.x, resolution.y);
     
@@ -144,43 +100,132 @@ void ofxFXObject::allocate(int _width, int _height){
     compileCode();
 };
 
-bool ofxFXObject::load( string path ) 
-{
-    ofBuffer buffer = ofBufferFromFile( path );
-    if (buffer.size()){
-        return setCode( buffer.getText() );
-    } else{
-        ofLog( OF_LOG_ERROR, "Could not load shader from file " + path );
+bool ofxFXObject::loadVersioned(string glESPath, string gl2Path, string gl3Path){
+#ifdef TARGET_OPENGLES
+    if (!glESPath.empty())
+        return load(glESPath);
+#else
+    if (ofIsGLProgrammableRenderer()){
+        if (!gl3Path.empty())
+            return load(gl3Path);
+    } else {
+        if (!gl2Path.empty())
+            return load(gl2Path);
+    }
+#endif
+    return false;
+}
+
+bool ofxFXObject::load( string path ){
+    ofShader code_loader;
+    code_loader.load(path);
+
+    string frag = code_loader.getShaderSource(GL_FRAGMENT_SHADER);
+    string vert = code_loader.getShaderSource(GL_VERTEX_SHADER);
+
+    if (frag.empty() && vert.empty()){
+        ofLog(OF_LOG_ERROR, "Could not load shader from file " + path);
         return false;
     }
-};
 
-bool ofxFXObject::setCode(string _fragShader){
+    bool loaded = setCode(frag, vert);
+    if (loaded)
+        shaderFilePath = path;
+    return loaded;
+}
+
+bool ofxFXObject::reload(){
+    if (!shaderFilePath.empty())
+        return load(shaderFilePath);
+    return false;
+}
+
+bool ofxFXObject::setCode(string frag, string vert){
+    if (fragmentShader == frag && vertexShader == vert)
+        return false;
+        
     bool loaded = false;
     
-    if ( fragmentShader != _fragShader ){
-        
-        ofShader test;
-        test.setupShaderFromSource(GL_FRAGMENT_SHADER, _fragShader);
-        bFine = test.linkProgram();
-        
-        if( bFine ){
-            fragmentShader = _fragShader;
-            loaded = compileCode();
-        }
+    ofShader test;
+    if (frag.empty() == false)
+        test.setupShaderFromSource(GL_FRAGMENT_SHADER, frag);
+    if (vert.empty() == false)
+        test.setupShaderFromSource(GL_VERTEX_SHADER, vert);
+
+    bFine = test.linkProgram();
+    
+    if( bFine ){
+        if (frag.empty() == false)
+            fragmentShader = frag;
+        if (vert.empty() == false)
+            vertexShader   = vert;
+        loaded = compileCode();
     }
     
     return loaded;
 }
 
+void ofxFXObject::selectShaderSource(){
+    if (fragmentShader.empty()){
+#ifdef TARGET_OPENGLES
+        fragmentShader = glESFragmentShader;
+#else
+        if (ofIsGLProgrammableRenderer()){
+            fragmentShader = gl3FragmentShader;
+        } else {
+            fragmentShader = gl2FragmentShader;
+        }
+    }
+#endif
+
+    if (vertexShader.empty()){
+#ifdef TARGET_OPENGLES
+        vertexShader = glESVertexShader;
+#else
+        if (ofIsGLProgrammableRenderer()){
+            vertexShader = gl3VertexShader;
+            // If the vertex shader for GL3 isn't specified, we fill
+            // in a simple pass-through shader. This way, users can
+            // give only fragment shaders, just like for GL2/ES. This
+            // is necessary because having a vertex shader is mandatory
+            // in GL3.
+            if (vertexShader.empty()){
+                vertexShader = "#version 150\n";
+                vertexShader += STRINGIFY(
+                        uniform mat4 modelViewProjectionMatrix;
+                        in vec4 position;
+                        void main(){
+                            gl_Position = modelViewProjectionMatrix * position;
+                        });
+            }
+        } else {
+            vertexShader = gl2VertexShader;
+        }
+#endif
+    }
+}
+
+bool ofxFXObject::needsFboResize(){
+    if (nTextures > 0){
+        // Assume all textures have the same size.
+        if (textures[0].getWidth() != width)
+            return true;
+        if (textures[0].getHeight() != height)
+            return true;
+    }
+    return false;
+}
+
 bool ofxFXObject::compileCode(){
+    // Load the correct shader sources into fragmentShader and vertexShader.
+    selectShaderSource();
     
     // Looks how many textures are declared in the injected fragment shader
     int num = 0;
 
     for (int i = 0; i < 10; i++){
         string searchFor = "tex" + ofToString(i);
-        if ( fragmentShader.find(searchFor)!= -1)
+        if (fragmentShader.find(searchFor)!= -1)
             num++;
         else 
             break;
@@ -192,19 +237,19 @@ bool ofxFXObject::compileCode(){
         num++;
     }
 
-    // Check if the same number of tectures have already been created and allocated
-    if ( num != nTextures ){
-        // If the number of textures is different
-        if (textures != NULL ){
+    // We need to re-allocate frame buffers if the number of textures is
+    // different, or if the width or height have changed.
+    if (num != nTextures || needsFboResize()){
+        if (textures != NULL){
             if (nTextures > 0) {
                 delete [] textures;
             }
         }
-        // Initialate the right amount of textures
+        // Initialate the right amount of textures with correct size.
         nTextures = num;
         if (nTextures > 0){
             textures = new ofFbo[nTextures];
-        } else if ( nTextures == 0 ){
+        } else if (nTextures == 0){
             textures = NULL;
         }
         
@@ -214,10 +259,11 @@ bool ofxFXObject::compileCode(){
         }
     }
     
-    //bool loaded;
     // Compile the shader and load it to the GPU
     shader.unload();
     shader.setupShaderFromSource(GL_FRAGMENT_SHADER, fragmentShader);
+    if (vertexShader.empty() == false)
+        shader.setupShaderFromSource(GL_VERTEX_SHADER, vertexShader);
     bFine = shader.linkProgram();
     
     return bFine;

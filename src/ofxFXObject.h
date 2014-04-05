@@ -58,10 +58,20 @@ public:
     virtual void    allocate(int _width, int _height, int _internalFormat);;
     virtual void    allocate(int _width, int _height);
     
-    virtual bool    setCode(string fragShader);
-    virtual void    setUseTexture(bool bUseTex){ };
+    // Load shaders from your bin/data directory. Works in the same way as ofShader::load.
+    // Pass empty strings for the shaders you don't implement.
+    virtual bool    loadVersioned(string glESPath = "", string gl2Path = "", string gl3Path = "");
+    // Load a single shader by path, you have to make sure yourself the correct
+    // GLSL version is used if you call this function.
     virtual bool    load(string path);
+    // If you've loaded a shader from file, you can use this to reload it.
+    virtual bool    reload(); // reloads the shader from the same file path as above
+    // Forcefully sets the shader code to be used.
+    virtual bool    setCode(string fragShader, string vertShader = "");
+    // Load the shader code into a shader, allocate ofFbos, etc.
     virtual bool    compileCode();
+
+    virtual void    setUseTexture(bool bUseTex){ };
     
     void            setPasses(int _passes) { passes = _passes; };
     void            setInternalFormat(int _internalFormat) { internalFormat = _internalFormat; compileCode(); };
@@ -72,6 +82,7 @@ public:
     
     bool            compiled() const{ return bFine; };
     string          getCode() const { return fragmentShader; };
+    string          getVertexCode() const { return vertexShader; };
     float           getWidth() const { return width;};
     float           getHeight() const { return height;};
     int             getPasses() const { return passes; };
@@ -99,10 +110,34 @@ protected:
     ofxSwapBuffer   pingPong;
     ofFbo           *textures;
     ofShader        shader;
-    string          fragmentShader;
     int             nTextures, internalFormat, width, height;
     bool            bFine;
     bool            bUpdate;
+
+    bool            needsFboResize();
+    void            selectShaderSource();
+    string          shaderFilePath;
+
+    // Shader Source Strings: These will always contain the strings used
+    // for the shader source after compileCode has been run.
+    string          fragmentShader;
+    string          vertexShader;
+
+    // Constructor Shader Source Strings: These strings can be specified
+    // by inheritors in their constructors, and will be loaded when
+    // appropriate. If any of the above strings are empty, the ones
+    // below are tried. If shaders are loaded from file, these are also
+    // ignored.
+    string          glESFragmentShader;
+    string          glESVertexShader;
+
+    string          gl2FragmentShader;
+    string          gl2VertexShader;
+
+    string          gl3VertexShader;
+    string          gl3FragmentShader; // Simply ignore setting this if you want a passthrough shader! :D
+
+    // Geometry shaders not supported at the moment!
 };
 
 #endif
