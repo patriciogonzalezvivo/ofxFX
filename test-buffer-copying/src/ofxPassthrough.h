@@ -19,42 +19,22 @@ public:
         passes = 1;
         internalFormat = GL_RGBA;
 
-        if (ofIsGLProgrammableRenderer()) { // OpenGL 3.0
-            string  vertexShader = "#version 150\n";
-            vertexShader += STRINGIFY(
-                    uniform mat4 modelViewProjectionMatrix;
-                    uniform mat4 textureMatrix;
+        gl3FragmentShader = "#version 150\n";
+        gl3FragmentShader += STRINGIFY(uniform sampler2DRect tex0;
+                                    in vec2 texCoordVarying;
+                                    out vec4 outputColor;
 
-                    in vec4 position;
-                    in vec2 texcoord;
+                                    void main(){
+                                        vec2 st = gl_FragCoord.st;
+                                        outputColor = texture(tex0, st);
+                                    });
 
-                    out vec2 texCoordVarying;
+        gl2FragmentShader = ""; // For some reason "#version 120\n" makes this break.
+        gl2FragmentShader += STRINGIFY(uniform sampler2DRect tex0;
 
-                    void main(){
-                        texCoordVarying = texcoord;
-                        gl_Position = modelViewProjectionMatrix * position;
-                    });
-            
-            shader.setupShaderFromSource(GL_VERTEX_SHADER, vertexShader);
-
-            fragmentShader = "#version 150\n";
-            fragmentShader += STRINGIFY(uniform sampler2DRect tex0;
-                                        in vec2 texCoordVarying;
-                                        out vec4 outputColor;
-
-                                        void main(){
-                                            vec2 st = gl_FragCoord.st;
-                                            outputColor = texture(tex0, st);
-                                        });
-
-        } else { // OpenGL 2.0
-            fragmentShader = ""; // For some reason "#version 120\n" makes this break.
-            fragmentShader += STRINGIFY(uniform sampler2DRect tex0;
-
-                                        void main(){
-                                            vec2 st = gl_TexCoord[0].st;
-                                            gl_FragColor = texture2DRect(tex0, st);
-                                        });
-        }
+                                    void main(){
+                                        vec2 st = gl_TexCoord[0].st;
+                                        gl_FragColor = texture2DRect(tex0, st);
+                                    });
     }
 };
