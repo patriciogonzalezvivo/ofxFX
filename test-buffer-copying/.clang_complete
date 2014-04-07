@@ -1,0 +1,54 @@
+-I ../../../libs/openFrameworks
+-I ../../../libs/openFrameworks/3d
+-I ../../../libs/openFrameworks/app
+-I ../../../libs/openFrameworks/communication
+-I ../../../libs/openFrameworks/events
+-I ../../../libs/openFrameworks/gl
+-I ../../../libs/openFrameworks/graphics
+-I ../../../libs/openFrameworks/math
+-I ../../../libs/openFrameworks/sound
+-I ../../../libs/openFrameworks/types
+-I ../../../libs/openFrameworks/utils
+-I ../../../libs/openFrameworks/video
+-I ../../../libs/assimp/include
+-I ../../../libs/assimp/include/Compiler
+-I ../../../libs/cairo/include
+-I ../../../libs/cairo/include/cairo
+-I ../../../libs/cairo/include/libpng15
+-I ../../../libs/cairo/include/pixman-1
+-I ../../../libs/fmodex/include
+-I ../../../libs/FreeImage/include
+-I ../../../libs/freetype/include
+-I ../../../libs/freetype/include/freetype2
+-I ../../../libs/freetype/include/freetype2/freetype
+-I ../../../libs/freetype/include/freetype2/freetype/config
+-I ../../../libs/freetype/include/freetype2/freetype/internal
+-I ../../../libs/freetype/include/freetype2/freetype/internal/services
+-I ../../../libs/glew/include
+-I ../../../libs/glew/include/GL
+-I ../../../libs/glfw/include
+-I ../../../libs/glfw/include/GLFW
+-I ../../../libs/glut/include
+-I ../../../libs/poco/include
+-I ../../../libs/poco/include/CppUnit
+-I ../../../libs/poco/include/Poco
+-I ../../../libs/poco/include/Poco/Crypto
+-I ../../../libs/poco/include/Poco/Data
+-I ../../../libs/poco/include/Poco/DOM
+-I ../../../libs/poco/include/Poco/Dynamic
+-I ../../../libs/poco/include/Poco/Net
+-I ../../../libs/poco/include/Poco/SAX
+-I ../../../libs/poco/include/Poco/Util
+-I ../../../libs/poco/include/Poco/XML
+-I ../../../libs/poco/include/Poco/Zip
+-I ../../../libs/rtAudio/include
+-I ../../../libs/portaudio/include
+-I ../../../libs/tess2/include
+-I ../../../libs/kiss/include
+-I/usr/include/cairo
+-I/usr/include/gstreamer-1.0
+-I/usr/include/glib-2.0
+-I/usr/lib/x86_64-linux-gnu/glib-2.0/include
+-I ../../../addons/ofxGui/src
+-I ../../../addons/ofxLeapMotion/src
+-I ../../../addons/ofxLeapMotion/libs/include
