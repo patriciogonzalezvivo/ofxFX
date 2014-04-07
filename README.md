@@ -14,9 +14,9 @@ The structure it´s easy.
     - ```int internalFormat```: if it use GL_RGB, GL_RGBA, GL_RGB16f, GL_RGBA16f, GL_RGB32f, GL_RGBA32f, etc...
     - ```string fragShader```: it´s the code of the shader. Note that some changes have to be made in order to fill everything on a string
     
-2. ```allocate(width,height,GL_RGBA)```: This usually it´s no need to bee re-define. It´s basically allocate the FBO´s and loads the shader by using injectShader();
+2. ```allocate(width,height,GL_RGBA)```: This usually it´s no need to be re-define. It´s basically allocate the FBO´s and loads the shader by using injectShader();
 
-3. ```setCode(string fragContent)```: here is where the shaders are loaded. See the example bellow.
+3. ```setCode(string fragContent)```: here is where the shaders are loaded. See the example below.
 
 4. ```begin(int texN)``` and ```end(int texN)```: remember nTextures variable? you can passthrough information to it by using this end() and begin() and giving the argument the number of texture you want to open. This texture can be access from the shader by the ```uniform sample2DRect tex0``` or ```tex1``` or ```tex2``` and so on. 
 
@@ -56,6 +56,12 @@ fxObject.setCode("#version 120\n\
                         gl_FragColor = ... ;\
                     }"); 
 ```
+
+Also look at the functions load, loadVersioned, and the different shader strings
+to see how you can specify your shader code. You can also see how this is used
+to easily load OpenGL2 and OpenGL3 shaders correctly if you look inside the
+test-shader-load example. Note that if you don't specify any Vertex Shader for
+OpenGL3, a simple pass-through shader will be added for you. :)
 
 On update:
 
@@ -198,5 +204,8 @@ On this addon you will find examples of the classes I just describe. Some of the
 
 * conway: life game made by [Kalwalt](http://www.kalwaltart.it/)
 
+## Tests
 
+* test-buffer-copying is a regression test that shows three simple buffers printed side by side. They should all look the same. If they don't look the same, we are somehow changing textures as we are copying them.
 
+* test-shader-load is a test to ensure that loading shaders from file and from string works properly. Should be tested both with and without ```#define USE_PROGRAMMABLE_RENDERER``` set in main.cpp.
