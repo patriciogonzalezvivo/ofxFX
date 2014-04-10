@@ -116,6 +116,39 @@ bool ofxFXObject::loadVersioned(string glESPath, string gl2Path, string gl3Path)
     return false;
 }
 
+#if (OF_VERSION_MAJOR == 0) && ((OF_VERSION_MINOR < 8) || ((OF_VERSION_MINOR == 8) && (OF_VERSION_PATCH < 1)))
+// oF < 0.8.1 does not have ofShader::getShaderSource, so we just cut
+// out some of the necessary code from ofShader to get the source in the
+// same way as ofShader::load did in version a90a782 (2014, April 10th.)
+//
+// Note that in this legacy mode, we don't support shader includes (as
+// ofShader does in 0.8.1).
+bool ofxFXObject::load(string path){
+    string vertName = path + ".vert";
+    string fragName = path + ".frag";
+    string frag = "";
+    string vert = "";
+
+    if (fragName.empty() == false){
+        ofBuffer buffer = ofBufferFromFile(fragName);
+        frag = buffer.getText();
+    }
+    if (vertName.empty() == false){
+        ofBuffer buffer = ofBufferFromFile(vertName);
+        vert = buffer.getText();
+    }
+
+    if (frag.empty() && vert.empty()){
+        ofLog(OF_LOG_ERROR, "Could not load shader from file " + path);
+        return false;
+    }
+
+    bool loaded = setCode(frag, vert);
+    if (loaded)
+        shaderFilePath = path;
+    return loaded;
+}
+#else
 bool ofxFXObject::load( string path ){
     ofShader code_loader;
     code_loader.load(path);
@@ -133,6 +166,7 @@ bool ofxFXObject::load( string path ){
         shaderFilePath = path;
     return loaded;
 }
+#endif
 
 bool ofxFXObject::reload(){
     if (!shaderFilePath.empty())
