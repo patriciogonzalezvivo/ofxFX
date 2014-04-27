@@ -34,7 +34,8 @@ An example of an implementation of an ofxFXObject could be:
 
 On setup:
 
-```c++
+~~~
+
 ofxFXObject fxObject = ofxFXObject();
 
 fxObject.allocate(800,600); // At this point it will load a default timer shader
@@ -57,7 +58,7 @@ fxObject.setCode("#version 120\n\
                         \
                         gl_FragColor = ... ;\
                     }"); 
-```
+~~~
 
 Also look at the functions load, loadVersioned, and the different shader strings
 to see how you can specify your shader code. You can also see how this is used
@@ -67,9 +68,10 @@ OpenGL3, a simple pass-through shader will be added for you. :)
 
 On update:
 
-```c++
+~~~
+
 fxObject.begin();   // for tex0 you don´t need to pass the 0 as an argument 
-    //What ever you want to render to tex0
+	//What ever you want to render to tex0
 fxObject.end();
 
 fxObject.begin(1);
@@ -80,13 +82,16 @@ fxObject.setTexture(image.getTextureReference(),2); // For object that have ofTe
 
 
 fxObject.update();
-```
+
+~~~
 
 On draw:
 
-```c++
+~~~
+
 fxObject.draw();
-``` 
+
+~~~ 
 
 ### Copy, Inject & Share ###
 If you are curious and want to learn the best way it´s to see and edit code. You could go to [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) or [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) to found some inspiration. Explore. Make changes. Inject. Compile.
