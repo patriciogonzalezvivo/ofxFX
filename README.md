@@ -1,6 +1,4 @@
-<div class="icon">
-![ofxFlocking](http://patriciogonzalezvivo.com/2011/ofxfx/flock.png) ![ofxFluid](http://patriciogonzalezvivo.com/2011/ofxfx/fluid.png) ![ofxGlow](http://patriciogonzalezvivo.com/2011/ofxfx/oldTv.png) ![ofxGrayScott](http://patriciogonzalezvivo.com/2011/ofxfx/grayScott.png)
-</div>
+![ofxFlocking](http://patriciogonzalezvivo.com/2011/ofxfx/flock.png" class="icon) ![ofxFluid](http://patriciogonzalezvivo.com/2011/ofxfx/fluid.png" class="icon) ![ofxGlow](http://patriciogonzalezvivo.com/2011/ofxfx/oldTv.png" class="icon) ![ofxGrayScott](http://patriciogonzalezvivo.com/2011/ofxfx/grayScott.png" class="icon)
 
 I [start this addon](https://github.com/patriciogonzalezvivo/ofxFX) while I was working on [Efecto Mariposa](http://patriciogonzalezvivo.com/2012/eden/). Is the result of adapting different well know algorithms to GLSL Shaders for openFrameworks.
 
