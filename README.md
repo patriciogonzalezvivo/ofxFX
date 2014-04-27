@@ -30,69 +30,6 @@ The structure it´s easy.
 
 6. ```draw(x,y,w,h)```: After all you definitely want to look at it.
 
-An example of an implementation of an ofxFXObject could be:
-
-On setup:
-
-~~~
-
-ofxFXObject fxObject = ofxFXObject();
-
-fxObject.allocate(800,600); // At this point it will load a default timer shader
-
-//Let´s play a little injecting a new one
-fxObject.setCode("#version 120\n\
-                    \
-                    uniform sampler2DRect backbuffer;\
-                    uniform sampler2DRect tex0;\
-                    uniform sampler2DRect tex1;\
-                    uniform sampler2DRect tex2;\
-                    \
-                    uniform float time; \
-                    uniform vec2 mouse;\
-                    uniform vec2 resolution;\
-                    \
-                    void main( void ) {\
-                        \
-                        ... \
-                        \
-                        gl_FragColor = ... ;\
-                    }"); 
-~~~
-
-Also look at the functions load, loadVersioned, and the different shader strings
-to see how you can specify your shader code. You can also see how this is used
-to easily load OpenGL2 and OpenGL3 shaders correctly if you look inside the
-test-shader-load example. Note that if you don't specify any Vertex Shader for
-OpenGL3, a simple pass-through shader will be added for you. :)
-
-On update:
-
-~~~
-
-fxObject.begin();   // for tex0 you don´t need to pass the 0 as an argument 
-	//What ever you want to render to tex0
-fxObject.end();
-
-fxObject.begin(1);
-    //What ever you want to render to tex1
-fxObject.end(1);
-
-fxObject.setTexture(image.getTextureReference(),2); // For object that have ofTexture you could just pass the ofTexture reference 
-
-
-fxObject.update();
-
-~~~
-
-On draw:
-
-~~~
-
-fxObject.draw();
-
-~~~ 
-
 ### Copy, Inject & Share ###
 If you are curious and want to learn the best way it´s to see and edit code. You could go to [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) or [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) to found some inspiration. Explore. Make changes. Inject. Compile.
 May be it´s the case things not compile as you spect. Some times (most of them when you are dealing with other textures) you will need to make some changes. As far as I know openGL and GPU hardware it´s makes lot´s of changes and improves year after year. So lot´s of problems related to compatibility will happened. Also openFrameworks works fine with openGL 1.2 and it use by default the ARB Rect Textures. 
