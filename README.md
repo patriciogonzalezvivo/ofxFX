@@ -30,25 +30,6 @@ The structure it´s easy.
 
 6. ```draw(x,y,w,h)```: After all you definitely want to look at it.
 
-### Copy, Inject & Share ###
-If you are curious and want to learn the best way it´s to see and edit code. You could go to [Ricardo Caballero´s webGL Sandbox](http://mrdoob.com/projects/glsl_sandbox/) or [Inigo Quilez´s ShaderToy](http://www.iquilezles.org/apps/shadertoy/) to found some inspiration. Explore. Make changes. Inject. Compile.
-May be it´s the case things not compile as you spect. Some times (most of them when you are dealing with other textures) you will need to make some changes. As far as I know openGL and GPU hardware it´s makes lot´s of changes and improves year after year. So lot´s of problems related to compatibility will happened. Also openFrameworks works fine with openGL 1.2 and it use by default the ARB Rect Textures. 
-
-Having that in mind the process of adapting code it´s a matter of searching on google. Fortunately you can see the ones I already implement and make them work.
-
-General tips:
-
-* Casting: openGL it will not cast for you. So if you assign an int to a float it will not compile properly. 
-
-```c++
-
-float f = 1;    // FAIL 
-float f = 1.0;  // GOOD
-
-``` 
-
-* Norm coordinates: as far as I know there are two types of textures sample2D and sample2DRect. The first ones have the same length in both sides while the second one not. When you are using texture2D( tex, pos) the position have to be normalized while on texture2DRect(tex, pos) it´s not normalized. 
-
 ![Filters](http://patriciogonzalezvivo.com/2011/ofxfx/filters.png)
 
 ### Mix them all ###
@@ -56,7 +37,7 @@ float f = 1.0;  // GOOD
 ofxFXObject have some handy operators that let you combine them really easily. 
 At the Mix´s Example you will find how to do it. Basicaly it´s somethin like this
 
-```c++
+~~~
 
 ofxFXObject objA;
 ofxGrayScott objB;
@@ -74,7 +55,7 @@ blur << objB << objA;
 
 blur.draw();
 
-``` 
+~~~
 
 <iframe src="http://player.vimeo.com/video/35230297" width="575" height="453" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 <iframe src="http://player.vimeo.com/video/34304485" width="575" height="431" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
