@@ -1,4 +1,4 @@
-![ofxFlocking](http://patriciogonzalezvivo.com/2011/ofxfx/flock.png" class="icon) ![ofxFluid](http://patriciogonzalezvivo.com/2011/ofxfx/fluid.png" class="icon) ![ofxGlow](http://patriciogonzalezvivo.com/2011/ofxfx/oldTv.png" class="icon) ![ofxGrayScott](http://patriciogonzalezvivo.com/2011/ofxfx/grayScott.png" class="icon)
+![logos](http://patriciogonzalezvivo.com/2011/ofxfx/trees.png)
 
 I [start this addon](https://github.com/patriciogonzalezvivo/ofxFX) while I was working on [Efecto Mariposa](http://patriciogonzalezvivo.com/2012/eden/). Is the result of adapting different well know algorithms to GLSL Shaders for openFrameworks.
 
@@ -107,7 +107,7 @@ float f = 1.0;  // GOOD
 
 * Norm coordinates: as far as I know there are two types of textures sample2D and sample2DRect. The first ones have the same length in both sides while the second one not. When you are using texture2D( tex, pos) the position have to be normalized while on texture2DRect(tex, pos) it´s not normalized. 
 
-![filter0](http://patriciogonzalezvivo.com/2011/ofxfx/filter0.png) ![filter1](http://patriciogonzalezvivo.com/2011/ofxfx/filter1.png) ![filter3](http://patriciogonzalezvivo.com/2011/ofxfx/filter3.png)
+![Filters](http://patriciogonzalezvivo.com/2011/ofxfx/filters.png)
 
 ### Mix them all ###
 
