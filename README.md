@@ -49,7 +49,7 @@ blur.allocate(width, height);
 
 ...
 
-blur << objB << objA;
+blur << (objB << objA);
 
 ...
 
