@@ -19,7 +19,7 @@ public:
         internalFormat = GL_RGBA;
         
         fragmentShader = STRINGIFY(uniform sampler2DRect tex0;
-                                   float threshold;
+                                   uniform float threshold;
                                    
                                    void main(){
                                        vec4 color = texture2DRect(tex0,gl_TexCoord[0].st);
