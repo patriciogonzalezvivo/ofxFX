@@ -72,6 +72,7 @@ public:
     virtual bool    compileCode();
 
     virtual void    setUseTexture(bool bUseTex){ };
+    virtual bool    isUsingTexture() const { return true; }
     
     void            setPasses(int _passes) { passes = _passes; };
     void            setInternalFormat(int _internalFormat) { internalFormat = _internalFormat; compileCode(); };
@@ -93,6 +94,7 @@ public:
     ofxSwapBuffer&  getSwapBuffer() { return pingPong; };
     ofFbo*          getBackBuffer() const { return pingPong.src; };
     virtual ofTexture & getTextureReference() { return pingPong.dst->getTextureReference(); };
+    virtual const ofTexture& getTextureReference() const { return pingPong.dst->getTextureReference(); };
     
     void            clear(int alpha = 255){ pingPong.clear(alpha); } 
     
