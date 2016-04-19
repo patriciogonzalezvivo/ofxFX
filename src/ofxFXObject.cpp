@@ -365,15 +365,15 @@ void ofxFXObject::update(){
         // The other ofFbo of the ofxSwapBuffer can be accessed by calling the unicode "backbuffer"
         // This is usually used to access "the previous pass", or the original frame for the first pass.
         if (pass == 0 && nTextures >= 1){
-            shader.setUniformTexture("backbuffer", textures[0].getTextureReference(), 0);
+            shader.setUniformTexture("backbuffer", textures[0].getTexture(), 0);
         } else {
-            shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0);
+            shader.setUniformTexture("backbuffer", pingPong.src->getTexture(), 0);
         }
         
         // All the necessary textures are provided to the shader in this loop
         for( int i = 0; i < nTextures; i++){
             string texName = "tex" + ofToString(i); 
-            shader.setUniformTexture(texName.c_str(), textures[i].getTextureReference(), i+1 );
+            shader.setUniformTexture(texName.c_str(), textures[i].getTexture(), i+1 );
             string texRes = "size" + ofToString(i); 
             shader.setUniform2f(texRes.c_str() , (float)textures[i].getWidth(), (float)textures[i].getHeight());
         }
@@ -384,7 +384,7 @@ void ofxFXObject::update(){
         shader.setUniform1f("time", ofGetElapsedTimef() );
         shader.setUniform2f("size", (float)width, (float)height);
         shader.setUniform2f("resolution", (float)width, (float)height);
-        shader.setUniform2f("mouse", (float)(ofGetMouseX()/width), (float)(ofGetMouseY()/height));
+        shader.setUniform2f("mouse", (float)ofGetMouseX()/width, (float)ofGetMouseY()/height);
 
         injectUniforms();
         
