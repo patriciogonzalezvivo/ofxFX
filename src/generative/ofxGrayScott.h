@@ -132,8 +132,8 @@ public:
             ofClear(0,0,0,255);
             
             shader.begin();
-            shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
-            shader.setUniformTexture("tex0", textures[0].getTextureReference(), 1 );
+            shader.setUniformTexture("backbuffer", pingPong.src->getTexture(), 0 );
+            shader.setUniformTexture("tex0", textures[0].getTexture(), 1 );
             shader.setUniform1f( "diffU", (float)diffU);
             shader.setUniform1f( "diffV", (float)diffV);
             shader.setUniform1f( "f", (float)f );

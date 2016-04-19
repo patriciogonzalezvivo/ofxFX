@@ -58,7 +58,7 @@ void testApp::mouseDragged(int x, int y, int button){
 void testApp::mousePressed(int x, int y, int button){
     gray.begin();
     ofSetColor(ofNoise( ofGetElapsedTimef() )*255);
-    ofCircle(x, y, 3);
+    ofDrawCircle(x, y, 3);
     gray.end();
 }
 

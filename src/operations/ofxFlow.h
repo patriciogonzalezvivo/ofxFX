@@ -80,9 +80,9 @@ public:
         pingPong.dst->begin();
         ofClear(0);
         shader.begin();
-        shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
-        shader.setUniformTexture("tex0", textures[0].getTextureReference(), 1 );
-        shader.setUniformTexture("tex1", textures[1].getTextureReference(), 2 );
+        shader.setUniformTexture("backbuffer", pingPong.src->getTexture(), 0 );
+        shader.setUniformTexture("tex0", textures[0].getTexture(), 1 );
+        shader.setUniformTexture("tex1", textures[1].getTexture(), 2 );
         shader.setUniform1f("fade",fade);
         shader.setUniform1f("scale",scale);
         shader.setUniform1f("offset", offset);

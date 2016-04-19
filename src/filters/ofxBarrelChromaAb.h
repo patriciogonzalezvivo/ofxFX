@@ -83,14 +83,14 @@ public:
 //        ofClear(0);
         shader.begin();
         
-//        shader.setUniformTexture( "tex0" , textures[0].getTextureReference(), 0 );
+//        shader.setUniformTexture( "tex0" , textures[0].getTexture(), 0 );
         shader.setUniform2f("resolution", width, height);
         shader.setUniform2f("offset", offset.x, offset.y );
         shader.setUniform1f("max_distort", maxDistort);
         shader.setUniform1f("zoom", zoom);
         renderFrame();
         
-        textures[0].getTextureReference().draw(0,0);
+        textures[0].getTexture().draw(0,0);
         
         shader.end();
         

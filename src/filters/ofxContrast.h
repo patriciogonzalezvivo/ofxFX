@@ -41,7 +41,7 @@ public:
         ofClear(0);
         shader.begin();
         
-        shader.setUniformTexture( "tex0" , textures[0].getTextureReference(), 0 );
+        shader.setUniformTexture( "tex0" , textures[0].getTexture(), 0 );
         shader.setUniform1f("contrast", contrast );
         shader.setUniform1f("brightness", brightness);
             

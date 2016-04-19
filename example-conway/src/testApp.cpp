@@ -11,7 +11,7 @@ void testApp::setup(){
     ofEnableAlphaBlending();
 	ofSetWindowShape(640, 480);
 
-	image.loadImage("mem.gif");
+	image.load("mem.gif");
 
     conway.allocate(640, 480);
     conway.setPasses(10);
@@ -48,7 +48,7 @@ void testApp::setup(){
                             else gl_FragColor = y; \
                         }");
     
-    conway.setTexture(image.getTextureReference());
+    conway.setTexture(image.getTexture());
 }
 //--------------------------------------------------------------
 void testApp::update(){
@@ -57,7 +57,7 @@ void testApp::update(){
     ofClear(255, 255);
     conway.draw();
     ofSetColor(0,255);
-    ofCircle(mouseX, mouseY, 5);
+    ofDrawCircle(mouseX, mouseY, 5);
     conway.end();
     
     conway.update();

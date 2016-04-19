@@ -330,8 +330,8 @@ public:
         ofSetColor(255,255);
         
         shader.begin();
-        shader.setUniformTexture("tex0", textures[0].getTextureReference(), 1);
-        shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0);
+        shader.setUniformTexture("tex0", textures[0].getTexture(), 1);
+        shader.setUniformTexture("backbuffer", pingPong.src->getTexture(), 0);
         shader.setUniform1i("mode", blendMode); 
         
         renderFrame();

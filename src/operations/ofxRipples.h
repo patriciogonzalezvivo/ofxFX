@@ -75,8 +75,8 @@ public:
         // Calculate the difference between buffers and spread the waving
         textures[0].begin();
         shader.begin();
-        shader.setUniformTexture("backbuffer", pingPong.dst->getTextureReference(), 0);
-        shader.setUniformTexture("tex0", pingPong.src->getTextureReference(), 1);
+        shader.setUniformTexture("backbuffer", pingPong.dst->getTexture(), 0);
+        shader.setUniformTexture("tex0", pingPong.src->getTexture(), 1);
         shader.setUniform1f("damping", (float)damping );
         renderFrame();
         shader.end();

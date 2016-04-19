@@ -88,8 +88,8 @@ void main() {\n\
 	void setStrength(int _strength) { strength = _strength;};
     
     void update() {
-        maskedBlur(textures[0].getTextureReference() , textures[1].getTextureReference(), srcBlur);
-        maskedBlur(textures[2].getTextureReference() , textures[1].getTextureReference(), dstBlur);
+        maskedBlur(textures[0].getTexture() , textures[1].getTexture(), srcBlur);
+        maskedBlur(textures[2].getTexture() , textures[1].getTexture(), dstBlur);
         
         ofPushStyle();
         ofEnableAlphaBlending();
