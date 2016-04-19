@@ -44,7 +44,7 @@ public:
         ofClear(0);
         shader.begin();
         
-        shader.setUniformTexture( "tex0" , textures[0].getTextureReference(), 0 );
+        shader.setUniformTexture( "tex0" , textures[0].getTexture(), 0 );
         shader.setUniform2f("windowSize", width, height);
         shader.setUniform1f("offsetALL", offset );
         

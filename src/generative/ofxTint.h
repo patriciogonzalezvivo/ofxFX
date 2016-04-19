@@ -112,11 +112,11 @@ public:
         shader.setUniform1f("fade", fade);
         shader.setUniform1f("speed", speed);
         shader.setUniform2f("resolution", (float)width, (float)height);
-        shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
+        shader.setUniformTexture("backbuffer", pingPong.src->getTexture(), 0 );
         
         for( int i = 0; i < nTextures; i++){
             string texName = "tex" + ofToString(i); 
-            shader.setUniformTexture(texName.c_str(), textures[i].getTextureReference(), i+1 );
+            shader.setUniformTexture(texName.c_str(), textures[i].getTexture(), i+1 );
         }
         
         pingPong.src->draw(0,0);
@@ -132,7 +132,7 @@ public:
         if (_width == -1) _width = width;
         if (_height == -1) _height = height;
         
-        getTextureReference().draw(_x, _y, _width, _height);
+        getTexture().draw(_x, _y, _width, _height);
     }
     
     float   zoom, fade, speed;

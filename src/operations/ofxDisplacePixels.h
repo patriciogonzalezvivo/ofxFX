@@ -89,7 +89,7 @@ public:
         pingPong.dst->begin();
         
         shader.begin();
-        shader.setUniformTexture( "tex0" , textures[0].getTextureReference(), 1 );
+        shader.setUniformTexture( "tex0" , textures[0].getTexture(), 1 );
         
         ofSetColor(255);
         pingPong.src->draw(0, 0);

@@ -11,11 +11,11 @@ void testApp::setup(){
     height = 480;
     video.initGrabber(width , height);
     
-    map.loadImage("map.jpg");
-    polaroid.loadImage("polaroid.png");
+    map.load("map.jpg");
+    polaroid.load("polaroid.png");
     
     mult.allocate(width, height);
-    mult.setTexture(map.getTextureReference());
+    mult.setTexture(map.getTexture());
     
     lut.allocate(width,height);
     
@@ -41,38 +41,38 @@ void testApp::setup(){
 void testApp::update(){
     video.update();
     if (video.isFrameNew() ){
-        lut.setTexture(video.getTextureReference());
+        lut.setTexture(video.getTexture());
         lut.update();
         
-        mult.setTexture(lut.getTextureReference(),1);
+        mult.setTexture(lut.getTexture(),1);
         
         if ( selection == -1 ){         //  NO FILTER
             
-            mult.setTexture(lut.getTextureReference(),2);
+            mult.setTexture(lut.getTexture(),2);
         } else if ( selection == 0 ){   // BLOOM
             bloom << lut ;
             bloom.update();
-            mult.setTexture(bloom.getTextureReference(),2);
+            mult.setTexture(bloom.getTexture(),2);
         } else if ( selection == 1 ){   // GAUSSIAN BLUR
             gaussianBlur.setRadius(sin( ofGetElapsedTimef() )*10);
             gaussianBlur << lut;
             gaussianBlur.update();
-            mult.setTexture(gaussianBlur.getTextureReference(),2);
+            mult.setTexture(gaussianBlur.getTexture(),2);
         } else if ( selection == 2 ){   // BOKEH
             bokeh.setRadius(abs(sin( ofGetElapsedTimef() )*10));
             bokeh << lut;
             bokeh.update();
-            mult.setTexture(bokeh.getTextureReference(),2);
+            mult.setTexture(bokeh.getTexture(),2);
         } else if ( selection == 3 ){   // GLOW
             glow.setRadius(sin( ofGetElapsedTimef() )*15);
             glow << lut;
             glow.update();
-            mult.setTexture(glow.getTextureReference(),2);
+            mult.setTexture(glow.getTexture(),2);
         } else if ( selection == 4 ){   // BLUR
             blur.setFade(sin( ofGetElapsedTimef() ));
             blur << lut;
             blur.update();
-            mult.setTexture(blur.getTextureReference(),2);
+            mult.setTexture(blur.getTexture(),2);
         }
         
         mult.update();

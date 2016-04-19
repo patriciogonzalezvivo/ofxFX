@@ -35,7 +35,7 @@ public:
             for(int j = 0; j < 2; j++) {
                 pingPong.dst->begin();
                 blurShader[j].begin();
-                blurShader[j].setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
+                blurShader[j].setUniformTexture("backbuffer", pingPong.src->getTexture(), 0 );
                 blurShader[j].setUniform1f("radius", radius);
                 renderFrame();
                 blurShader[j].end();

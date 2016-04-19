@@ -97,7 +97,7 @@ public:
         shader.setUniform1f("zoom", zoom);
         shader.setUniform1f("speed", speed);
         shader.setUniform2f("resolution", (float)width, (float)height);
-        shader.setUniformTexture("backbuffer", pingPong.src->getTextureReference(), 0 );
+        shader.setUniformTexture("backbuffer", pingPong.src->getTexture(), 0 );
         
         pingPong.src->draw(0,0);
         
@@ -111,7 +111,7 @@ public:
         if (_width == -1) _width = width;
         if (_height == -1) _height = height;
         
-        getTextureReference().draw(_x, _y, _width, _height);
+        getTexture().draw(_x, _y, _width, _height);
     }
     
     float   zoom, speed;

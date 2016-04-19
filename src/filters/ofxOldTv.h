@@ -57,7 +57,7 @@ public:
         ofClear(0);
         shader.begin();
         
-        shader.setUniformTexture( "tex0" , textures[0].getTextureReference(), 0 );
+        shader.setUniformTexture( "tex0" , textures[0].getTexture(), 0 );
         shader.setUniform1f("time", ofGetElapsedTimef());
         shader.setUniform3f("colorTint", colorTint.r , colorTint.g, colorTint.b);
         shader.setUniform1f("brightness", brightness );

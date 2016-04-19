@@ -126,7 +126,7 @@ public:
         
         float * pixels = new float[mapSize * mapSize * mapSize * 3];
         
-        textures[1].getTextureReference().allocate(mapSize * mapSize, mapSize,GL_RGB32F);
+        textures[1].getTexture().allocate(mapSize * mapSize, mapSize,GL_RGB32F);
         
         ofDirectory dir;
         
@@ -148,7 +148,7 @@ public:
             }
         }
         
-        textures[1].getTextureReference().loadData( pixels, mapSize * mapSize, mapSize, GL_RGB);
+        textures[1].getTexture().loadData( pixels, mapSize * mapSize, mapSize, GL_RGB);
         
         return true;
     }

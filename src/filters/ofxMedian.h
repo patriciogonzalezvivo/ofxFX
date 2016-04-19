@@ -81,7 +81,7 @@ public:
     void update(){
         pingPong.dst->begin();
         shader.begin();
-        shader.setUniformTexture("tex0", textures[0].getTextureReference(), 1 );
+        shader.setUniformTexture("tex0", textures[0].getTexture(), 1 );
         shader.setUniform1f("radius", radius);
         renderFrame();
         shader.end();
