@@ -26,6 +26,20 @@ public:
         flag = 0;
     }
     
+    virtual void allocate( ofFbo::Settings settings) {
+        for(int i = 0; i < 2; i++){
+            FBOs[i].allocate(settings);
+        }
+        
+        
+        clear();
+        
+        // Set everything to 0
+        flag = 0;
+        swap();
+        flag = 0;
+    }
+    
     virtual void swap(){
         src = &(FBOs[(flag)%2]);
         dst = &(FBOs[++(flag)%2]);
