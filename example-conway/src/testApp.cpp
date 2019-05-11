@@ -9,11 +9,11 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     ofEnableAlphaBlending();
-	ofSetWindowShape(640, 480);
+	ofSetWindowShape(512, 512);
 
 	image.load("mem.gif");
 
-    conway.allocate(640, 480);
+    conway.allocate(512, 512);
     conway.setPasses(10);
     //
     // Created by kalwalt alias Walter Perdan on 24/12/11
